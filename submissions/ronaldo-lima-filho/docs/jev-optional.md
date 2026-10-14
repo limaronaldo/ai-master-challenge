@@ -16,7 +16,7 @@ O request leva apenas `state.text`. Categorias propostas localmente: `explicit_n
 
 ## Modos e ativação
 
-“Modo do módulo” inicia **Desativado**. Recarregar restaura esse padrão; nada persiste. **Demonstração local** oferece `insufficient_context` (padrão), `explicit_next_step` e `explicit_objection` como fixtures fixas `synthetic_fixture`. O seletor preenche texto ilustrativo; mesmo que o usuário o edite, o retorno depende somente do exemplo selecionado e não interpreta texto. Confiança e probabilidades são null. Trocar de exemplo limpa o resultado e invalida respostas atrasadas.
+“Modo do módulo” inicia **Desativado**. Recarregar restaura esse padrão; texto e resultado JEV não persistem. Anotações do roteiro de revisão têm salvamento local separado e não são enviadas ao JEV. **Demonstração local** oferece `insufficient_context` (padrão), `explicit_next_step` e `explicit_objection` como fixtures fixas `synthetic_fixture`. O seletor preenche texto ilustrativo; mesmo que o usuário o edite, o retorno depende somente do exemplo selecionado e não interpreta texto. Confiança e probabilidades são null. Trocar de exemplo limpa o resultado e invalida respostas atrasadas.
 
 Serviço exige todas as variáveis abaixo no servidor:
 

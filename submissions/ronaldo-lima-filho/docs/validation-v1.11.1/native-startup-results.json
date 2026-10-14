@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "Actual file URL shows command/link without API calls; clicking URL opens the documented Python server successfully",
+    "Completed state and blank optional deadline/answers survive a full browser restart in the same profile/origin; dataset unchanged and session checkbox cleared"
+  ],
+  "page_errors": [],
+  "unexpected_requests": [],
+  "provider_calls": 0,
+  "server": "http://127.0.0.1:8765",
+  "browser_profile": "isolated persistent profile"
+}

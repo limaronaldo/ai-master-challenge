@@ -3,7 +3,9 @@ const { chromium } = require("playwright");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const out = path.resolve(process.env.LEADSCORER_TEST_OUT || path.join(__dirname, "../docs/validation-v1.10.1"));
+const os = require("node:os");
+const { pathToFileURL } = require("node:url");
+const out = path.resolve(process.env.LEADSCORER_TEST_OUT || path.join(__dirname, "../docs/validation-v1.11.1"));
 fs.mkdirSync(out, { recursive: true });
 
 (async () => {
@@ -54,6 +56,87 @@ fs.mkdirSync(out, { recursive: true });
       await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
       false,
     );
+  }
+  async function checkFileStartupAndBrowserRestart() {
+    const profile = fs.mkdtempSync(path.join(os.tmpdir(), "leadscorer-startup-"));
+    const destination = new URL(url).origin + "/";
+    let persistent;
+    async function launch() {
+      persistent = await chromium.launchPersistentContext(profile, {
+        channel: "chrome", headless: true, viewport: { width: 1440, height: 1000 },
+      });
+      await persistent.route("**/*", (route) => {
+        const target = new URL(route.request().url());
+        if (target.protocol === "file:" || target.origin === new URL(destination).origin)
+          return route.continue();
+        externalRequests.push(target.origin);
+        return route.abort();
+      });
+      const tab = persistent.pages()[0] || await persistent.newPage();
+      tab.on("pageerror", (error) => errors.push(error.message));
+      return tab;
+    }
+    async function ready(tab) {
+      await tab.waitForFunction(() => document.querySelector("#status").textContent.includes("212 oportunidades"), null, { timeout: 12000 });
+    }
+    async function openFirst(tab) {
+      await tab.locator("article .detail-button").first().click();
+      const panel = tab.locator(".review-drawer[open]");
+      await panel.locator("[data-local-review] details > summary").first().click();
+      return panel;
+    }
+    try {
+      let tab = await launch(), fileApiCalls = 0;
+      tab.on("request", (request) => { if (request.url().includes("/api/")) fileApiCalls++; });
+      await tab.goto(pathToFileURL(path.join(__dirname, "index.html")).href);
+      assert.equal(await tab.locator("#server-help").isVisible(), true);
+      assert.equal(await tab.locator("#workspace").isVisible(), false);
+      assert.match(await tab.locator("#server-help").innerText(), /python3 -B app\.py/);
+      assert.equal(fileApiCalls, 0);
+      const entry = tab.locator("#open-local-app");
+      assert.equal(await entry.getAttribute("href"), "http://127.0.0.1:8765/");
+      await tab.screenshot({ path: path.join(out, "startup-file.png"), fullPage: true });
+      // Preserve the documented URL assertion; target this run's isolated server when its port differs.
+      if (destination !== "http://127.0.0.1:8765/")
+        await entry.evaluate((link, value) => { link.href = value; }, destination);
+      await entry.click(); await ready(tab);
+      assert.equal(await tab.locator("article").count(), 10);
+      await tab.screenshot({ path: path.join(out, "startup-recovered.png"), fullPage: false });
+      checks.push("real file startup: guidance makes no API calls; documented link verified and clicked into the isolated server, reaching all 212 conversion opportunities within 12s");
+      const dataBefore = await (await persistent.request.get(destination + "api/pipeline")).json();
+      const id = await tab.locator("article").first().getAttribute("data-id");
+      let panel = await openFirst(tab);
+      await panel.locator('[name="nextStep"]').fill("EXEMPLO SINTÉTICO: contexto conferido; registrar o resultado da revisão.");
+      await panel.locator('[name="stepStatus"]').selectOption("done");
+      assert.equal(await panel.locator('[name="due"]').inputValue(), "");
+      await panel.locator("[data-workflow-save]").click();
+      assert.match(await panel.locator(".workflow-feedback").innerText(), /salvo neste navegador/);
+      await panel.locator("input[data-review]").check();
+      await persistent.close(); persistent = null;
+      tab = await launch(); await tab.goto(destination); await ready(tab);
+      assert.equal(await tab.locator("article").first().getAttribute("data-id"), id);
+      panel = await openFirst(tab);
+      assert.equal(await panel.locator('[name="stepStatus"]').inputValue(), "done");
+      assert.match(await panel.locator('[name="nextStep"]').inputValue(), /EXEMPLO SINTÉTICO: contexto conferido/);
+      assert.equal(await panel.locator('[name="due"]').inputValue(), "");
+      assert.equal(await panel.locator("[data-answer]").first().inputValue(), "");
+      assert.equal(await panel.locator("input[data-review]").isChecked(), false);
+      assert.deepEqual(await (await persistent.request.get(destination + "api/pipeline")).json(), dataBefore);
+      await panel.locator(".review-scroll").evaluate((scroller) => {
+        const target = scroller.querySelector("[data-local-review]");
+        scroller.scrollTop += target.getBoundingClientRect().top - scroller.getBoundingClientRect().top - 12;
+      });
+      await tab.screenshot({ path: path.join(out, "startup-restored-step.png"), fullPage: false });
+      checks.push("full browser restart: saved completed step and blank optional fields persist in the same profile/origin; session review clears and original API stays unchanged");
+      fs.writeFileSync(path.join(out, "startup-results.json"), JSON.stringify({
+        file_url_exercised: true, file_api_calls: 0, documented_url: "http://127.0.0.1:8765/",
+        test_server: destination, test_link_destination_adjusted: destination !== "http://127.0.0.1:8765/",
+        full_browser_restart: true, api_unchanged: true, provider_calls: 0,
+      }, null, 2) + "\n");
+    } finally {
+      if (persistent) await persistent.close();
+      fs.rmSync(profile, { recursive: true, force: true });
+    }
   }
   try {
     const unavailable = (route) => route.fulfill({ status: 503, json: { error: "Synthetic local data failure" } });
@@ -851,6 +934,197 @@ fs.mkdirSync(out, { recursive: true });
     await page.keyboard.press('Escape');
     assert.match(await page.evaluate(() => document.activeElement.id), /^policy-open-/);
     checks.push('mobile policy cases: readable case cards, no horizontal overflow and contextual detail return');
+    // Local review records never change historical data, ranking or JEV inputs.
+    {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await reset();
+    const baseBefore = JSON.stringify(data.rows);
+    const recordKey = `leadscorer:review:v1:${data.dataset_hash}:${data.as_of}`;
+    assert.equal(await page.evaluate(key => localStorage.getItem(key), recordKey), null);
+    const queueRows = ['conversion', 'cleanup', 'qualify'].map(q => data.rows.find(r => r.operations.queue === q && r.account_identified));
+    async function openReview(row) {
+      await closePanel();
+      await page.locator(row.operations.queue === 'qualify' ? '#investigate' : `#${row.operations.queue}queue`).click();
+      await page.locator('#search').fill(row.id);
+      await page.locator('article .detail-button').click();
+      const panel = page.locator('.review-drawer[open]');
+      if (!(await panel.locator('[data-local-review] details').first().evaluate(n => n.open)))
+        await panel.locator('[data-local-review] details > summary').first().click();
+      return panel;
+    }
+    for (const row of queueRows) {
+      const panel = await openReview(row);
+      const expected = { conversion: ['commitment', 'responsible'], cleanup: ['continuity', 'blocker'], qualify: ['need', 'decision'] }[row.operations.queue];
+      assert.deepEqual(await panel.locator('[data-answer]').evaluateAll(ns => ns.map(n => n.dataset.answer)), expected);
+      assert.equal(await panel.locator('[name="nextStep"]').inputValue(), '');
+      assert.match(await panel.locator('[data-local-review]').innerText(), /Campos sem resposta continuam pendentes/);
+    }
+    const unidentified = data.rows.find(r => !r.account_identified);
+    let panel = await openReview(unidentified);
+    assert.equal(await panel.locator('[data-answer]').first().getAttribute('data-answer'), 'account');
+    assert.equal(await panel.locator('[data-coordination]').count(), 0);
+    checks.push('queue scripts: distinct conversion/cleanup/qualification prompts; unknown account adds confirmation without automatic answers or joining');
+    const recordedRow = queueRows[0];
+    async function alignPanel(selector) {
+      await page.locator('.review-drawer[open] .review-scroll').evaluate((scroller, selector) => {
+        const target = scroller.querySelector(selector);
+        scroller.scrollTop += target.getBoundingClientRect().top - scroller.getBoundingClientRect().top - 12;
+      }, selector);
+    }
+    panel = await openReview(recordedRow);
+    await panel.locator('[data-answer="commitment"]').fill('EXEMPLO SINTÉTICO: responsável confirmou revisão da proposta.');
+    await panel.locator('[name="nextStep"]').fill('EXEMPLO SINTÉTICO: confirmar responsável pela revisão da proposta.');
+    await panel.locator('[name="due"]').fill('2026-10-20');
+    assert.equal(await page.evaluate(key => localStorage.getItem(key), recordKey), null);
+    await panel.locator('[data-workflow-save]').click();
+    panel = page.locator('.review-drawer[open]');
+    assert.match(await panel.locator('.workflow-feedback').innerText(), /salvo neste navegador/);
+    assert.equal(await panel.locator('[data-local-review] details').first().evaluate(n => n.open), true);
+    assert.match(await panel.locator('[data-saved-step]').innerText(), /20\/10\/2026/);
+    await alignPanel('[data-local-review]');
+    await shot('desktop-next-step');
+    await panel.locator('[data-workflow-save]').scrollIntoViewIfNeeded();
+    await shot('desktop-next-step-actions');
+    await panel.locator('input[data-review]').check();
+    await page.reload(); await status('212 oportunidades');
+    panel = await openReview(recordedRow);
+    assert.match(await panel.locator('[name="nextStep"]').inputValue(), /EXEMPLO SINTÉTICO/);
+    assert.equal(await panel.locator('[name="due"]').inputValue(), '2026-10-20');
+    assert.equal(await panel.locator('input[data-review]').isChecked(), false);
+    assert.match(await panel.locator('[data-save-origin]').innerText(), /Salvo neste navegador/);
+    checks.push('explicit save and reload: next step, answers and deadline persist under dataset hash/date; session review checkbox still clears');
+    await panel.locator('[name="nextStep"]').fill('EXEMPLO SINTÉTICO: esclarecer pendência antes de retomar.');
+    await panel.locator('[name="stepStatus"]').selectOption('deferred');
+    await panel.locator('[data-workflow-save]').click();
+    await page.reload(); await status('212 oportunidades');
+    panel = await openReview(recordedRow);
+    assert.equal(await panel.locator('[name="stepStatus"]').inputValue(), 'deferred');
+    await panel.locator('[data-workflow-action="undo"]').click();
+    assert.equal(await panel.locator('[name="stepStatus"]').inputValue(), 'planned');
+    assert.match(await panel.locator('[name="nextStep"]').inputValue(), /confirmar responsável/);
+    assert.match(await panel.locator('.workflow-feedback').innerText(), /desfeita/);
+    checks.push('edit and undo: declared state changes persist; previous next step and state restore after reload');
+    await panel.locator('[data-workflow-action="copy"]').click();
+    await page.waitForFunction(() => document.querySelector('.review-drawer[open] .workflow-feedback').textContent.includes('Resumo copiado'));
+    let copied = await page.evaluate(() => navigator.clipboard.readText());
+    assert.match(copied, /registro local salvo/); assert.match(copied, /Pendente de confirmação/);
+    assert.ok(copied.includes(data.dataset_hash)); assert.ok(copied.includes(data.as_of));
+    await panel.locator('[name="nextStep"]').fill('RASCUNHO SINTÉTICO NÃO SALVO');
+    await panel.locator('[data-workflow-action="copy"]').click();
+    await page.waitForFunction(() => document.querySelector('.review-drawer[open] .workflow-feedback').textContent.includes('Resumo copiado'));
+    copied = await page.evaluate(() => navigator.clipboard.readText());
+    assert.match(copied, /rascunho desta aba, ainda não salvo/);
+    const reviewDownload = page.waitForEvent('download');
+    await panel.locator('[data-workflow-action="export"]').click();
+    const reviewFile = path.join(out, 'synthetic-local-review.json');
+    await (await reviewDownload).saveAs(reviewFile);
+    const exportedReview = JSON.parse(fs.readFileSync(reviewFile, 'utf8'));
+    assert.equal(exportedReview.datasetHash, data.dataset_hash);
+    assert.equal(exportedReview.asOf, data.as_of);
+    assert.match(exportedReview.records[recordedRow.id].nextStep, /confirmar responsável/);
+    assert.equal(JSON.stringify(exportedReview).includes('RASCUNHO SINTÉTICO NÃO SALVO'), false);
+    checks.push('copy and JSON download: pending answers explicit, historical provenance included, saved/draft origin truthful, unsaved draft excluded from backup');
+    await closePanel();
+    panel = await openReview(recordedRow);
+    assert.equal(await panel.locator('[name="nextStep"]').inputValue(), 'RASCUNHO SINTÉTICO NÃO SALVO');
+    await page.reload(); await status('212 oportunidades');
+    panel = await openReview(recordedRow);
+    assert.match(await panel.locator('[name="nextStep"]').inputValue(), /confirmar responsável/);
+    checks.push('draft lifecycle: edits survive panel navigation in the tab but reload restores only the explicitly saved record');
+    const hostile = '</textarea><img src=x onerror="window.reviewXss=true">';
+    await panel.locator('[name="nextStep"]').fill(hostile);
+    await panel.locator('[data-workflow-save]').click();
+    await page.reload(); await status('212 oportunidades');
+    panel = await openReview(recordedRow);
+    assert.equal(await panel.locator('[name="nextStep"]').inputValue(), hostile);
+    assert.equal(await panel.locator('[data-local-review] img').count(), 0);
+    assert.equal(await page.evaluate(() => window.reviewXss === true), false);
+    await panel.locator('[data-workflow-action="undo"]').click();
+    checks.push('stored text is escaped in fields, summary and history; synthetic HTML does not execute after reload');
+    await page.evaluate(() => { window.originalLocalSet = Storage.prototype.setItem; Storage.prototype.setItem = function () { throw new DOMException('Synthetic quota', 'QuotaExceededError'); }; });
+    await panel.locator('[name="nextStep"]').fill('EXEMPLO SINTÉTICO: registro temporário por falha de armazenamento.');
+    await panel.locator('[data-workflow-save]').click();
+    assert.match(await panel.locator('.workflow-feedback').innerText(), /apenas nesta aba/);
+    assert.match(await panel.locator('[data-save-origin]').innerText(), /Somente nesta aba/);
+    await panel.locator('[data-local-review]').scrollIntoViewIfNeeded(); await shot('local-storage-warning');
+    await page.evaluate(() => { Storage.prototype.setItem = window.originalLocalSet; delete window.originalLocalSet; });
+    await page.reload(); await status('212 oportunidades');
+    panel = await openReview(recordedRow);
+    assert.match(await panel.locator('[name="nextStep"]').inputValue(), /confirmar responsável/);
+    checks.push('browser quota failure: work retained temporarily with warning and no false saved claim; original persisted value survives reload');
+    // Simulate a stale second-tab store using the same real browser storage.
+    await page.evaluate(key => {
+      const newer = JSON.parse(localStorage.getItem(key));
+      newer.records[Object.keys(newer.records)[0]].nextStep = 'EXEMPLO SINTÉTICO: edição salva em outra aba';
+      localStorage.setItem(key, JSON.stringify(newer));
+    }, recordKey);
+    await panel.locator('[name="nextStep"]').fill('EXEMPLO SINTÉTICO: edição da aba desatualizada');
+    await panel.locator('[data-workflow-save]').click();
+    assert.match(await panel.locator('.workflow-feedback').innerText(), /outra aba/);
+    assert.match(await page.evaluate(key => localStorage.getItem(key), recordKey), /edição salva em outra aba/);
+    checks.push('stale tab protection: concurrent saved text is preserved and current edit remains temporary with recovery guidance');
+    await page.evaluate(key => localStorage.setItem(key, '{synthetic-invalid-json'), recordKey);
+    await page.reload(); await status('212 oportunidades');
+    panel = await openReview(recordedRow);
+    assert.match(await panel.locator('[data-local-review]').innerText(), /foram preservadas/);
+    await panel.locator('[name="nextStep"]').fill('EXEMPLO SINTÉTICO: nova anotação temporária');
+    await panel.locator('[data-workflow-save]').click();
+    assert.equal(await page.evaluate(key => localStorage.getItem(key), recordKey), '{synthetic-invalid-json');
+    assert.equal(await page.evaluate(() => JSON.parse(localReviewStore.export()).unreadableOriginal), '{synthetic-invalid-json');
+    await page.evaluate(() => localStorage.setItem('synthetic-unrelated-key', 'preserve'));
+    page.once('dialog', dialog => dialog.dismiss());
+    await panel.locator('[data-workflow-action="clear"]').click();
+    assert.equal(await page.evaluate(key => localStorage.getItem(key), recordKey), '{synthetic-invalid-json');
+    page.once('dialog', dialog => dialog.accept());
+    await panel.locator('[data-workflow-action="clear"]').click();
+    assert.equal(await page.evaluate(key => localStorage.getItem(key), recordKey), null);
+    assert.equal(await page.evaluate(() => localStorage.getItem('synthetic-unrelated-key')), 'preserve');
+    checks.push('corrupt storage and clear: unreadable original preserved in backup; explicit confirm deletes only this dataset, cancel preserves it');
+    await panel.locator('[name="nextStep"]').fill('EXEMPLO SINTÉTICO: conferir responsável e combinar a próxima revisão.');
+    await panel.locator('[data-answer="commitment"]').fill('EXEMPLO SINTÉTICO: pendência de confirmação do responsável.');
+    await panel.locator('[name="due"]').fill('2026-10-20');
+    await panel.locator('[data-workflow-save]').click();
+    for (const width of [375, 320]) {
+      await page.setViewportSize({ width, height: 844 });
+      await alignPanel('[data-local-review]');
+      await overflow();
+      assert.equal(await panel.evaluate(n => n.scrollWidth <= n.clientWidth), true);
+      assert.equal(await panel.locator('form').evaluate(n => n.scrollWidth <= n.clientWidth), true);
+      if (width === 375) {
+        await shot('mobile-next-step');
+        await alignPanel('.workflow-fields');
+        await shot('mobile-next-step-actions');
+      }
+    }
+    checks.push('mobile review: saved step, questions, optional date and state fit at 375 and 320px without horizontal overflow');
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await reset();
+    const coordinationRow = data.rows.find(r => r.account === 'Zoomit' && r.product === 'GTX Plus Basic');
+    const canonicalProduct = name => name === 'GTXPro' ? 'GTX Pro' : name;
+    const expectedCoordination = data.rows.filter(r => r.account_identified && r.account === coordinationRow.account && canonicalProduct(r.product) === canonicalProduct(coordinationRow.product) && r.agent !== coordinationRow.agent && r.id !== coordinationRow.id);
+    assert.ok(expectedCoordination.length > 1);
+    await page.locator('#agent').selectOption(coordinationRow.agent);
+    panel = await openReview(coordinationRow);
+    await panel.locator('.account-opportunities>summary').click();
+    assert.deepEqual((await panel.locator('.coordination-badge').evaluateAll(ns => ns.map(n => n.closest('[data-related-id]').dataset.relatedId))).sort(), expectedCoordination.map(r => r.id).sort());
+    assert.match(await panel.locator('[data-coordination]').innerText(), /não comprova contato duplicado ou conflito/);
+    await alignPanel('[data-coordination]'); await shot('desktop-coordination');
+    await page.setViewportSize({ width: 375, height: 844 });
+    await alignPanel('[data-coordination]'); await shot('mobile-coordination');
+    assert.equal(await panel.evaluate(n => n.scrollWidth <= n.clientWidth), true);
+    const crossAgent = expectedCoordination[0];
+    await panel.locator(`[data-context-open="${crossAgent.id}"]`).click();
+    assert.equal(await page.locator('.review-drawer[open]').getAttribute('data-deal-id'), crossAgent.id);
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('.review-drawer[open]').getAttribute('data-deal-id'), coordinationRow.id);
+    assert.equal(await page.locator('#agent').inputValue(), coordinationRow.agent);
+    assert.equal(await page.locator('#search').inputValue(), coordinationRow.id);
+    checks.push('account/product coordination: exact matching peers from other sellers, historical caveat, mobile fit and contextual navigation preserve filters');
+    assert.equal(JSON.stringify((await (await context.request.get(url + '/api/pipeline')).json()).rows), baseBefore);
+    assert.deepEqual(await page.evaluate(() => base.rows.map(r => [r.id, r.position, r.score, r.operations.queue])), data.rows.map(r => [r.id, r.position, r.score, r.operations.queue]));
+    checks.push('workflow invariance: all original IDs, positions, scores and queues unchanged after saving, copying, undo, failures and coordination');
+    }
+    await checkFileStartupAndBrowserRestart();
     assert.deepEqual(errors, []);
     assert.deepEqual(externalRequests, []);
     fs.writeFileSync(

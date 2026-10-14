@@ -1,22 +1,18 @@
-# Preparação local para eventual PR
+# Preparação local para futura atualização do PR
 
-Este documento descreve passos futuros. Criar fork, branch, commit, push ou PR não foi executado nesta preparação. O estado “a preencher no momento do envio” deve ser atualizado apenas quando houver envio real; os registros históricos continuam datados e verdadeiros.
+O [PR #188](https://github.com/Gestao-Quatro-Ponto-Zero/ai-master-challenge/pull/188) já existe. Esta rodada prepara somente o **ZIP 1.11.1 local**, a partir do ZIP 1.11 revisado, derivado do commit `aa7fe9515ae06c407bff87ea74aad45ee5e93cda`, incluindo os ajustes anteriores do JEV. As alterações paralelas posteriores da cópia de trabalho não foram incorporadas. O PR e sua cópia de trabalho foram preservados. Não foi criado outro PR nem publicada esta versão.
 
 ## Fonte do conteúdo
 
-Usar a extração conferida do **LeadScorer-G4-local-v1.10.1.zip**, verificando o SHA-256 no arquivo `LeadScorer-G4-local-v1.10.1.zip.sha256` e o recibo `delivery-receipt-v1.10.1.json`. Esta entrega contém a implementação local 1.10.1 e suas evidências; os ZIPs 1.10, 1.9 e 1.9-docfix1 permanecem preservados com seus hashes e recibos históricos. O pacote contém somente `submissions/ronaldo-lima-filho/`. Não copiar a pasta de trabalho inteira nem incluir pacotes, caches, configurações, evidências antigas ou registros intermediários.
+Usar a extração conferida do **LeadScorer-G4-local-v1.11.1.zip**, verificando o SHA-256 em `LeadScorer-G4-local-v1.11.1.zip.sha256` e o recibo `delivery-receipt-v1.11.1.json`. O pacote contém somente `submissions/ronaldo-lima-filho/`, com implementação, README, testes e evidências atuais. Versões anteriores permanecem preservadas. Não copiar toda a pasta de trabalho, arquivos temporários, ZIPs ou anotações pessoais do navegador.
 
-## Procedimento futuro
+## Procedimento futuro, somente após autorização
 
-1. Criar o fork e usar uma cópia limpa dele. O checkout de preparação aponta ao upstream; não é o destino de push da submissão.
-2. Criar a branch exigida pelo enunciado: `submission/ronaldo-lima-filho`.
-3. Copiar somente a pasta extraída para `submissions/ronaldo-lima-filho/`.
-4. O `.gitignore` oficial ignora submissões. Adicionar explicitamente apenas esta pasta com `git add -f -- submissions/ronaldo-lima-filho/`.
-5. Conferir a lista e o conteúdo dos arquivos staged. Todos os caminhos devem começar por essa pasta. A alteração local no template da raiz, os entregáveis e os registros de sessão ficam fora.
-6. Conferir setup, testes, links, hashes, process log e situação do teste com participantes. Atualizar o estado de envio somente quando ele ocorrer.
-7. Após autorização para publicar, seguir as instruções oficiais de commit, push e PR. Título: `[Submission] Ronaldo Lima Filho — Challenge 003`.
-
-Não usar inclusão indiscriminada de toda a árvore. A guarda de escopo e o manifesto do pacote devem ser conferidos novamente depois de qualquer edição.
+1. Conferir o estado remoto do PR #188 e a branch existente `submission/ronaldo-lima-filho` no fork. Não criar PR duplicado. Se o head tiver mudado, reconciliar as alterações antes de copiar.
+2. Em uma cópia limpa de preparação, comparar o conteúdo atual com a extração verificada e preservar qualquer mudança posterior. Esta geração local não modificou a branch do PR.
+3. Copiar somente a pasta extraída para `submissions/ronaldo-lima-filho/`. O `.gitignore` oficial ignora submissões: adicionar explicitamente apenas essa pasta, conforme a guarda abaixo.
+4. Conferir conteúdo staged, testes, links, hashes e process log. Todos os caminhos devem começar pela pasta da submissão. Template da raiz, entregáveis e registros de sessão ficam fora.
+5. Revisar a descrição do PR para refletir a versão 1.11.1 e seus limites. Commit, push e atualização do PR precisam de autorização específica; não foram executados nesta rodada. Registrar o envio desta versão somente quando ocorrer.
 
 ## Guarda de escopo antes de um futuro commit
 
@@ -30,7 +26,7 @@ git diff --cached --stat
 git diff --cached -- submissions/ronaldo-lima-filho/
 ```
 
-Se a guarda falhar ou o conteúdo não corresponder à extração verificada, interromper a preparação. Não executar commit, push ou PR. Não usar comandos de limpeza, restauração, remoção ou reset para corrigir a seleção automaticamente. Revisar o índice e pedir orientação se necessário. O checkout atual contém alterações anteriores em `templates/submission-template.md`, `deliverables/` e `session-artifacts/`; elas devem ser preservadas e ficar fora da futura submissão.
+Se a guarda falhar ou o conteúdo não corresponder à extração verificada, interromper a preparação. Não executar commit, push ou atualização do PR. Não usar comandos de limpeza, restauração, remoção ou reset para corrigir a seleção automaticamente. Revisar o índice e pedir orientação se necessário. O checkout atual contém alterações anteriores em `templates/submission-template.md`, `deliverables/` e `session-artifacts/`; elas devem ser preservadas e ficar fora da futura submissão.
 
 Antes da cópia, conferir integridade do ZIP e todos os hashes/tamanhos do manifesto. Depois da cópia, comparar novamente os arquivos com a extração e conferir a lista staged completa — a restrição de caminhos sozinha não comprova integridade do conteúdo. A guarda usa caminhos delimitados por NUL para não confundir espaços ou quebras de linha em nomes.
 

@@ -22,31 +22,46 @@ test_monotone_rule_changes_do_not_claim_new_ranking (test_data_contracts.DataCon
 test_prospecting_expected_absence_keeps_signal_and_qualification_separate (test_data_contracts.DataContracts.test_prospecting_expected_absence_keeps_signal_and_qualification_separate) ... ok
 test_published_source_hashes_and_rules_are_current (test_data_contracts.DataContracts.test_published_source_hashes_and_rules_are_current) ... ok
 test_shuffle_and_closed_outcomes_preserve_open_decisions (test_data_contracts.DataContracts.test_shuffle_and_closed_outcomes_preserve_open_decisions) ... ok
-test_invalid_rules_return_400 (test_http.HTTPContracts.test_invalid_rules_return_400) ... 127.0.0.1 - - [14/Oct/2026 09:52:54] code 400, message Regras devem ser objeto
-127.0.0.1 - - [14/Oct/2026 09:52:54] "GET /api/pipeline?rules=%5B%5D HTTP/1.1" 400 -
-127.0.0.1 - - [14/Oct/2026 09:52:54] code 400, message Regras devem usar chaves conhecidas e inteiros
-127.0.0.1 - - [14/Oct/2026 09:52:54] "GET /api/pipeline?rules=%7B%22unknown%22%3A1%7D HTTP/1.1" 400 -
-127.0.0.1 - - [14/Oct/2026 09:52:54] code 400, message Limiares devem ser positivos e estritamente crescentes
-127.0.0.1 - - [14/Oct/2026 09:52:54] "GET /api/pipeline?rules=%7B%22days_60%22%3A1%7D HTTP/1.1" 400 -
+test_idle_connection_does_not_block_resources_or_pipeline (test_http.HTTPContracts.test_idle_connection_does_not_block_resources_or_pipeline) ... 127.0.0.1 - - [14/Oct/2026 15:32:40] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:40] "GET /workflow.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:40] "GET /assets/manrope.woff2 HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:41] "GET /api/pipeline HTTP/1.1" 200 -
 ok
-test_jev_modes_preserve_live_pipeline (test_http.HTTPContracts.test_jev_modes_preserve_live_pipeline) ... 127.0.0.1 - - [14/Oct/2026 09:52:55] "GET /api/pipeline HTTP/1.1" 200 -
-127.0.0.1 - - [14/Oct/2026 09:52:55] "POST /api/jev/classify HTTP/1.1" 200 -
-127.0.0.1 - - [14/Oct/2026 09:52:55] "POST /api/jev/classify HTTP/1.1" 200 -
-127.0.0.1 - - [14/Oct/2026 09:52:55] "POST /api/jev/classify HTTP/1.1" 200 -
-127.0.0.1 - - [14/Oct/2026 09:52:55] "GET /api/pipeline HTTP/1.1" 200 -
+test_invalid_rules_return_400 (test_http.HTTPContracts.test_invalid_rules_return_400) ... 127.0.0.1 - - [14/Oct/2026 15:32:41] code 400, message Regras devem ser objeto
+127.0.0.1 - - [14/Oct/2026 15:32:41] "GET /api/pipeline?rules=%5B%5D HTTP/1.1" 400 -
+127.0.0.1 - - [14/Oct/2026 15:32:41] code 400, message Regras devem usar chaves conhecidas e inteiros
+127.0.0.1 - - [14/Oct/2026 15:32:41] "GET /api/pipeline?rules=%7B%22unknown%22%3A1%7D HTTP/1.1" 400 -
+127.0.0.1 - - [14/Oct/2026 15:32:41] code 400, message Limiares devem ser positivos e estritamente crescentes
+127.0.0.1 - - [14/Oct/2026 15:32:41] "GET /api/pipeline?rules=%7B%22days_60%22%3A1%7D HTTP/1.1" 400 -
 ok
-test_jev_rejects_cross_origin_and_bad_inputs (test_http.HTTPContracts.test_jev_rejects_cross_origin_and_bad_inputs) ... 127.0.0.1 - - [14/Oct/2026 09:52:55] "POST /api/jev/classify HTTP/1.1" 403 -
-127.0.0.1 - - [14/Oct/2026 09:52:55] "POST /api/jev/classify HTTP/1.1" 400 -
-127.0.0.1 - - [14/Oct/2026 09:52:55] "POST /api/jev/classify HTTP/1.1" 400 -
+test_jev_modes_preserve_cached_proxy_bypass_and_environment (test_http.HTTPContracts.test_jev_modes_preserve_cached_proxy_bypass_and_environment) ... 127.0.0.1 - - [14/Oct/2026 15:32:41] "GET /api/pipeline HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:41] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:41] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:41] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:42] "GET /api/pipeline HTTP/1.1" 200 -
 ok
-test_live_pipeline_and_explanation (test_http.HTTPContracts.test_live_pipeline_and_explanation) ... 127.0.0.1 - - [14/Oct/2026 09:52:56] "GET /api/pipeline HTTP/1.1" 200 -
+test_jev_modes_preserve_live_pipeline (test_http.HTTPContracts.test_jev_modes_preserve_live_pipeline) ... 127.0.0.1 - - [14/Oct/2026 15:32:42] "GET /api/pipeline HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:42] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:42] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:42] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:43] "GET /api/pipeline HTTP/1.1" 200 -
 ok
-test_local_font_route (test_http.HTTPContracts.test_local_font_route) ... 127.0.0.1 - - [14/Oct/2026 09:52:56] "GET /assets/manrope.woff2 HTTP/1.1" 200 -
+test_jev_rejects_cross_origin_and_bad_inputs (test_http.HTTPContracts.test_jev_rejects_cross_origin_and_bad_inputs) ... 127.0.0.1 - - [14/Oct/2026 15:32:43] "POST /api/jev/classify HTTP/1.1" 403 -
+127.0.0.1 - - [14/Oct/2026 15:32:43] "POST /api/jev/classify HTTP/1.1" 400 -
+127.0.0.1 - - [14/Oct/2026 15:32:43] "POST /api/jev/classify HTTP/1.1" 400 -
 ok
-test_mock_accepts_actual_loopback_origin_and_rejects_other_ports (test_http.HTTPContracts.test_mock_accepts_actual_loopback_origin_and_rejects_other_ports) ... 127.0.0.1 - - [14/Oct/2026 09:52:56] "POST /api/jev/classify HTTP/1.1" 200 -
-127.0.0.1 - - [14/Oct/2026 09:52:56] "POST /api/jev/classify HTTP/1.1" 403 -
-127.0.0.1 - - [14/Oct/2026 09:52:56] "POST /api/jev/classify HTTP/1.1" 403 -
-127.0.0.1 - - [14/Oct/2026 09:52:56] "POST /api/jev/classify HTTP/1.1" 403 -
+test_live_pipeline_and_explanation (test_http.HTTPContracts.test_live_pipeline_and_explanation) ... 127.0.0.1 - - [14/Oct/2026 15:32:43] "GET /api/pipeline HTTP/1.1" 200 -
+ok
+test_local_font_route (test_http.HTTPContracts.test_local_font_route) ... 127.0.0.1 - - [14/Oct/2026 15:32:43] "GET /assets/manrope.woff2 HTTP/1.1" 200 -
+ok
+test_local_review_script_route_is_explicit (test_http.HTTPContracts.test_local_review_script_route_is_explicit) ... 127.0.0.1 - - [14/Oct/2026 15:32:43] "GET /workflow.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:43] code 404, message Not Found
+127.0.0.1 - - [14/Oct/2026 15:32:43] "GET /other.js HTTP/1.1" 404 -
+ok
+test_mock_accepts_actual_loopback_origin_and_rejects_other_ports (test_http.HTTPContracts.test_mock_accepts_actual_loopback_origin_and_rejects_other_ports) ... 127.0.0.1 - - [14/Oct/2026 15:32:43] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:32:43] "POST /api/jev/classify HTTP/1.1" 403 -
+127.0.0.1 - - [14/Oct/2026 15:32:43] "POST /api/jev/classify HTTP/1.1" 403 -
+127.0.0.1 - - [14/Oct/2026 15:32:43] "POST /api/jev/classify HTTP/1.1" 403 -
 ok
 test_disabled_and_mock_never_call_transport (test_jev.JevContracts.test_disabled_and_mock_never_call_transport) ... ok
 test_disabled_default_without_credentials_or_network (test_jev.JevContracts.test_disabled_default_without_credentials_or_network) ... ok
@@ -68,6 +83,6 @@ test_open_close_fields_and_close_values_never_enter_context (test_revops.Operati
 test_snapshot_is_a_disjoint_exhaustive_partition (test_revops.OperationalTests.test_snapshot_is_a_disjoint_exhaustive_partition) ... ok
 
 ----------------------------------------------------------------------
-Ran 48 tests in 12.944s
+Ran 51 tests in 14.633s
 
 OK

@@ -53,3 +53,10 @@ O painel de 1:1 troca o indicador isolado de 90 dias por contagens de conversão
 Agrupar por conta oferece dois caminhos visíveis, com contagens: coordenar contas identificadas ou identificar contas sem vínculo. Contas são ordenadas pela quantidade de oportunidades na fila; empates mantêm a ordenação selecionada. No segundo caminho, cada oportunidade permanece individual, sem inferir vínculo entre registros. Os atalhos substituem o filtro Com/Sem conta, preservando vendedor, gestor, região, etapa, busca e revisão. Paginação e exportações seguem o caminho escolhido; um caminho vazio oferece acesso ao outro. A visualização de oportunidades continua usando a ordenação existente, sem alteração de índice ou política.
 
 Simular índice nomeia o efeito efetivo da função. O aviso informa a quantidade de índices diferentes e explica que filas e ordem operacional continuam iguais. O comando Comparar por maior índice muda explicitamente a ordenação; não troca de fila nem apaga os demais filtros. A restauração recupera os valores originais. Não foi implementado um laboratório de política operacional, e nenhuma melhora comercial é inferida da simulação.
+
+
+## Revisão com continuidade — 1.11
+
+“Seu próximo passo” mostra o registro salvo; o roteiro fica em uma expansão própria, com duas perguntas por fila e uma adicional para conferir conta desconhecida. Respostas vazias continuam pendentes. Digitação e salvamento são estados distintos, com feedback de persistência ou falha. Desfazer, exportar e exclusão confirmada dão controle sobre os registros locais; o rodapé mantém a marcação temporária separada.
+
+A coordenação usa a seção já existente de outras abertas da conta. Sinaliza somente mesmo produto/outro vendedor, com explicação factual e sem atribuir conflito ou redistribuir responsabilidade. Isso preserva a lista compacta e deixa a revisão operacional nos detalhes. As capturas e cenários atuais estão em [verificação 1.11](verification-v1.11.1.md); não constituem validação independente com usuários.

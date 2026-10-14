@@ -6,6 +6,11 @@ const vm = require("node:vm");
 const { execFileSync } = require("node:child_process");
 const html = fs.readFileSync(__dirname + "/index.html", "utf8");
 const script = html.split("<script>")[1].split("</script>")[0];
+const workflowScript = fs.readFileSync(__dirname + "/workflow.js", "utf8");
+function runApp(context) {
+  vm.runInContext(workflowScript, context);
+  vm.runInContext(script, context);
+}
 const functions = script.slice(
   script.indexOf("function operationalOrder("),
   script.indexOf("function limitation("),
@@ -85,7 +90,7 @@ test("typing during initial loading preserves search without rendering incomplet
     console,
   };
   vm.createContext(context);
-  vm.runInContext(script, context);
+  runApp(context);
   field("search").value = "HAXMC4IX";
   assert.doesNotThrow(() => field("search").listeners.input());
   assert.equal(field("search").value, "HAXMC4IX");
@@ -119,7 +124,7 @@ function fullUi(fetcher, protocol = "http:") {
     console,
   };
   vm.createContext(context);
-  vm.runInContext(script, context);
+  runApp(context);
   return { field, context };
 }
 const settle = () => new Promise((resolve) => setImmediate(resolve));

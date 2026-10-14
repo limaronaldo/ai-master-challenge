@@ -1,0 +1,10 @@
+{
+  "file_url_exercised": true,
+  "file_api_calls": 0,
+  "documented_url": "http://127.0.0.1:8765/",
+  "test_server": "http://127.0.0.1:49908/",
+  "test_link_destination_adjusted": true,
+  "full_browser_restart": true,
+  "api_unchanged": true,
+  "provider_calls": 0
+}

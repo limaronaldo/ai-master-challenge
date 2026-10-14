@@ -1,6 +1,6 @@
 # Submissão — Ronaldo Lima Filho — Challenge 003
 
-**Lead Scorer — seu plano de ação comercial · versão local 1.10.1**
+**Lead Scorer — seu plano de ação comercial · versão local 1.11.1**
 
 ## Sobre mim
 
@@ -10,9 +10,9 @@
 
 ## Executive Summary
 
-Construí uma aplicação local que transforma 2.089 oportunidades abertas em três filas explicáveis: avançar conversões, confirmar continuidade de negócios antigos e qualificar novas contas. A descoberta central foi que 96,5% das oportunidades em Engaging tinham pelo menos 60 dias; priorizar idade indiscriminadamente colocava um negócio de 423 dias na frente. Separei atenção comercial de revisão do pipeline, acrescentei contexto por conta, filtros e exportações para apoiar a rotina do vendedor e do gestor. Minha recomendação é validar as ações em um piloto pequeno antes de usar os limites como política comercial: a solução tem verificações técnicas, mas ainda não demonstra ganho de conversão ou economia de tempo.
+Construí uma aplicação local que transforma 2.089 oportunidades abertas em três filas explicáveis: avançar conversões, confirmar continuidade de negócios antigos e qualificar novas contas. A descoberta central foi que 96,5% das oportunidades em Engaging tinham pelo menos 60 dias; priorizar idade indiscriminadamente colocava um negócio de 423 dias na frente. Separei atenção comercial de revisão do pipeline, acrescentei contexto por conta, filtros e exportações. A revisão agora permite salvar o próximo passo no navegador, responder um roteiro por fila e conferir outros vendedores com o mesmo produto na conta. Minha recomendação é validar as ações em um piloto pequeno antes de usar os limites como política comercial: a solução tem verificações técnicas, mas ainda não demonstra ganho de conversão ou economia de tempo.
 
-![Aplicação — fila de conversão](docs/validation-v1.10.1/desktop-conversion.png)
+![Aplicação — fila de conversão](docs/validation-v1.11.1/desktop-conversion.png)
 
 ## Solução
 
@@ -25,7 +25,7 @@ cd solution
 python3 -B app.py
 ```
 
-**Mantenha o terminal aberto e acesse [http://127.0.0.1:8765/](http://127.0.0.1:8765/).** O aplicativo deve ser acessado por esse endereço depois de iniciar o comando acima. Abrir `index.html` diretamente não inicia o servidor: a aplicação detecta essa situação e mostra o passo a passo, o comando e o link correto. Use uma instância nessa porta; Ctrl+C encerra. O aplicativo funciona sem dependências instaladas, credenciais ou serviços externos. O ZIP 1.10.1 contém os CSVs, código, fonte local e evidências desta versão. Os ZIPs 1.9 e 1.9-docfix1 anteriores permanecem preservados separadamente.
+**Mantenha o terminal aberto e acesse [http://127.0.0.1:8765/](http://127.0.0.1:8765/).** O aplicativo deve ser acessado por esse endereço depois de iniciar o comando acima. Abrir `index.html` diretamente não inicia o servidor: a aplicação detecta essa situação e mostra o passo a passo, o comando e o link correto. Use uma instância nessa porta; Ctrl+C encerra. O aplicativo funciona sem dependências instaladas, credenciais ou serviços externos. O ZIP 1.11.1 contém os CSVs, código, fonte local e evidências desta versão. Os pacotes anteriores permanecem preservados separadamente. O PR existente não foi atualizado por esta entrega local.
 
 ### Abordagem
 
@@ -82,16 +82,31 @@ O p90 dos ciclos Won anteriores ao corte é 106 dias e 3,44% deles passaram de 1
 1. Escolha vendedor, gestor ou região. Busca por conta/ID e filtros combinados refinam a carteira.
 2. Escolha a fila e confira **motivo e próximo passo**. Se estiver vazia, use os atalhos para outra fila sem apagar sua seleção. Em Mais filtros, **Com conta / Sem conta** separa qualificação e vínculo cadastral.
 3. Em **Agrupar por conta**, escolha **Coordenar contas** ou **Identificar contas**. O primeiro caminho reúne contas identificadas, com maior quantidade de oportunidades na fila primeiro; o segundo mantém cada oportunidade sem vínculo individual. Os dois caminhos mostram contagens e preservam vendedor, região, busca e revisão. Seus atalhos substituem o filtro Com/Sem conta. Exportações seguem o caminho selecionado. Soma de catálogo não é valor negociado ou receita esperada.
-4. Marque **Revisado nesta sessão** nos detalhes e exporte toda a fila em CSV ou Markdown, ou copie um resumo. A cópia não envia mensagens. Sua confirmação desaparece ao trocar a seleção, inclusive quando a operação termina depois da troca de filtros. Revisões existem apenas na aba e desaparecem ao recarregar.
+4. Marque **Revisado nesta sessão** nos detalhes e exporte toda a fila em CSV ou Markdown, ou copie um resumo. A cópia não envia mensagens. Sua confirmação desaparece ao trocar a seleção, inclusive quando a operação termina depois da troca de filtros. A marcação de revisão existe apenas na aba e desaparece ao recarregar. O próximo passo e as respostas têm um botão de salvamento próprio, descrito abaixo.
 5. Com gestor selecionado, o painel de 1:1 mostra, por vendedor, abertas, percentual sem conta, percentual acima de 90 dias e contagens de **conversão, saneamento e qualificação**, incluindo quantas conversões estão na janela de atenção proposta. As três filas somam o total aberto; a janela é um subconjunto da conversão. Os números usam a carteira completa do gestor, independentemente dos demais filtros, inclusive para vendedores sem abertas.
 
 Cada nome de fila no cartão do gestor é um atalho: um clique seleciona o vendedor e a fila, mantendo os demais filtros. Por exemplo, Anna Snelling tem 57 em saneamento e 55 em qualificação na fotografia. As contagens do painel continuam usando toda a carteira do gestor; filtros adicionais podem reduzir a seleção aberta pelo atalho.
 
 Nos detalhes de uma conta identificada, **Outras oportunidades abertas desta conta** reúne as demais abertas de toda a base, com produto, etapa, vendedor, região, fila e idade. Exclui a oportunidade atual e mantém registros sem conta separados. É possível consultar um colega ou outra fila e voltar ao painel anterior, preservando rolagem, foco e filtros. São registros históricos; a presença de vários vendedores não comprova contatos simultâneos.
 
+### Próximo passo salvo, roteiro por fila e coordenação — 1.11
+
+Em **Ver detalhes → Seu próximo passo → Roteiro e registro da revisão**:
+
+1. Responda apenas o que confirmou. Conversão pergunta sobre compromisso e responsável; saneamento, sobre continuidade e obstáculos; qualificação, sobre necessidade e decisão. Sem conta identificada, há uma pergunta adicional para conferir o vínculo na fonte. Campos vazios continuam **pendentes**, sem respostas automáticas.
+2. Escreva um **próximo passo**, informe um prazo opcional e escolha **Planejado, Concluído ou Adiado**. Clique em **Salvar neste navegador**. Respostas, passo, prazo, estado e horário voltam após recarregar no mesmo navegador, origem HTTP e dispositivo, vinculados ao ID e ao hash/data da base. Trocar porta ou usar `localhost` em vez de `127.0.0.1` cria outra origem de armazenamento.
+3. **Desfazer última edição** recupera a versão anterior; mantém até cinco alterações, inclusive após recarregar. Desfazer o primeiro salvamento remove o registro. **Copiar resumo da revisão** reúne os fatos históricos, respostas declaradas e pendências; identifica se o texto está salvo ou é rascunho. Nada é enviado ao CRM.
+4. **Exportar anotações desta base · JSON** faz uma cópia dos registros e do histórico local, com hash/data da base. Inclui registros temporários que tiveram tentativa de salvamento; exclui campos editados sem clicar em Salvar. A versão atual não importa esse arquivo. **Apagar anotações locais desta base** pede confirmação e apaga somente essa base, para todos os vendedores neste navegador.
+
+Digitar não grava automaticamente. Rascunhos permanecem na aba durante a navegação e são perdidos ao recarregar. Se o navegador bloquear armazenamento ou atingir o limite, o texto fica temporário e a interface orienta exportar antes de fechar. Dados ilegíveis são preservados, incluídos na exportação como cópia bruta e não sobrescritos. Se outra aba tiver salvo alterações, uma edição desatualizada fica temporária: exporte-a e recarregue para consultar o que foi salvo na outra aba. Isso reduz sobrescritas acidentais; não é sincronização multiusuário.
+
+Em **Outras oportunidades abertas desta conta**, o aviso **Coordenar este produto na conta** destaca somente abertas com **a mesma conta identificada, o mesmo produto e outro vendedor**. O alias `GTXPro`/`GTX Pro` é reconciliado como no catálogo. As demais abertas da conta continuam consultáveis, com as correspondentes sinalizadas. Registros sem conta não são agrupados. A coincidência histórica sugere conferir o atendimento; não demonstra contato duplicado ou conflito e não transfere responsáveis.
+
+Esses registros são declarações manuais, não eventos de CRM, contatos comprovados ou auditoria autenticada. Selecionar vendedor não autentica quem anotou. A marcação **Revisado nesta sessão** segue separada e temporária. As anotações não entram no índice, nas filas, no laboratório, nos CSVs originais ou no JEV; tampouco alteram as exportações comerciais anteriores. [Decisões, testes e capturas 1.11](docs/verification-v1.11.1.md).
+
 ### Lógica e manutenção
 
-`app.py` valida os CSVs e serve API/interface. `revops.py` reúne histórico anterior, conta e fila operacional. `jev.py` isola a classificação opcional de texto. `analyze_policy.py` reproduz a análise descritiva; HTML/CSS/JavaScript estão formatados para leitura e revisão.
+`app.py` valida os CSVs e serve API/interface. `revops.py` reúne histórico anterior, conta e fila operacional. `jev.py` isola a classificação opcional de texto. `workflow.js` valida e guarda anotações no navegador e monta roteiros e avisos de coordenação, sem participar do cálculo das filas ou do índice. `analyze_policy.py` reproduz a análise descritiva; HTML/CSS/JavaScript estão formatados para leitura e revisão.
 
 O índice original fica em **Ver detalhes → Critérios e origem dos dados → Como o índice foi calculado**. Ele soma etapa, idade e catálogo, com teto de 80:
 
@@ -105,7 +120,7 @@ Só a maior faixa de cada componente é aplicada. Conta e responsável não soma
 
 O scoring recebe apenas seis campos permitidos, sem `close_date` ou `close_value` da aberta. Histórico usa fechamentos anteriores a 31/12/2017; ciclos incluem somente Won com datas válidas. Histórico da conta, ciclos e JEV ficam fora dos fatores do índice. Receita da conta está em milhões de USD; moeda do catálogo não foi confirmada. O aplicativo não inventa score de fit nem compara essas unidades diretamente.
 
-A lista compacta alinha oportunidade, responsável, motivo e acesso aos detalhes. O painel de revisão tem 720 px no desktop e ocupa a tela no celular. Mostra uma recomendação, histórico e perfil separados, data-base e revisão temporária. “Critérios e origem dos dados” reúne metodologia, amostra e índice, recolhidos no início. [Decisões de interface e significado da mediana](docs/interface-comparison.md).
+A lista compacta alinha oportunidade, responsável, motivo e acesso aos detalhes. O painel de revisão tem 720 px no desktop e ocupa a tela no celular. Mostra uma recomendação, próximo passo declarado, histórico e perfil separados, data-base e marcação temporária de revisão. “Critérios e origem dos dados” reúne metodologia, amostra e índice, recolhidos no início. [Decisões de interface e significado da mediana](docs/interface-comparison.md).
 
 ### JEV opcional — contexto de texto e caminho de evolução
 
@@ -131,7 +146,7 @@ A classificação seria combinada com a etapa e a fila por **regras locais** par
 - Não há último contato, snapshots de CRM ou versões históricas dos atributos da conta. Ciclos apenas de ganhos têm viés de seleção. Não há backtest temporal ou prova de efeito causal.
 - A priorização é hipótese operacional explicável; não é chance de fechar. As faixas ainda precisam de validação comercial.
 - Testes automatizados não substituem pessoas. Não houve teste independente com vendedor nesta versão, auditoria integral de acessibilidade ou avaliação da acurácia JEV.
-- Sem autenticação, persistência das revisões ou integração ao CRM. Esses itens seriam necessários para operação de produção.
+- Sem autenticação, sincronização entre dispositivos ou integração ao CRM. Anotações são locais ao navegador e podem ser perdidas ao limpar os dados do site ou em navegação privada. A marcação “Revisado nesta sessão” continua temporária. O prazo registrado é atual e separado da fotografia de 2017; não comprova atividade comercial.
 
 ## Process Log — Como usei IA
 
@@ -162,17 +177,17 @@ Há **13 registros históricos com horário**, organizados por rodadas no relato
 ## Evidências
 
 - [x] [Processo, rodadas e correções](process-log/log.md).
-- [x] [Testes, cenários e capturas 1.10.1](docs/revops-verification.md).
+- [x] [Testes, cenários e capturas 1.11.1](docs/revops-verification.md).
 - [x] [Análise da política reproduzível](docs/policy-analysis.md).
 - [x] [Manifesto de código, dados e capturas](docs/implementation-manifest.json).
 - [x] [Tratamento das revisões](docs/treatment-matrix.md).
 - [ ] [Teste independente com participantes — pendente](docs/user-test-protocol.md).
 
-**Submissão enviada em:** a preencher no momento do envio. Estado desta versão: preparação local, sem submissão. [Procedimento para preparar o PR](docs/submission-preparation.md).
+**Estado da versão 1.11.1:** pacote local; não publicado nem enviado ao PR existente. O [PR #188](https://github.com/Gestao-Quatro-Ponto-Zero/ai-master-challenge/pull/188) contém a versão anterior com os ajustes posteriores do JEV, usados como ponto de partida. [Procedimento para uma futura atualização autorizada](docs/submission-preparation.md).
 
 ## Complementos locais 1.9 — plano reconciliado
 
-[Plano revisado](docs/implementation-plan-reconciled.md) e [verificação atual](docs/verification-v1.10.1.md). O painel do gestor preserva contagens por fila e acrescenta o percentual acima de 90 dias sobre toda a carteira aberta. Agrupamento mantém dois caminhos explícitos; contas são ordenadas por quantidade, soma de catálogo e nome, e órfãs permanecem individualizadas. Detalhes mostram controladora declarada e registros de subsidiárias sem consolidar receita.
+[Plano revisado](docs/implementation-plan-reconciled.md) e [verificação atual](docs/verification-v1.11.1.md). O painel do gestor preserva contagens por fila e acrescenta o percentual acima de 90 dias sobre toda a carteira aberta. Agrupamento mantém dois caminhos explícitos; contas são ordenadas por quantidade, soma de catálogo e nome, e órfãs permanecem individualizadas. Detalhes mostram controladora declarada e registros de subsidiárias sem consolidar receita.
 
 “Simular índice” permanece separado de um novo laboratório de limites operacionais. O laboratório mostra contagens e reclassificações hipotéticas sobre toda a base original, com referência e proveniência; não aplica limites nem muda a fila, o índice ou as exportações. JEV continua desativado e oferece três exemplos sintéticos locais selecionáveis, sem interpretar o texto digitado ou acessar o provedor.
 
@@ -182,8 +197,27 @@ A análise registra a partição de saneamento 1/85/1.291, máximo histórico ob
 
 O laboratório agora mostra **quais casos mudariam de fila**, com transição hipotética, motivo e limites comparados. A lista é recolhível e paginada em 30 casos; o CSV próprio exporta todos os reclassificados, com data-base, hash do dataset e limites usados. No cenário >144 dias OU >2,5× mediana, são 113 casos. Ao editar limites, o resultado e a exportação antigos são invalidados. Consultar os detalhes mostra a política-base e devolve o foco ao caso de origem. A fila principal, o índice e suas exportações permanecem preservados.
 
-Os detalhes passam a mostrar as outras abertas da mesma conta e o painel do gestor oferece atalhos diretos por fila. A revisão continua temporária nesta aba; não há tarefas persistentes, novos eventos de CRM ou execução de ações comerciais. JEV permanece opcional e desativado. [Implementação e verificações 1.10](docs/verification-v1.10.1.md).
+Os detalhes passaram a mostrar as outras abertas da mesma conta e o painel do gestor oferece atalhos diretos por fila. Na versão 1.10, a revisão era temporária nesta aba, sem tarefas persistentes. A versão 1.11 acrescenta anotações locais descritas na seção “Próximo passo salvo, roteiro por fila e coordenação”; não cria eventos de CRM nem executa ações comerciais. JEV permanece opcional e desativado. [Implementação e verificações atuais](docs/verification-v1.11.1.md).
 
 ## Acabamento 1.10.1 — painel do gestor
 
-Os botões das filas reservam mais espaço para o rótulo, preservando palavras inteiras no desktop e no celular. Contagens, atalhos, filtros e regras permanecem iguais. O pacote atual é `LeadScorer-G4-local-v1.10.1.zip`, com testes e capturas atualizados; o ZIP 1.10 anterior foi preservado.
+Os botões das filas reservam mais espaço para o rótulo, preservando palavras inteiras no desktop e no celular. Contagens, atalhos, filtros e regras permanecem iguais. O pacote dessa rodada foi `LeadScorer-G4-local-v1.10.1.zip`, preservado com os seus hashes. O pacote atual é `LeadScorer-G4-local-v1.11.1.zip`.
+
+## Reproduzir as verificações
+
+A execução do aplicativo requer somente Python. Para os testes Node, use Node 18+ (executados aqui com 22.22.3). A partir de `solution/`:
+
+```sh
+python3 -B -m unittest discover -v
+node --test test_ui.cjs test_workflow.cjs
+python3 -B analyze_policy.py
+```
+
+A última saída deve ser idêntica a `docs/policy-analysis.json`. Os testes opcionais de navegador exigem Playwright e Chrome já disponíveis. Com uma instância local em execução, use `LEADSCORER_URL=http://127.0.0.1:8765 node test_browser.cjs`; eles geram capturas e registros em `docs/validation-v1.11.1/`. A verificação da entrega usou uma cópia isolada e porta independente, sem rede externa ou serviço JEV real. Textos de anotação nas evidências são exemplos sintéticos.
+
+
+## Correção de inicialização 1.11.1
+
+O servidor atende conexões simultâneas para que uma conexão ociosa do navegador não impeça a página, o script, a fonte e os dados de carregar. O comando e o endereço permanecem os mesmos. A regressão mantém uma conexão aceita sem enviar requisição e confere os quatro recursos; o Chrome também abre o HTML como arquivo, mostra a orientação e segue o link até a fila.
+
+As três melhorias 1.11, os CSVs, os pesos, os limites e as 2.089 decisões originais permanecem iguais. Foram corrigidos o caminho das capturas no plano e a orientação/rótulo da referência no README. O pacote parte do ZIP 1.11 revisado; alterações paralelas do JEV na cópia de trabalho foram preservadas fora desta entrega. [Verificação 1.11.1](docs/verification-v1.11.1.md).

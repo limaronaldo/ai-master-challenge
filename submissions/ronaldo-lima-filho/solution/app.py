@@ -6,7 +6,7 @@ import math
 import io
 from collections import Counter
 from datetime import date
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from statistics import median
 from urllib.parse import urlparse, parse_qs
@@ -22,7 +22,7 @@ RULES = {"engaging": 25, "prospecting": 10, "age_30": 10, "age_60": 20,
          "price_1000": 1000, "price_5000": 5000, "price_10000": 10000}
 RULE_VERSION = "review-v1.3"
 EVIDENCE_VERSION = "context-v1.2"
-IMPLEMENTATION_VERSION = "local-v1.10.1"
+IMPLEMENTATION_VERSION = "local-v1.11.1"
 SCORE_FIELDS = ("opportunity_id", "product", "account", "sales_agent", "deal_stage", "engage_date")
 SCHEMAS = {
     "accounts.csv": ("account", "sector", "year_established", "revenue", "employees", "office_location", "subsidiary_of"),
@@ -299,6 +299,9 @@ class Handler(BaseHTTPRequestHandler):
         elif path == "/assets/manrope.woff2":
             content = (ROOT / "assets" / "manrope.woff2").read_bytes()
             mime = "font/woff2"
+        elif path == "/workflow.js":
+            content = (ROOT / "workflow.js").read_bytes()
+            mime = "text/javascript; charset=utf-8"
         else:
             self.send_error(404)
             return
@@ -310,6 +313,12 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(content)
 
 
+def create_server(port=8765):
+    """Idle browser preconnections must not block other resources or the API."""
+    return ThreadingHTTPServer(("127.0.0.1", port), Handler)
+
+
 if __name__ == "__main__":
     print("Lead Scorer local: http://127.0.0.1:8765", flush=True)
-    HTTPServer(("127.0.0.1", 8765), Handler).serve_forever()
+    with create_server() as server:
+        server.serve_forever()

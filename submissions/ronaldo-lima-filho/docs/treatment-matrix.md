@@ -1,4 +1,4 @@
-# Decisões e verificação — versão local 1.10.1
+# Decisões e verificação — versão local 1.11.1
 
 Esta matriz descreve o estado da entrega atual. Pareceres e registros anteriores foram preservados localmente; suas conclusões não substituem as evidências desta versão.
 
@@ -7,10 +7,10 @@ Esta matriz descreve o estado da entrega atual. Pareceres e registros anteriores
 | Abertura direta do HTML | Detecta protocolo de arquivo, evita chamada à API e mostra comando/URL; falhas HTTP recebem instruções e retry preserva busca | Teste Node com protocolo simulado e cenário Chrome de falha HTTP/recuperação |
 | Confirmação de cópia antiga | Mensagem limpa ao renderizar nova seleção; sucesso ou falha tardios não repõem mensagem da seleção anterior | Dois testes Node e cenário Chrome |
 | Histórico em português | “Lost anteriores” traduzido para “negócios perdidos anteriormente” | Asserção no navegador e capturas atuais |
-| Captura da Central cortada | Página completa, com filtros secundários recolhidos e todos os botões de alternativa | `validation-v1.10.1/central-empty.png` |
+| Captura da Central cortada | Página completa, com filtros secundários recolhidos e todos os botões de alternativa | `validation-v1.11.1/central-empty.png` |
 | Fila padrão vazia para Central e parte dos vendedores | Estado vazio distingue ausência na fila de ausência na seleção; atalhos mantêm vendedor, região e filtros | `solution/index.html`, testes Node e cenários de navegador |
 | Índice original compete com a ação | Removido do cartão; soma e componentes mantidos nos detalhes; ordenação alternativa continua disponível | Teste Node e capturas atuais |
-| Primeira ação abaixo da tela móvel | Entrada compactada; filtros secundários recolhidos; medição de posição na tela 375×844 | `validation-v1.10.1/layout-results.json` e captura móvel |
+| Primeira ação abaixo da tela móvel | Entrada compactada; filtros secundários recolhidos; medição de posição na tela 375×844 | `validation-v1.11.1/layout-results.json` e captura móvel |
 | Definição dos limites | Análise reproduzível de sensibilidade, critérios sobrepostos e duração dos fechados; saneamento solicita continuidade, sem encerramento por idade | `policy-analysis.md`, `policy-analysis.json`, `solution/analyze_policy.py` |
 | Estrutura do template | H1 com autor/challenge; blocos Solução, Abordagem, Resultados / Findings, Recomendações e Limitações explícitos | README |
 | Processo de IA | Relato em primeira pessoa com atribuição da execução, ferramentas, rodadas e correções verificáveis; 13 registros não equivalem ao total de prompts | `process-log/log.md` |
@@ -47,7 +47,7 @@ Painel com largura controlada, uma recomendação e justificativa curta. Histór
 
 ## Pacote 1.9
 
-Roteiro de preparação corrigido para o ZIP 1.9 e seu SHA-256. Documentação de entrega, testes e manifestos alinhados à versão atual. Os complementos de contexto cadastral, laboratório e três exemplos JEV estão descritos no [relato da implementação](verification-v1.10.1.md). O teste com participantes permanece pendente.
+Roteiro de preparação corrigido para o ZIP 1.9 e seu SHA-256. Documentação de entrega, testes e manifestos alinhados à versão atual. Os complementos de contexto cadastral, laboratório e três exemplos JEV estão descritos no [relato da implementação](verification-v1.11.1.md). O teste com participantes permanece pendente.
 
 ## Melhorias 1.10
 
@@ -62,3 +62,25 @@ As regras e os cinco CSVs permanecem intactos. O teste com participantes continu
 ## Acabamento 1.10.1
 
 Botões do gestor com largura reservada para o rótulo e palavras inteiras. Cenário Chrome em 1440/1024/861/375/320 px verifica o texto e a ausência de overflow; capturas do gestor atualizadas. Nenhuma regra, contagem ou critério de fila foi alterado.
+
+
+## Melhorias autorizadas — 1.11
+
+| Pedido | Tratamento | Evidência |
+|---|---|---|
+| Próximo passo salvo | Registro explícito local por base/ID, reload, desfazer até cinco versões, exportar/apagar e falhas visíveis | test_workflow.cjs e cenários Chrome atuais |
+| Roteiro por fila | Perguntas específicas e pendências explícitas, resumo declarado sem inferir contato | Testes Node e Chrome para as três filas e conta desconhecida |
+| Coordenação por conta/produto | Coincidência com outro vendedor nos detalhes, IDs exatos, navegação preservada | Teste de alias/exclusões e Chrome desktop/mobile |
+| Preservar regras | Motor, dados, política e projeção congelada iguais; sem entrada de anotações no JEV | Manifestos, testes de contratos e análise byte a byte |
+| Sem atualizar PR | Cópia local independente; branch/head/índice do checkout do PR preservados | Recibo externo da entrega 1.11 |
+
+
+## Correções da revisão final — 1.11.1
+
+| Achado | Correção | Verificação |
+|---|---|---|
+| Conexão ociosa bloqueia o servidor | Atendimento por conexão com ThreadingHTTPServer; teste usa a mesma fábrica do aplicativo | Regressão falha no servidor 1.11 e passa no corrigido, mantendo socket aberto enquanto HTML/script/fonte/API respondem |
+| Caminho textual antigo no plano | Capturas atuais apontam a validation-v1.11.1 | Inventário, links e conferência de referências |
+| Referência do README | Nomeia a seção correta e usa rótulo de verificações atuais | Destino verification-v1.11.1.md presente |
+
+O navegador também verifica abertura real file→link HTTP e persistência após reinício completo. O ZIP 1.11 e o PR existente foram preservados.

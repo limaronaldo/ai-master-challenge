@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "datasetHash": "c5a0244edc0ccd97307ee4ac88fff5cae566bb411f9b3e11fcaf8d43827828f3",
+  "asOf": "2017-12-31",
+  "records": {
+    "6OD1J7MW": {
+      "nextStep": "EXEMPLO SINTÉTICO: confirmar responsável pela revisão da proposta.",
+      "due": "2026-10-20",
+      "status": "planned",
+      "answers": {
+        "commitment": "EXEMPLO SINTÉTICO: responsável confirmou revisão da proposta.",
+        "responsible": ""
+      },
+      "updatedAt": "2026-10-14T18:33:09.501Z",
+      "history": [
+        null
+      ]
+    }
+  }
+}

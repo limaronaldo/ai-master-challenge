@@ -1076,6 +1076,19 @@ body:has(.review-drawer[open]) { overflow: hidden; }
 .team-queues dt button { padding: 4px 6px; min-height: 44px; font-size: inherit; text-align: left; overflow-wrap: normal; word-break: normal; }
 .team-queues dt { min-width: 0; }
 .review-context-note { padding: 10px; background: #f0f3f4; border-radius: 6px; }
+.workflow-panel { margin: 0 0 20px; padding: 16px; border: 1px solid #d7d9da; border-radius: 8px; background: #fff; }
+.workflow-panel > h3 { margin-bottom: 8px; }
+.workflow-panel > details > summary { cursor: pointer; font-weight: 650; padding: 10px 0; }
+.workflow-panel label { display: block; margin: 14px 0; font-size: 14px; }
+.workflow-panel textarea, .workflow-panel input, .workflow-panel select { display: block; width: 100%; box-sizing: border-box; margin-top: 6px; }
+.workflow-panel textarea { min-height: 76px; padding: 10px; resize: vertical; font: inherit; }
+.workflow-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.workflow-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.workflow-actions button { min-height: 44px; }
+.workflow-feedback { font-size: 14px; color: #285640; }
+.workflow-feedback:empty { display: none; }
+.coordination-note { margin: 12px 0; padding: 12px; border-left: 3px solid #8a6b40; background: #f6f2eb; }
+.coordination-badge { display: block; color: #6a4c24; font-size: 12px; margin: 6px 0; }
 #policychanges[hidden] { display: none; }
 @media (max-width: 540px) {
   .review-drawer { width: 100vw; border: 0; }
@@ -1088,6 +1101,7 @@ body:has(.review-drawer[open]) { overflow: hidden; }
   .review-footer .review-check { font-size: 13px; }
   .policy-case-list > li { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .review-footer-top { flex-wrap: wrap; }
+  .workflow-fields { grid-template-columns: minmax(0, 1fr); gap: 0; }
 }
 
 </style>
@@ -1396,6 +1410,7 @@ python3 -B app.py</code></pre>
       </footer>
       </div>
     </main>
+    <script src="workflow.js"></script>
     <script>
 let rows = [],
   base = null,
@@ -1412,6 +1427,8 @@ const size = 30;
 const detailPositions = new Map();
 const contextDetails = new Set();
 const detailReturnStack = [];
+let localReviewStore = null;
+const localReviewDrafts = new Map();
 let policyScenario = null, policyPage = 0;
 const queueNames = { conversion: "Ação de conversão", cleanup: "Saneamento", qualify: "Qualificação" };
 
@@ -1550,6 +1567,56 @@ function shortAction(r) {
 function displayDate(value) {
   return value ? String(value).split("-").reverse().join("/") : "Não informado";
 }
+function localReviewIdentity() {
+  return { datasetHash: base.dataset_hash, asOf: base.as_of, ids: base.rows.map((r) => r.id) };
+}
+function startLocalReviews() {
+  let storage = null;
+  try { storage = globalThis.localStorage; } catch (_) { /* Storage may be blocked; saving will report it. */ }
+  localReviewStore = ReviewWorkflow.createStore(localReviewIdentity(), storage);
+}
+function reviewDraft(form) {
+  const answers = {};
+  for (const input of form.querySelectorAll("textarea[data-answer]")) answers[input.dataset.answer] = input.value;
+  return { nextStep: form.querySelector('[name="nextStep"]').value, due: form.querySelector('[name="due"]').value,
+    status: form.querySelector('[name="stepStatus"]').value, answers };
+}
+function workflowPanel(r) {
+  if (!localReviewStore) return "";
+  const saved = localReviewStore.get(r.id), draft = localReviewDrafts.get(r.id);
+  const value = draft || saved || { nextStep: "", due: "", status: "planned", answers: {} };
+  const temporary = localReviewStore.isTemporary(r.id);
+  return `<section class="workflow-panel" data-local-review="${esc(r.id)}"><h3>Seu próximo passo</h3>
+    <p data-saved-step>${saved ? `<strong>${esc(saved.nextStep)}</strong> · ${esc(ReviewWorkflow.statuses[saved.status])}${saved.due ? " · retomar em " + displayDate(saved.due) : ""}` : "Escolha o próximo passo ao concluir a revisão."}</p>
+    ${saved ? `<p class="meta" data-save-origin>${temporary ? "Somente nesta aba; armazenamento indisponível." : "Salvo neste navegador em " + esc(new Date(saved.updatedAt).toLocaleString("pt-BR")) + "."}</p>` : ""}
+    ${localReviewStore.warning ? `<p class="data-warning" role="status">${esc(localReviewStore.warning)}</p>` : ""}
+    <details data-open-key="workflow:${esc(r.id)}"><summary>Roteiro e registro da revisão</summary>
+      <p class="meta">Responda somente o que confirmou. Campos sem resposta continuam pendentes. As respostas são declarações suas, separadas da fotografia histórica.</p>
+      <form class="review-workflow-form" data-workflow-id="${esc(r.id)}">
+        ${ReviewWorkflow.questions(r).map((prompt) => `<label for="answer-${esc(r.id)}-${prompt.id}">${esc(prompt.label)}<textarea id="answer-${esc(r.id)}-${prompt.id}" data-answer="${prompt.id}" maxlength="400" placeholder="Pendente de confirmação">${esc(value.answers[prompt.id] || "")}</textarea></label>`).join("")}
+        <label for="step-${esc(r.id)}">Próximo passo escolhido por você<textarea id="step-${esc(r.id)}" name="nextStep" required maxlength="500" placeholder="Descreva uma ação concreta">${esc(value.nextStep)}</textarea></label>
+        <div class="workflow-fields"><label for="due-${esc(r.id)}">Prazo para retomar · opcional<input id="due-${esc(r.id)}" name="due" type="date" value="${esc(value.due)}"></label>
+          <label for="step-status-${esc(r.id)}">Estado do próximo passo<select id="step-status-${esc(r.id)}" name="stepStatus">${Object.entries(ReviewWorkflow.statuses).map(([key, label]) => `<option value="${key}" ${value.status === key ? "selected" : ""}>${label}</option>`).join("")}</select></label></div>
+        <p class="meta">Ao salvar, o registro fica neste navegador e dispositivo. Não é enviado ao JEV nem ao CRM. A marcação “Revisado nesta sessão” continua temporária.</p>
+        <div class="workflow-actions"><button type="submit" data-workflow-save>Salvar neste navegador</button><button type="button" data-workflow-action="copy" data-workflow-id="${esc(r.id)}">Copiar resumo da revisão</button>
+          <button type="button" data-workflow-action="undo" data-workflow-id="${esc(r.id)}" ${saved?.history.length ? "" : "disabled"}>Desfazer última edição</button></div>
+        <p id="local-review-feedback-${esc(r.id)}" class="workflow-feedback" role="status" tabindex="-1">${draft ? "Rascunho nesta aba; clique em Salvar para guardar." : ""}</p>
+      </form>
+      ${saved?.history.some(Boolean) ? `<details><summary>Alterações anteriores · até cinco</summary><ul>${saved.history.filter(Boolean).reverse().map((entry) => `<li>${esc(new Date(entry.updatedAt).toLocaleString("pt-BR"))} · ${esc(ReviewWorkflow.statuses[entry.status])} · ${esc(entry.nextStep)}</li>`).join("")}</ul></details>` : ""}
+      <div class="workflow-actions"><button type="button" data-workflow-action="export" data-workflow-id="${esc(r.id)}">Exportar anotações desta base · JSON</button><button type="button" data-workflow-action="clear" data-workflow-id="${esc(r.id)}">Apagar anotações locais desta base</button></div>
+      <p class="meta">O prazo acompanha sua revisão atual, não o ciclo de vendas de 2017. O seletor de vendedor não autentica identidade; registros locais não comprovam contato ou venda.</p>
+    </details></section>`;
+}
+function localReviewFeedback(id, message) {
+  const node = $("local-review-feedback-" + id);
+  if (node) node.textContent = message;
+}
+function coordinationNote(r) {
+  const peers = ReviewWorkflow.coordination(base.rows, r);
+  if (!peers.length) return "";
+  const agents = [...new Set(peers.map((row) => row.agent))];
+  return `<section class="coordination-note" data-coordination="${esc(r.id)}"><h3>Coordenar este produto na conta</h3><p><strong>${esc(r.product)}</strong> também aparece em ${num(peers.length)} outras abertas, com ${num(agents.length)} outros vendedores: ${agents.map(esc).join(", ")}.</p><p class="meta">Confira os registros sinalizados abaixo antes de coordenar o atendimento. A coincidência na base histórica não comprova contato duplicado ou conflito. Responsáveis e regras permanecem iguais.</p></section>`;
+}
 function sameAccountOpportunities(r) {
   if (!r.account_identified) return [];
   return (base?.rows || []).filter((other) => other.account_identified && other.account === r.account && other.id !== r.id)
@@ -1558,9 +1625,11 @@ function sameAccountOpportunities(r) {
 function accountOpportunities(r) {
   const others = sameAccountOpportunities(r);
   if (!others.length) return "";
+  const coordinationIds = new Set(ReviewWorkflow.coordination(base.rows, r).map((other) => other.id));
   return `<details class="account-opportunities" data-open-key="related:${esc(r.id)}"><summary>Outras ${num(others.length)} oportunidades abertas desta conta</summary>
     <p class="meta">Toda a base em ${displayDate(r.as_of)}, incluindo outros vendedores e filas. Não comprova contatos simultâneos. Consultar os detalhes preserva os filtros da lista.</p>
-    <ul class="context-list">${others.map((other) => `<li data-related-id="${esc(other.id)}"><strong>${esc(other.product)} · ${esc(other.stage)}</strong><p>${esc(other.agent)} · ${esc(other.region)}</p><p>${esc(queueNames[other.operations.queue])} · ${other.age === null ? "Início sem data válida" : num(other.age) + " dias desde o início"}</p><p class="meta">ID: ${esc(other.id)}</p><button type="button" id="related-open-${esc(r.id)}-${esc(other.id)}" data-context-open="${esc(other.id)}" aria-label="Ver detalhes de ${esc(other.id)} nesta conta">Ver detalhes</button></li>`).join("")}</ul>
+    ${coordinationNote(r)}
+    <ul class="context-list">${others.map((other) => `<li data-related-id="${esc(other.id)}"><strong>${esc(other.product)} · ${esc(other.stage)}</strong>${coordinationIds.has(other.id) ? '<span class="coordination-badge">Mesmo produto · outro vendedor</span>' : ""}<p>${esc(other.agent)} · ${esc(other.region)}</p><p>${esc(queueNames[other.operations.queue])} · ${other.age === null ? "Início sem data válida" : num(other.age) + " dias desde o início"}</p><p class="meta">ID: ${esc(other.id)}</p><button type="button" id="related-open-${esc(r.id)}-${esc(other.id)}" data-context-open="${esc(other.id)}" aria-label="Ver detalhes de ${esc(other.id)} nesta conta">Ver detalhes</button></li>`).join("")}</ul>
   </details>`;
 }
 function contextFacts(r) {
@@ -1628,6 +1697,7 @@ function audit(r) {
     <div class="review-scroll">
       <p id="review-context-${esc(r.id)}" class="meta review-context-note" hidden></p>
       <section class="decision-block"><h3>Próximo passo</h3><p class="recommendation">${esc(shortAction(r))}</p><h3>Por que revisar</h3><p>${r.age === null ? "Início do engajamento sem data válida." : "Engajamento iniciado há <strong>" + num(r.age) + " dias</strong>."}</p><p>Mediana histórica do produto: ${r.operations.median_cycle_days !== null ? "<strong>" + num(r.operations.median_cycle_days) + " dias</strong>" : "não disponível"}.</p><p class="meta">Referência histórica; não comprova atraso.${r.operations.queue === "cleanup" ? " Idade sozinha não justifica encerramento." : ""}</p></section>
+      ${workflowPanel(r)}
       ${contextFacts(r)}
       ${accountOpportunities(r)}
       ${auditCriteria(r, before)}
@@ -2010,6 +2080,8 @@ $("list").addEventListener("click", (event) => {
     if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeDealDetails(event.target.dataset.dealId);
     return;
   }
+  const workflowButton = event.target.closest("button[data-workflow-action]");
+  if (workflowButton?.dataset.workflowAction) return handleLocalReviewAction(workflowButton);
   const alternative = event.target.closest("button[data-queue]");
   if (alternative && ["conversion", "cleanup", "qualify"].includes(alternative.dataset.queue)) {
     queue = alternative.dataset.queue;
@@ -2295,6 +2367,7 @@ function load() {
       base = data;
       current = data;
       rows = base.rows;
+      startLocalReviews();
       ["agent", "manager", "region"].forEach((k) =>
         [...new Set((data.teams || rows).map((r) => r[k]))].sort().forEach((v) => {
           const o = document.createElement("option");
@@ -2323,6 +2396,50 @@ function load() {
 }
 $("retryload").onclick = load;
 load();
+$("list").addEventListener("input", (event) => {
+  const form = event.target.closest(".review-workflow-form");
+  if (!form) return;
+  localReviewDrafts.set(form.dataset.workflowId, reviewDraft(form));
+  localReviewFeedback(form.dataset.workflowId, "Rascunho nesta aba; clique em Salvar para guardar.");
+});
+$("list").addEventListener("submit", (event) => {
+  const form = event.target.closest(".review-workflow-form");
+  if (!form) return;
+  event.preventDefault();
+  const id = form.dataset.workflowId;
+  try {
+    const result = localReviewStore.save(id, reviewDraft(form));
+    localReviewDrafts.delete(id);
+    render();
+    localReviewFeedback(id, result.persisted ? "Próximo passo salvo neste navegador. Nenhum dado do CRM foi alterado." : localReviewStore.warning);
+    $("local-review-feedback-" + id)?.focus?.({ preventScroll: true });
+  } catch (error) { localReviewFeedback(id, error.message); }
+});
+async function handleLocalReviewAction(button) {
+  const id = button.dataset.workflowId, action = button.dataset.workflowAction;
+  const form = button.closest(".workflow-panel").querySelector("form");
+  if (action === "copy") {
+    try {
+      const row = base.rows.find((row) => row.id === id);
+      const text = ReviewWorkflow.summary(row, reviewDraft(form), localReviewIdentity(), !localReviewDrafts.has(id) && !!localReviewStore.get(id) && !localReviewStore.isTemporary(id));
+      const feedback = $("local-review-feedback-" + id);
+      await navigator.clipboard.writeText(text);
+      if (feedback.isConnected && $("review-dialog-" + id)?.open) feedback.textContent = "Resumo copiado. Confira antes de registrar no CRM.";
+    } catch (_) { localReviewFeedback(id, "Preencha o próximo passo e confira os campos. Se a cópia estiver bloqueada, use a exportação local."); }
+  } else if (action === "undo") {
+    const result = localReviewStore.undo(id);
+    localReviewDrafts.delete(id); render();
+    localReviewFeedback(id, result.persisted ? "Última edição desfeita." : localReviewStore.warning);
+  } else if (action === "export") {
+    saveFile(localReviewStore.export(), "application/json;charset=utf-8", "leadscorer-anotacoes-" + base.as_of + ".json");
+    localReviewFeedback(id, "Anotações exportadas. Rascunhos não salvos ficam fora do arquivo.");
+  } else if (action === "clear") {
+    if (!window.confirm("Apagar todas as anotações locais desta base, de todos os vendedores? Os CSVs e as regras serão preservados.")) return;
+    const cleared = localReviewStore.clear();
+    if (cleared) localReviewDrafts.clear();
+    render(); localReviewFeedback(id, cleared ? "Anotações locais desta base apagadas." : localReviewStore.warning);
+  }
+}
 // Session-only review state; filtering never writes to the source CSVs.
 $("list").addEventListener("change", (event) => {
   const box = event.target.closest("input[data-review]");

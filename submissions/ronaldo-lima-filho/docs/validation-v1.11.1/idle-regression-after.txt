@@ -1,0 +1,10 @@
+test_idle_connection_does_not_block_resources_or_pipeline (test_http.HTTPContracts.test_idle_connection_does_not_block_resources_or_pipeline) ... 127.0.0.1 - - [14/Oct/2026 15:31:16] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:31:16] "GET /workflow.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:31:16] "GET /assets/manrope.woff2 HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 15:31:16] "GET /api/pipeline HTTP/1.1" 200 -
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.513s
+
+OK

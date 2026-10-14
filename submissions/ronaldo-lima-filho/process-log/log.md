@@ -1,6 +1,6 @@
 # Process log — Ronaldo Lima Filho — Challenge 003
 
-Versão local 1.10.1. Este relato reúne minhas orientações, decisões e a execução assistida por IA. Codex implementou código, conduziu análises e executou verificações; os resultados técnicos estão nas evidências. Os registros históricos completos permanecem preservados localmente. Esta versão pública resume o processo e omite referências privadas.
+Versão local 1.11.1. Este relato reúne minhas orientações, decisões e a execução assistida por IA. Codex implementou código, conduziu análises e executou verificações; os resultados técnicos estão nas evidências. Os registros históricos completos permanecem preservados localmente. Esta versão pública resume o processo e omite referências privadas.
 
 ## Problema e decomposição
 
@@ -98,7 +98,7 @@ Ronaldo autorizou avaliar, ajustar e executar localmente o plano de melhorias no
 
 A reconciliação corrigiu números pela base: saneamento 937 órfãs, qualificação 337, Central recente 774 = 466 Won + 308 Lost sob corte estrito. Implementou contexto cadastral de controladora sem consolidar receita, laboratório independente de contagens sobre a base original e três fixtures sintéticas JEV. O laboratório não aplica política ou modifica ranking; o mock não interpreta texto. Uma falha HTTP em porta de teste independente motivou validar origem local contra a porta real do servidor, com teste de recusas.
 
-[Plano reconciliado](../docs/implementation-plan-reconciled.md), [verificação final](../docs/verification-v1.10.1.md) e [evidências](../docs/validation-v1.10.1/browser-results.json). Testes técnicos e inspeção visual assistida não são teste independente de usuários nem prova de ganho comercial. Nenhuma publicação, push, deploy, configuração de credencial ou chamada paga foi feita. ZIP 1.8.1 foi preservado; esta rodada não gerou novo pacote.
+[Plano reconciliado](../docs/implementation-plan-reconciled.md), [verificação final](../docs/verification-v1.11.1.md) e [evidências](../docs/validation-v1.11.1/browser-results.json). Testes técnicos e inspeção visual assistida não são teste independente de usuários nem prova de ganho comercial. Nenhuma publicação, push, deploy, configuração de credencial ou chamada paga foi feita. ZIP 1.8.1 foi preservado; esta rodada não gerou novo pacote.
 
 
 ## Empacotamento 1.9
@@ -116,3 +116,23 @@ Na conferência final, ajustei o retorno de foco quando uma revisão faz a oport
 ## Acabamento do painel do gestor 1.10.1
 
 Registro: 2026-10-14T12:52:46.482997+00:00. Pedi corrigir a quebra da palavra “conversão” nos botões do painel do gestor e gerar um novo pacote. Codex reservou espaço para os comandos e manteve a quebra somente entre palavras. A verificação compara cada palavra em cinco larguras de tela e mantém os cenários das funcionalidades anteriores. O ZIP 1.10, sidecar e recibo foram preservados. Regras, dados, índices, filas e filtros permanecem iguais. Não houve publicação, envio, commit, push, PR, inferência real ou gasto.
+
+
+## Próximo passo, roteiro e coordenação 1.11
+
+Registro local: 2026-10-14T14:25:50.673837-03:00. Autorizei três melhorias após os pareceres comparativos: guardar próximo passo, oferecer roteiro por fila e indicar coordenação por conta/produto. Escolhi continuidade da revisão sem substituir o motor ou adicionar uma promessa de previsão. Codex implementou um módulo próprio de registro local e o integrou aos detalhes; não copiou regras de outros candidatos.
+
+Usei como ponto de partida o código mais recente do PR #188, incluindo as proteções JEV posteriores ao ZIP 1.10.1, em uma cópia isolada. O checkout do PR foi preservado. Campos declarados, prazo atual e estado local ficam separados da fotografia de 2017; o seletor de vendedor não autentica o autor. A marcação de revisão da sessão continua temporária. Acrescentei exportação, desfazer, confirmação de exclusão e avisos de quota, dados ilegíveis e outra aba para não prometer persistência quando ela falha.
+
+A integração inicial de exportação usava um nome de função inexistente; a inspeção de chamadas corrigiu para o mecanismo de download existente antes da verificação final. A primeira ampliação do teste Chrome reutilizou uma variável e presumiu um ID incorreto para a fila de qualificação; os erros de sintaxe/seleção foram corrigidos e a suíte completa passou. Ajustei também o enquadramento das capturas para mostrar o início do roteiro e suas ações em imagens separadas.
+
+Resultado: 50 testes Python, 65 Node e 67 cenários Chrome, incluindo recarga, desfazer, cópia/exportação, falhas e coordenação. Projeção das 2.089 decisões, filas 212/1.377/500, CSVs e análise preservados. [Evidências atuais](../docs/revops-verification.md). As capturas usam anotações sintéticas; não houve avaliação de ganho comercial. ZIP 1.11 e hashes gerados localmente, sem commit, push, atualização do PR, publicação, envio, deploy ou chamada real/paga ao JEV.
+
+
+## Correção do servidor e referências 1.11.1
+
+Registro local: 2026-10-14T15:34:10.300544-03:00. Autorizei a correção dos três achados da revisão final, mantendo regras e sem atualizar o PR. Codex partiu do ZIP 1.11 congelado, preservou os pacotes anteriores e separou as alterações paralelas do JEV da cópia de trabalho.
+
+A nova regressão abriu uma conexão aceita sem enviar requisição: o servidor antigo apresentou TimeoutError e o corrigido atendeu HTML, script, fonte e API com a conexão ainda aberta. A execução passou a usar uma fábrica de servidor por conexão, também utilizada pelos testes. O Chrome acrescentou abertura real do HTML e recuperação pelo link, além de reinício completo do navegador com próximo passo salvo; a porta isolada é explicitada no recibo.
+
+Corrigi a indicação da pasta de capturas no plano e a referência de seção/rótulo no README. A verificação final registra 51 testes Python, 65 Node e 69 cenários Chrome, com regras, política, dados e projeção das 2.089 oportunidades preservados. Não houve publicação, atualização de PR, commit, push, inferência real ou gasto JEV. [Evidências 1.11.1](../docs/revops-verification.md).

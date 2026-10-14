@@ -30,8 +30,8 @@ A validação em porta independente 8766 reproduziu HTTP 403 no JEV por whitelis
 
 ## Estado final
 
-Execução local concluída: 48 Python, 32 Node e 26 cenários Chrome passaram, além de sintaxe, análise reproduzida, hashes do manifesto, projeção-base e CSVs preservados. [Relatório e evidências](verification-v1.10.1.md). Inspeção nativa no Chrome confirmou cenário 144/2,5 e restauração. Na etapa de implementação não foi criado novo ZIP, publicado conteúdo, configurada credencial ou gerado custo. O empacotamento posterior 1.9 está documentado em revops-verification.md; teste com usuários permanece pendente.
+Execução local concluída: 48 Python, 32 Node e 26 cenários Chrome passaram, além de sintaxe, análise reproduzida, hashes do manifesto, projeção-base e CSVs preservados. [Relatório e evidências](verification-v1.11.1.md). Inspeção nativa no Chrome confirmou cenário 144/2,5 e restauração. Na etapa de implementação não foi criado novo ZIP, publicado conteúdo, configurada credencial ou gerado custo. O empacotamento posterior 1.9 está documentado em revops-verification.md; teste com usuários permanece pendente.
 
 ## Continuidade 1.10
 
-Este plano registra a etapa anterior. As três melhorias autorizadas posteriormente, seus critérios de aceitação e evidências atuais estão em [verification-v1.10.1.md](verification-v1.10.1.md), com capturas em validation-v1.10. Os arquivos da versão 1.9 permanecem nos pacotes históricos preservados.
+Este plano registra a etapa anterior. As três melhorias autorizadas posteriormente, seus critérios de aceitação e evidências atuais estão em [verification-v1.11.1.md](verification-v1.11.1.md), com capturas em validation-v1.11.1. Os arquivos da versão 1.9 permanecem nos pacotes históricos preservados.

@@ -1,6 +1,7 @@
 """Exercise the real HTTP path used by the UI, including bad rules."""
 import json
 import os
+import socket
 import urllib.request
 import threading
 import unittest
@@ -8,12 +9,12 @@ from unittest.mock import patch
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError
-from app import Handler
+from app import Handler, create_server
 
 class HTTPContracts(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.server = HTTPServer(("127.0.0.1", 0), Handler)
+        cls.server = create_server(0)
         cls.thread = threading.Thread(target=cls.server.serve_forever, daemon=True)
         cls.thread.start()
         cls.url = "http://127.0.0.1:" + str(cls.server.server_port)
@@ -39,6 +40,49 @@ class HTTPContracts(unittest.TestCase):
         with urlopen(self.url + "/assets/manrope.woff2") as response:
             self.assertEqual(response.headers["Content-Type"], "font/woff2")
             self.assertTrue(response.read().startswith(b"wOF2"))
+
+    def test_local_review_script_route_is_explicit(self):
+        with urlopen(self.url + "/workflow.js") as response:
+            self.assertEqual(response.headers["Content-Type"], "text/javascript; charset=utf-8")
+            self.assertIn(b"ReviewWorkflow", response.read())
+        with self.assertRaises(HTTPError) as error:
+            urlopen(self.url + "/other.js")
+        self.assertEqual(error.exception.code, 404)
+        error.exception.close()
+
+    def test_idle_connection_does_not_block_resources_or_pipeline(self):
+        accepted = threading.Event()
+        idle = socket.socket()
+        idle.bind(("127.0.0.1", 0))
+        idle_port = idle.getsockname()[1]
+        handler = self.server.RequestHandlerClass
+
+        class ObservedHandler(handler):
+            def handle_one_request(self):
+                if self.client_address[1] == idle_port:
+                    accepted.set()
+                return super().handle_one_request()
+
+        try:
+            with patch.object(self.server, "RequestHandlerClass", ObservedHandler):
+                idle.connect(("127.0.0.1", self.server.server_port))
+                self.assertTrue(accepted.wait(2), "Idle connection was not accepted")
+                # Keep it open without sending a request, like browser preconnections.
+                for path, mime in [("/", "text/html"), ("/workflow.js", "text/javascript"),
+                                   ("/assets/manrope.woff2", "font/woff2"),
+                                   ("/api/pipeline", "application/json")]:
+                    with self.subTest(path=path), urlopen(self.url + path, timeout=3) as response:
+                        self.assertEqual(response.status, 200)
+                        self.assertIn(mime, response.headers["Content-Type"])
+                        content = response.read()
+                        self.assertTrue(content)
+                        if path == "/api/pipeline":
+                            data = json.loads(content)
+                            self.assertEqual(len(data["rows"]), 2089)
+                            self.assertEqual(data["queue_counts"], {
+                                "conversion": 212, "cleanup": 1377, "qualify": 500})
+        finally:
+            idle.close()
 
     def post(self, body, origin=None):
         headers={"Content-Type":"application/json"}
