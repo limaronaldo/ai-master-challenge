@@ -1,6 +1,8 @@
 # Submissão — Ronaldo Lima Filho — Challenge 003
 
-**Lead Scorer — seu plano de ação comercial · versão local 1.11.1**
+**Lead Scorer — seu plano de ação comercial · versão 1.11.1**
+
+**Demo hospedada:** [https://leadscorer.fly.dev/](https://leadscorer.fly.dev/) — Fly.io, GRU, JEV desligado.
 
 ## Sobre mim
 
@@ -10,7 +12,7 @@
 
 ## Executive Summary
 
-Construí uma aplicação local que transforma 2.089 oportunidades abertas em três filas explicáveis: avançar conversões, confirmar continuidade de negócios antigos e qualificar novas contas. A descoberta central foi que 96,5% das oportunidades em Engaging tinham pelo menos 60 dias; priorizar idade indiscriminadamente colocava um negócio de 423 dias na frente. Separei atenção comercial de revisão do pipeline, acrescentei contexto por conta, filtros e exportações. A revisão agora permite salvar o próximo passo no navegador, responder um roteiro por fila e conferir outros vendedores com o mesmo produto na conta. Minha recomendação é validar as ações em um piloto pequeno antes de usar os limites como política comercial: a solução tem verificações técnicas, mas ainda não demonstra ganho de conversão ou economia de tempo.
+Construí uma aplicação que transforma 2.089 oportunidades abertas em três filas explicáveis: avançar conversões, confirmar continuidade de negócios antigos e qualificar novas contas. A descoberta central foi que 96,5% das oportunidades em Engaging tinham pelo menos 60 dias; priorizar idade indiscriminadamente colocava um negócio de 423 dias na frente. Separei atenção comercial de revisão do pipeline, acrescentei contexto por conta, filtros e exportações. A revisão agora permite salvar o próximo passo no navegador, responder um roteiro por fila e conferir outros vendedores com o mesmo produto na conta. Minha recomendação é validar as ações em um piloto pequeno antes de usar os limites como política comercial: a solução tem verificações técnicas, mas ainda não demonstra ganho de conversão ou economia de tempo.
 
 ![Aplicação — fila de conversão](docs/validation-v1.11.1/desktop-conversion.png)
 
@@ -25,7 +27,7 @@ cd solution
 python3 -B app.py
 ```
 
-**Mantenha o terminal aberto e acesse [http://127.0.0.1:8765/](http://127.0.0.1:8765/).** O aplicativo deve ser acessado por esse endereço depois de iniciar o comando acima. Abrir `index.html` diretamente não inicia o servidor: a aplicação detecta essa situação e mostra o passo a passo, o comando e o link correto. Use uma instância nessa porta; Ctrl+C encerra. O aplicativo funciona sem dependências instaladas, credenciais ou serviços externos. O ZIP 1.11.1 contém os CSVs, código, fonte local e evidências desta versão. Os pacotes anteriores permanecem preservados separadamente. O PR existente não foi atualizado por esta entrega local.
+**Mantenha o terminal aberto e acesse [http://127.0.0.1:8765/](http://127.0.0.1:8765/).** O aplicativo deve ser acessado por esse endereço depois de iniciar o comando acima. Abrir `index.html` diretamente não inicia o servidor: a aplicação detecta essa situação e mostra o passo a passo, o comando e o link correto. Use uma instância nessa porta; Ctrl+C encerra. O aplicativo funciona sem dependências instaladas, credenciais ou serviços externos. O ZIP 1.11.1 contém os CSVs, código, fonte local e evidências desta versão. Os pacotes anteriores permanecem preservados separadamente. A versão hospedada está disponível no link no início deste README.
 
 ### Abordagem
 
@@ -183,7 +185,7 @@ Há **13 registros históricos com horário**, organizados por rodadas no relato
 - [x] [Tratamento das revisões](docs/treatment-matrix.md).
 - [ ] [Teste independente com participantes — pendente](docs/user-test-protocol.md).
 
-**Estado da versão 1.11.1:** pacote local; não publicado nem enviado ao PR existente. O [PR #188](https://github.com/Gestao-Quatro-Ponto-Zero/ai-master-challenge/pull/188) contém a versão anterior com os ajustes posteriores do JEV, usados como ponto de partida. [Procedimento para uma futura atualização autorizada](docs/submission-preparation.md).
+**Estado da versão 1.11.1:** esta submissão e sua demonstração hospedada estão disponíveis em [https://leadscorer.fly.dev/](https://leadscorer.fly.dev/) (Fly.io, região GRU; JEV desativado). O PR #188 contém esta atualização de documentação. [Procedimento de preparação da submissão](docs/submission-preparation.md).
 
 ## Complementos locais 1.9 — plano reconciliado
 
