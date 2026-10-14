@@ -800,3 +800,150 @@ test("group ordering is reproducible by count, catalog and name, preserving orph
   assert.match(context.contextFacts(parent), /Controladora declarada/);
   assert.match(context.contextFacts(parent), /sem informação sobre consolidação/);
 });
+
+async function serviceUi(classify) {
+  const calls = [];
+  const ui = fullUi((url, options) => {
+    if (url === '/api/jev/classify') {
+      calls.push(JSON.parse(options.body));
+      return classify(calls.length);
+    }
+    if (url === '/api/jev/status') return Promise.resolve({ ok: true, json: async () => ({ service_ready: true }) });
+    return Promise.resolve({ ok: true, json: async () => snapshot });
+  });
+  await settle();
+  vm.runInContext('jevDealId = rows[0].id', ui.context);
+  ui.field('jevmode').value = 'service';
+  await ui.field('jevmode').onchange();
+  ui.field('jevtext').value = 'Synthetic test note.';
+  ui.field('jevdata').value = 'synthetic';
+  const consent = () => {
+    ui.field('jevconsent').checked = true;
+    ui.field('jevcost').checked = true;
+  };
+  const submit = () => ui.field('jevform').onsubmit({ preventDefault() {} });
+  return { ...ui, calls, consent, submit };
+}
+const serviceSuccess = () => ({ ok: true, json: async () => ({ status: 'ok', message: 'Synthetic result', source: 'test_stub', model: 'test', classification: { label: 'Next step', category: 'explicit_next_step', confidence: 0.5 } }) });
+for (const [outcome, response] of [
+  ['success', async () => serviceSuccess()],
+  ['network/timeout', async () => { throw Error('Synthetic timeout'); }],
+  ['HTTP error', async () => ({ ok: false })],
+  ['unavailable', async () => ({ ok: true, json: async () => ({ status: 'unavailable', message: 'Synthetic unavailable', classification: null }) })],
+  ['invalid JSON', async () => ({ ok: true, json: async () => { throw SyntaxError('Synthetic invalid JSON'); } })],
+  ['invalid response', async () => ({ ok: true, json: async () => null })],
+]) {
+  test(`JEV service consumes both confirmations after ${outcome}; each repeat requires both again`, async () => {
+    const { field, calls, consent, submit } = await serviceUi(response);
+    const before = field('list').innerHTML;
+    consent();
+    await submit();
+    assert.equal(calls.length, 1);
+    assert.equal(calls[0].allow_transmission, true);
+    assert.equal(calls[0].confirm_cost, true);
+    assert.equal(field('jevconsent').checked, false);
+    assert.equal(field('jevcost').checked, false);
+    assert.equal(field('jevsubmit').disabled, false);
+    if (outcome === 'success') assert.match(field('jevresult').innerHTML, /Next step/);
+    await submit();
+    field('jevconsent').checked = true;
+    await submit();
+    field('jevconsent').checked = false;
+    field('jevcost').checked = true;
+    await submit();
+    assert.equal(calls.length, 1);
+    consent();
+    await submit();
+    assert.equal(calls.length, 2);
+    assert.equal(field('list').innerHTML, before);
+  });
+}
+
+test('JEV service rejects concurrent submit while preserving the current attempt and base list', async () => {
+  let finish;
+  const { field, context, calls, consent, submit } = await serviceUi(() => new Promise(resolve => finish = resolve));
+  const before = field('list').innerHTML;
+  consent();
+  const pending = submit();
+  const token = vm.runInContext('jevRequest', context);
+  assert.equal(field('jevsubmit').disabled, true);
+  await submit();
+  assert.equal(calls.length, 1);
+  assert.equal(vm.runInContext('jevRequest', context), token);
+  finish(serviceSuccess());
+  await pending;
+  assert.equal(field('jevsubmit').disabled, false);
+  assert.equal(field('jevconsent').checked, false);
+  assert.equal(field('jevcost').checked, false);
+  assert.equal(field('list').innerHTML, before);
+});
+
+for (const interaction of ['text', 'mode', 'deal']) {
+  for (const outcome of ['success', 'error']) {
+    test(`late JEV ${outcome} after new ${interaction} preserves new confirmations and in-flight lock`, async () => {
+      const pending = [];
+      const { field, context, calls, consent, submit } = await serviceUi(() => new Promise((resolve, reject) => pending.push({ resolve, reject })));
+      const before = field('list').innerHTML;
+      consent();
+      const old = submit();
+      if (interaction === 'text') {
+        field('jevtext').value = 'New synthetic note.';
+        await field('jevtext').oninput();
+      } else if (interaction === 'mode') {
+        field('jevmode').value = 'mock'; await field('jevmode').onchange();
+        field('jevmode').value = 'service'; await field('jevmode').onchange();
+      } else {
+        context.clearDealJev();
+        vm.runInContext('jevDealId = rows[1].id', context);
+        field('jevmode').value = 'service'; await field('jevmode').onchange();
+      }
+      field('jevtext').value = 'New synthetic note.';
+      consent();
+      if (outcome === 'error') pending[0].reject(Error('Synthetic stale timeout'));
+      else pending[0].resolve(serviceSuccess());
+      await old;
+      assert.equal(field('jevconsent').checked, true);
+      assert.equal(field('jevcost').checked, true);
+      assert.equal(field('jevsubmit').disabled, false);
+      const current = submit();
+      assert.equal(calls.length, 2);
+      assert.equal(field('jevsubmit').disabled, true);
+      pending[1].resolve(serviceSuccess());
+      await current;
+      assert.equal(field('jevconsent').checked, false);
+      assert.equal(field('jevcost').checked, false);
+      assert.equal(field('list').innerHTML, before);
+    });
+  }
+}
+
+test('late service finally cannot unlock a new request or consume its confirmations', async () => {
+  const pending = [];
+  const { field, calls, consent, submit } = await serviceUi(() => new Promise(resolve => pending.push(resolve)));
+  consent(); const old = submit();
+  field('jevtext').value = 'New synthetic note.';
+  await field('jevtext').oninput();
+  consent(); const current = submit();
+  pending[0](serviceSuccess()); await old;
+  assert.equal(field('jevconsent').checked, true);
+  assert.equal(field('jevcost').checked, true);
+  assert.equal(field('jevsubmit').disabled, true);
+  await submit(); assert.equal(calls.length, 2);
+  pending[1](serviceSuccess()); await current;
+  assert.equal(field('jevconsent').checked, false);
+  assert.equal(field('jevcost').checked, false);
+  assert.equal(field('jevsubmit').disabled, false);
+});
+
+test('JEV disabled makes no request and mock repeats remain local without confirmations', async () => {
+  const { field, calls, submit } = await serviceUi(async () => ({ ok: true, json: async () => ({ status: 'mock', message: 'Local fixture', classification: null }) }));
+  const before = field('list').innerHTML;
+  field('jevmode').value = 'disabled'; await field('jevmode').onchange();
+  await submit(); assert.equal(calls.length, 0);
+  field('jevfixture').value = 'explicit_next_step';
+  field('jevmode').value = 'mock'; await field('jevmode').onchange();
+  await submit(); await submit();
+  assert.equal(calls.length, 2);
+  assert.ok(calls.every(body => body.mode === 'mock' && body.allow_transmission === false && body.confirm_cost === false));
+  assert.equal(field('list').innerHTML, before);
+});

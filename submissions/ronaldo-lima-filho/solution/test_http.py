@@ -1,9 +1,11 @@
 """Exercise the real HTTP path used by the UI, including bad rules."""
 import json
+import os
+import urllib.request
 import threading
 import unittest
 from unittest.mock import patch
-from http.server import HTTPServer
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError
 from app import Handler
@@ -46,7 +48,11 @@ class HTTPContracts(unittest.TestCase):
     def test_jev_modes_preserve_live_pipeline(self):
         with urlopen(self.url+"/api/pipeline") as response: before=json.load(response)
         for mode,expected in [("disabled","disabled"),("mock","mock"),("service","unavailable")]:
-            with patch.dict("os.environ",{},clear=True), self.post({"mode":mode,"text":"Synthetic: agreed a next meeting."}) as response:
+            with patch.dict("os.environ", {
+                "LEADSCORER_JEV_ENABLED": "0",
+                "LEADSCORER_JEV_ALLOW_NETWORK": "0",
+                "LEADSCORER_JEV_ALLOW_SPENDING": "0",
+            }, clear=False), self.post({"mode":mode,"text":"Synthetic: agreed a next meeting."}) as response:
                 result=json.load(response);self.assertEqual(result["status"],expected)
         with urlopen(self.url+"/api/pipeline") as response:self.assertEqual(json.load(response),before)
 
@@ -66,3 +72,42 @@ class HTTPContracts(unittest.TestCase):
                 self.post(body, origin)
             self.assertEqual(error.exception.code, 403)
             error.exception.close()
+
+    def test_jev_modes_preserve_cached_proxy_bypass_and_environment(self):
+        hits = []
+        class RejectingProxy(BaseHTTPRequestHandler):
+            def do_GET(self):
+                hits.append(self.command)
+                self.send_error(403, "Synthetic loopback proxy")
+            do_POST = do_GET
+            def log_message(self, *args):
+                pass
+        proxy = HTTPServer(("127.0.0.1", 0), RejectingProxy)
+        thread = threading.Thread(target=proxy.serve_forever, daemon=True)
+        thread.start()
+        cached = urllib.request._opener
+        before = dict(os.environ)
+        proxy_url = "http://127.0.0.1:" + str(proxy.server_port)
+        try:
+            with patch.dict(os.environ, {
+                "HTTP_PROXY": proxy_url, "http_proxy": proxy_url,
+                "NO_PROXY": "127.0.0.1,localhost", "no_proxy": "127.0.0.1,localhost",
+                "LEADSCORER_JEV_ENABLED": "1",
+                "LEADSCORER_JEV_ALLOW_NETWORK": "1",
+                "LEADSCORER_JEV_ALLOW_SPENDING": "1",
+            }, clear=False), patch("jev.http_transport") as transport:
+                urllib.request.install_opener(urllib.request.build_opener())
+                handlers = urllib.request._opener.handlers
+                self.assertTrue(any(isinstance(h, urllib.request.ProxyHandler)
+                                    and h.proxies.get("http") == proxy_url for h in handlers))
+                configured = dict(os.environ)
+                self.test_jev_modes_preserve_live_pipeline()
+                self.assertEqual(dict(os.environ), configured)
+                self.assertEqual(hits, [])
+                transport.assert_not_called()
+        finally:
+            urllib.request._opener = cached
+            proxy.shutdown()
+            proxy.server_close()
+            thread.join()
+        self.assertEqual(dict(os.environ), before)

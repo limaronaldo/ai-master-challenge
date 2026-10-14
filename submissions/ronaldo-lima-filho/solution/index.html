@@ -2582,6 +2582,7 @@ $("jevfixture").onchange = () => {
 $("jevtext").oninput = changeJevMode;
 $("jevform").onsubmit = async (event) => {
   event.preventDefault();
+  if ($("jevsubmit").disabled) return;
   if (!jevDealId) {
     $("jevstatus").textContent = "Selecione uma oportunidade nos detalhes.";
     return;
@@ -2628,7 +2629,13 @@ $("jevform").onsubmit = async (event) => {
       $("jevstatus").textContent =
         "Módulo indisponível. Continue pelas regras locais; fila e índice preservados.";
   } finally {
-    if (token === jevRequest) $("jevsubmit").disabled = false;
+    if (token === jevRequest) {
+      if (mode === "service") {
+        $("jevconsent").checked = false;
+        $("jevcost").checked = false;
+      }
+      $("jevsubmit").disabled = false;
+    }
   }
 };
 </script>

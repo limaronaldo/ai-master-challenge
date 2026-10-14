@@ -1,0 +1,79 @@
+test_age_boundaries (test_app.PriorityTests.test_age_boundaries) ... ok
+test_audit_keys_dates (test_app.PriorityTests.test_audit_keys_dates) ... ok
+test_deterministic (test_app.PriorityTests.test_deterministic) ... ok
+test_evidence_counts_exclude_self_and_explain_fallback (test_app.PriorityTests.test_evidence_counts_exclude_self_and_explain_fallback) ... ok
+test_factor_sum_and_bounds (test_app.PriorityTests.test_factor_sum_and_bounds) ... ok
+test_history_is_prior_valid_won_context_only (test_app.PriorityTests.test_history_is_prior_valid_won_context_only) ... ok
+test_invalid_rules_and_unknown_age (test_app.PriorityTests.test_invalid_rules_and_unknown_age) ... ok
+test_missing_account_and_owner_do_not_lower_priority (test_app.PriorityTests.test_missing_account_and_owner_do_not_lower_priority) ... ok
+test_missing_and_future_dates (test_app.PriorityTests.test_missing_and_future_dates) ... ok
+test_outcomes_cannot_change_score (test_app.PriorityTests.test_outcomes_cannot_change_score) ... ok
+test_product_alias (test_app.PriorityTests.test_product_alias) ... ok
+test_real_snapshot (test_app.PriorityTests.test_real_snapshot) ... ok
+test_rules_and_explanations_change_together (test_app.PriorityTests.test_rules_and_explanations_change_together) ... ok
+test_simulation_preserves_base_and_reset (test_app.PriorityTests.test_simulation_preserves_base_and_reset) ... ok
+test_baseline_projection_matches_prechange_2089_rows (test_data_contracts.DataContracts.test_baseline_projection_matches_prechange_2089_rows) ... ok
+test_catalog_boundaries_and_80_point_ceiling (test_data_contracts.DataContracts.test_catalog_boundaries_and_80_point_ceiling) ... ok
+test_dataset_passes_only_allowlisted_fields_to_score (test_data_contracts.DataContracts.test_dataset_passes_only_allowlisted_fields_to_score) ... ok
+test_hash_identifies_parsed_bytes_if_file_replaced_during_parsing (test_data_contracts.DataContracts.test_hash_identifies_parsed_bytes_if_file_replaced_during_parsing) ... ok
+test_invalid_prices_refs_and_stages_fail_before_ranking (test_data_contracts.DataContracts.test_invalid_prices_refs_and_stages_fail_before_ranking) ... ok
+test_missing_duplicate_headers_blank_and_duplicate_keys (test_data_contracts.DataContracts.test_missing_duplicate_headers_blank_and_duplicate_keys) ... ok
+test_monotone_rule_changes_do_not_claim_new_ranking (test_data_contracts.DataContracts.test_monotone_rule_changes_do_not_claim_new_ranking) ... ok
+test_prospecting_expected_absence_keeps_signal_and_qualification_separate (test_data_contracts.DataContracts.test_prospecting_expected_absence_keeps_signal_and_qualification_separate) ... ok
+test_published_source_hashes_and_rules_are_current (test_data_contracts.DataContracts.test_published_source_hashes_and_rules_are_current) ... ok
+test_shuffle_and_closed_outcomes_preserve_open_decisions (test_data_contracts.DataContracts.test_shuffle_and_closed_outcomes_preserve_open_decisions) ... ok
+test_invalid_rules_return_400 (test_http.HTTPContracts.test_invalid_rules_return_400) ... 127.0.0.1 - - [14/Oct/2026 12:32:03] code 400, message Regras devem ser objeto
+127.0.0.1 - - [14/Oct/2026 12:32:03] "GET /api/pipeline?rules=%5B%5D HTTP/1.1" 400 -
+127.0.0.1 - - [14/Oct/2026 12:32:03] code 400, message Regras devem usar chaves conhecidas e inteiros
+127.0.0.1 - - [14/Oct/2026 12:32:03] "GET /api/pipeline?rules=%7B%22unknown%22%3A1%7D HTTP/1.1" 400 -
+127.0.0.1 - - [14/Oct/2026 12:32:03] code 400, message Limiares devem ser positivos e estritamente crescentes
+127.0.0.1 - - [14/Oct/2026 12:32:03] "GET /api/pipeline?rules=%7B%22days_60%22%3A1%7D HTTP/1.1" 400 -
+ok
+test_jev_modes_preserve_cached_proxy_bypass_and_environment (test_http.HTTPContracts.test_jev_modes_preserve_cached_proxy_bypass_and_environment) ... 127.0.0.1 - - [14/Oct/2026 12:32:03] "GET /api/pipeline HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 12:32:03] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 12:32:03] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 12:32:03] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 12:32:03] "GET /api/pipeline HTTP/1.1" 200 -
+ok
+test_jev_modes_preserve_live_pipeline (test_http.HTTPContracts.test_jev_modes_preserve_live_pipeline) ... 127.0.0.1 - - [14/Oct/2026 12:32:04] "GET /api/pipeline HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 12:32:04] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 12:32:04] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 12:32:04] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 12:32:04] "GET /api/pipeline HTTP/1.1" 200 -
+ok
+test_jev_rejects_cross_origin_and_bad_inputs (test_http.HTTPContracts.test_jev_rejects_cross_origin_and_bad_inputs) ... 127.0.0.1 - - [14/Oct/2026 12:32:04] "POST /api/jev/classify HTTP/1.1" 403 -
+127.0.0.1 - - [14/Oct/2026 12:32:04] "POST /api/jev/classify HTTP/1.1" 400 -
+127.0.0.1 - - [14/Oct/2026 12:32:04] "POST /api/jev/classify HTTP/1.1" 400 -
+ok
+test_live_pipeline_and_explanation (test_http.HTTPContracts.test_live_pipeline_and_explanation) ... 127.0.0.1 - - [14/Oct/2026 12:32:05] "GET /api/pipeline HTTP/1.1" 200 -
+ok
+test_local_font_route (test_http.HTTPContracts.test_local_font_route) ... 127.0.0.1 - - [14/Oct/2026 12:32:05] "GET /assets/manrope.woff2 HTTP/1.1" 200 -
+ok
+test_mock_accepts_actual_loopback_origin_and_rejects_other_ports (test_http.HTTPContracts.test_mock_accepts_actual_loopback_origin_and_rejects_other_ports) ... 127.0.0.1 - - [14/Oct/2026 12:32:05] "POST /api/jev/classify HTTP/1.1" 200 -
+127.0.0.1 - - [14/Oct/2026 12:32:05] "POST /api/jev/classify HTTP/1.1" 403 -
+127.0.0.1 - - [14/Oct/2026 12:32:05] "POST /api/jev/classify HTTP/1.1" 403 -
+127.0.0.1 - - [14/Oct/2026 12:32:05] "POST /api/jev/classify HTTP/1.1" 403 -
+ok
+test_disabled_and_mock_never_call_transport (test_jev.JevContracts.test_disabled_and_mock_never_call_transport) ... ok
+test_disabled_default_without_credentials_or_network (test_jev.JevContracts.test_disabled_default_without_credentials_or_network) ... ok
+test_empty_oversize_wrong_types_and_unknown_fields (test_jev.JevContracts.test_empty_oversize_wrong_types_and_unknown_fields) ... ok
+test_every_gate_required_even_with_credentials (test_jev.JevContracts.test_every_gate_required_even_with_credentials) ... ok
+test_failures_are_explicit_without_leaking_raw_error (test_jev.JevContracts.test_failures_are_explicit_without_leaking_raw_error) ... ok
+test_malformed_model_category_confidence_and_probabilities (test_jev.JevContracts.test_malformed_model_category_confidence_and_probabilities) ... ok
+test_mock_selection_rejected_in_other_modes_and_for_invalid_categories (test_jev.JevContracts.test_mock_selection_rejected_in_other_modes_and_for_invalid_categories) ... ok
+test_official_payload_and_separate_result (test_jev.JevContracts.test_official_payload_and_separate_result) ... ok
+test_three_selected_fixtures_ignore_text_and_preserve_contract (test_jev.JevContracts.test_three_selected_fixtures_ignore_text_and_preserve_contract) ... ok
+test_declared_parent_and_subsidiaries_are_literal_without_revenue_consolidation (test_revops.OperationalTests.test_declared_parent_and_subsidiaries_are_literal_without_revenue_consolidation) ... ok
+test_descriptive_analysis_reproduces_corrected_plan_numbers (test_revops.OperationalTests.test_descriptive_analysis_reproduces_corrected_plan_numbers) ... ok
+test_enrichment_uses_own_account_and_never_changes_baseline (test_revops.OperationalTests.test_enrichment_uses_own_account_and_never_changes_baseline) ... ok
+test_exclusive_cleanup_boundaries_and_or_condition (test_revops.OperationalTests.test_exclusive_cleanup_boundaries_and_or_condition) ... ok
+test_history_requires_identified_account_and_prior_closed_outcome (test_revops.OperationalTests.test_history_requires_identified_account_and_prior_closed_outcome) ... ok
+test_missing_nonfinite_account_size_is_unavailable (test_revops.OperationalTests.test_missing_nonfinite_account_size_is_unavailable) ... ok
+test_missing_zero_cycle_and_unknown_age_do_not_invent_ratio (test_revops.OperationalTests.test_missing_zero_cycle_and_unknown_age_do_not_invent_ratio) ... ok
+test_open_close_fields_and_close_values_never_enter_context (test_revops.OperationalTests.test_open_close_fields_and_close_values_never_enter_context) ... ok
+test_snapshot_is_a_disjoint_exhaustive_partition (test_revops.OperationalTests.test_snapshot_is_a_disjoint_exhaustive_partition) ... ok
+
+----------------------------------------------------------------------
+Ran 49 tests in 12.108s
+
+OK

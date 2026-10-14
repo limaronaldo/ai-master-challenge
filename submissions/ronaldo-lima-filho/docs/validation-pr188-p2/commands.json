@@ -1,0 +1,71 @@
+[
+  {
+    "name": "python",
+    "exit_code": 0,
+    "seconds": 12.208,
+    "argv": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-v"
+    ],
+    "working_directory": "solution/"
+  },
+  {
+    "name": "aggregate",
+    "exit_code": 0,
+    "seconds": 0.802,
+    "argv": [
+      "python3",
+      "-B",
+      "-c",
+      "import ast,json,hashlib,sys,subprocess; from pathlib import Path; from collections import Counter; from app import dataset; [ast.parse(p.read_text()) for p in Path(\".\").glob(\"*.py\")]; actual=subprocess.check_output([sys.executable,\"-B\",\"analyze_policy.py\"]); assert actual==Path(\"../docs/policy-analysis.json\").read_bytes(); d=dataset(); print(json.dumps({\"python\":sys.version,\"total\":d[\"total\"],\"open\":len(d[\"rows\"]),\"dataset_hash\":d[\"dataset_hash\"],\"queues\":dict(Counter(r[\"operations\"][\"queue\"] for r in d[\"rows\"])),\"analysis_byte_identical\":True}))"
+    ],
+    "working_directory": "solution/"
+  },
+  {
+    "name": "inline-syntax",
+    "exit_code": 0,
+    "seconds": 0.048,
+    "argv": [
+      "node",
+      "-e",
+      "const fs=require(\"node:fs\"),vm=require(\"node:vm\");new vm.Script(fs.readFileSync(\"index.html\",\"utf8\").split(\"<script>\")[1].split(\"</script>\")[0]);console.log(process.version)"
+    ],
+    "working_directory": "solution/"
+  },
+  {
+    "name": "node",
+    "exit_code": 0,
+    "seconds": 1.584,
+    "argv": [
+      "node",
+      "--test",
+      "test_ui.cjs"
+    ],
+    "working_directory": "solution/"
+  },
+  {
+    "name": "syntax",
+    "exit_code": 0,
+    "seconds": 0.048,
+    "argv": [
+      "node",
+      "--check",
+      "test_browser.cjs"
+    ],
+    "working_directory": "solution/"
+  },
+  {
+    "name": "chrome",
+    "exit_code": 0,
+    "seconds": 18.026,
+    "argv": [
+      "node",
+      "test_browser.cjs"
+    ],
+    "working_directory": "solution/"
+  }
+]

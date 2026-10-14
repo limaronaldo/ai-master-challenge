@@ -1,0 +1,328 @@
+TAP version 13
+# Subtest: global investigation reaches all 500 unknown dates, independently of review ranking
+ok 1 - global investigation reaches all 500 unknown dates, independently of review ranking
+  ---
+  duration_ms: 5.700416
+  type: 'test'
+  ...
+# Subtest: investigation preserves salesperson/manager/region intersections
+ok 2 - investigation preserves salesperson/manager/region intersections
+  ---
+  duration_ms: 1.324667
+  type: 'test'
+  ...
+# Subtest: unidentified opportunity remains recoverable by its ID
+ok 3 - unidentified opportunity remains recoverable by its ID
+  ---
+  duration_ms: 1.924084
+  type: 'test'
+  ...
+# Subtest: typing during initial loading preserves search without rendering incomplete state
+ok 4 - typing during initial loading preserves search without rendering incomplete state
+  ---
+  duration_ms: 0.898625
+  type: 'test'
+  ...
+# Subtest: cards keep record-specific warnings and show readable timing while details retain the ratio
+ok 5 - cards keep record-specific warnings and show readable timing while details retain the ratio
+  ---
+  duration_ms: 19.859417
+  type: 'test'
+  ...
+# Subtest: timing summary distinguishes missing age from an unavailable product cycle
+ok 6 - timing summary distinguishes missing age from an unavailable product cycle
+  ---
+  duration_ms: 9.572792
+  type: 'test'
+  ...
+# Subtest: load failure disables actions and retry preserves pre-load search through successful rendering
+ok 7 - load failure disables actions and retry preserves pre-load search through successful rendering
+  ---
+  duration_ms: 3.941
+  type: 'test'
+  ...
+# Subtest: opening the HTML as a file shows server instructions without requesting pipeline data
+ok 8 - opening the HTML as a file shows server instructions without requesting pipeline data
+  ---
+  duration_ms: 0.262625
+  type: 'test'
+  ...
+# Subtest: changing JEV mode invalidates delayed result without changing baseline list
+ok 9 - changing JEV mode invalidates delayed result without changing baseline list
+  ---
+  duration_ms: 10.320292
+  type: 'test'
+  ...
+# Subtest: operational queues isolate the oldest deal and favor the cycle window
+ok 10 - operational queues isolate the oldest deal and favor the cycle window
+  ---
+  duration_ms: 7.501667
+  type: 'test'
+  ...
+# Subtest: identified account breaks conversion timing ties without crossing windows or changing other queues
+ok 11 - identified account breaks conversion timing ties without crossing windows or changing other queues
+  ---
+  duration_ms: 0.309375
+  type: 'test'
+  ...
+# Subtest: all identified deals precede orphans within each conversion timing, with baseline order preserved
+ok 12 - all identified deals precede orphans within each conversion timing, with baseline order preserved
+  ---
+  duration_ms: 3.569292
+  type: 'test'
+  ...
+# Subtest: review filters intersect selection without changing ranking or opportunities
+ok 13 - review filters intersect selection without changing ranking or opportunities
+  ---
+  duration_ms: 4.846209
+  type: 'test'
+  ...
+# Subtest: account grouping never merges unrelated orphan deals
+ok 14 - account grouping never merges unrelated orphan deals
+  ---
+  duration_ms: 12.089792
+  type: 'test'
+  ...
+# Subtest: exports include all filtered rows, reviewed state and formula-safe CSV cells
+ok 15 - exports include all filtered rows, reviewed state and formula-safe CSV cells
+  ---
+  duration_ms: 11.017875
+  type: 'test'
+  ...
+# Subtest: tactical actions combine category with cleanup and qualification context
+ok 16 - tactical actions combine category with cleanup and qualification context
+  ---
+  duration_ms: 8.832417
+  type: 'test'
+  ...
+# Subtest: empty conversion offers other queues without clearing region or salesperson
+ok 17 - empty conversion offers other queues without clearing region or salesperson
+  ---
+  duration_ms: 15.040375
+  type: 'test'
+  ...
+# Subtest: central empty queue differs from filters with no matching opportunities
+ok 18 - central empty queue differs from filters with no matching opportunities
+  ---
+  duration_ms: 14.105917
+  type: 'test'
+  ...
+# Subtest: cards emphasize the next step and retain the original index only in details
+ok 19 - cards emphasize the next step and retain the original index only in details
+  ---
+  duration_ms: 9.918209
+  type: 'test'
+  ...
+# Subtest: comparison rows expose four aligned cells and keep history and review controls in details
+ok 20 - comparison rows expose four aligned cells and keep history and review controls in details
+  ---
+  duration_ms: 25.312292
+  type: 'test'
+  ...
+# Subtest: grouping offers separate exhaustive paths and exports only the chosen work
+ok 21 - grouping offers separate exhaustive paths and exports only the chosen work
+  ---
+  duration_ms: 50.310292
+  type: 'test'
+  ...
+# Subtest: group paths replace a conflicting account filter, retain other filters and explain empty paths
+ok 22 - group paths replace a conflicting account filter, retain other filters and explain empty paths
+  ---
+  duration_ms: 26.32925
+  type: 'test'
+  ...
+# Subtest: manager cards expose disjoint queue counts and window subset independently of filters
+ok 23 - manager cards expose disjoint queue counts and window subset independently of filters
+  ---
+  duration_ms: 13.567958
+  type: 'test'
+  ...
+# Subtest: index simulation explains unchanged operational order and offers explicit comparison
+ok 24 - index simulation explains unchanged operational order and offers explicit comparison
+  ---
+  duration_ms: 47.744334
+  type: 'test'
+  ...
+# Subtest: review marking and undo report their session-only effect and preserve the source
+ok 25 - review marking and undo report their session-only effect and preserve the source
+  ---
+  duration_ms: 35.027584
+  type: 'test'
+  ...
+# Subtest: review context labels Won as opportunities and keeps unavailable account values unknown
+ok 26 - review context labels Won as opportunities and keeps unavailable account values unknown
+  ---
+  duration_ms: 9.371916
+  type: 'test'
+  ...
+# Subtest: copy confirmation clears when filters change without clearing the selection
+ok 27 - copy confirmation clears when filters change without clearing the selection
+  ---
+  duration_ms: 12.117458
+  type: 'test'
+  ...
+# Subtest: late clipboard success or failure does not restore a message for an old selection
+ok 28 - late clipboard success or failure does not restore a message for an old selection
+  ---
+  duration_ms: 26.023
+  type: 'test'
+  ...
+# Subtest: policy laboratory reproduces all backend scenarios on original rows without changing workflow
+ok 29 - policy laboratory reproduces all backend scenarios on original rows without changing workflow
+  ---
+  duration_ms: 467.293542
+  type: 'test'
+  ...
+# Subtest: policy boundaries, missing dates and invalid inputs never silently replace results
+ok 30 - policy boundaries, missing dates and invalid inputs never silently replace results
+  ---
+  duration_ms: 9.485292
+  type: 'test'
+  ...
+# Subtest: policy case identities match the boundary cohort in both directions without mutating the snapshot
+ok 31 - policy case identities match the boundary cohort in both directions without mutating the snapshot
+  ---
+  duration_ms: 20.951875
+  type: 'test'
+  ...
+# Subtest: policy CSV exports the complete cohort with provenance while pagination and filters affect only the view
+ok 32 - policy CSV exports the complete cohort with provenance while pagination and filters affect only the view
+  ---
+  duration_ms: 27.300541
+  type: 'test'
+  ...
+# Subtest: editing policy inputs and restoring the base invalidate old case exports
+ok 33 - editing policy inputs and restoring the base invalidate old case exports
+  ---
+  duration_ms: 12.307959
+  type: 'test'
+  ...
+# Subtest: same-account context uses all original open rows, excludes self and never joins unidentified accounts
+ok 34 - same-account context uses all original open rows, excludes self and never joins unidentified accounts
+  ---
+  duration_ms: 10.173917
+  type: 'test'
+  ...
+# Subtest: account peer content is escaped and remains bound to the exact identified account
+ok 35 - account peer content is escaped and remains bound to the exact identified account
+  ---
+  duration_ms: 9.178708
+  type: 'test'
+  ...
+# Subtest: manager queue shortcuts select both dimensions and preserve the remaining filters and source
+ok 36 - manager queue shortcuts select both dimensions and preserve the remaining filters and source
+  ---
+  duration_ms: 36.224375
+  type: 'test'
+  ...
+# Subtest: JEV selected example sends only mock category, resets late results and stays separate
+ok 37 - JEV selected example sends only mock category, resets late results and stays separate
+  ---
+  duration_ms: 19.892166
+  type: 'test'
+  ...
+# Subtest: group ordering is reproducible by count, catalog and name, preserving orphan identities
+ok 38 - group ordering is reproducible by count, catalog and name, preserving orphan identities
+  ---
+  duration_ms: 12.641083
+  type: 'test'
+  ...
+# Subtest: JEV service consumes both confirmations after success; each repeat requires both again
+ok 39 - JEV service consumes both confirmations after success; each repeat requires both again
+  ---
+  duration_ms: 9.111416
+  type: 'test'
+  ...
+# Subtest: JEV service consumes both confirmations after network/timeout; each repeat requires both again
+ok 40 - JEV service consumes both confirmations after network/timeout; each repeat requires both again
+  ---
+  duration_ms: 8.999167
+  type: 'test'
+  ...
+# Subtest: JEV service consumes both confirmations after HTTP error; each repeat requires both again
+ok 41 - JEV service consumes both confirmations after HTTP error; each repeat requires both again
+  ---
+  duration_ms: 11.690875
+  type: 'test'
+  ...
+# Subtest: JEV service consumes both confirmations after unavailable; each repeat requires both again
+ok 42 - JEV service consumes both confirmations after unavailable; each repeat requires both again
+  ---
+  duration_ms: 8.427917
+  type: 'test'
+  ...
+# Subtest: JEV service consumes both confirmations after invalid JSON; each repeat requires both again
+ok 43 - JEV service consumes both confirmations after invalid JSON; each repeat requires both again
+  ---
+  duration_ms: 8.386833
+  type: 'test'
+  ...
+# Subtest: JEV service consumes both confirmations after invalid response; each repeat requires both again
+ok 44 - JEV service consumes both confirmations after invalid response; each repeat requires both again
+  ---
+  duration_ms: 8.516541
+  type: 'test'
+  ...
+# Subtest: JEV service rejects concurrent submit while preserving the current attempt and base list
+ok 45 - JEV service rejects concurrent submit while preserving the current attempt and base list
+  ---
+  duration_ms: 8.505208
+  type: 'test'
+  ...
+# Subtest: late JEV success after new text preserves new confirmations and in-flight lock
+ok 46 - late JEV success after new text preserves new confirmations and in-flight lock
+  ---
+  duration_ms: 8.707
+  type: 'test'
+  ...
+# Subtest: late JEV error after new text preserves new confirmations and in-flight lock
+ok 47 - late JEV error after new text preserves new confirmations and in-flight lock
+  ---
+  duration_ms: 8.521125
+  type: 'test'
+  ...
+# Subtest: late JEV success after new mode preserves new confirmations and in-flight lock
+ok 48 - late JEV success after new mode preserves new confirmations and in-flight lock
+  ---
+  duration_ms: 8.683875
+  type: 'test'
+  ...
+# Subtest: late JEV error after new mode preserves new confirmations and in-flight lock
+ok 49 - late JEV error after new mode preserves new confirmations and in-flight lock
+  ---
+  duration_ms: 8.380416
+  type: 'test'
+  ...
+# Subtest: late JEV success after new deal preserves new confirmations and in-flight lock
+ok 50 - late JEV success after new deal preserves new confirmations and in-flight lock
+  ---
+  duration_ms: 8.7175
+  type: 'test'
+  ...
+# Subtest: late JEV error after new deal preserves new confirmations and in-flight lock
+ok 51 - late JEV error after new deal preserves new confirmations and in-flight lock
+  ---
+  duration_ms: 9.073042
+  type: 'test'
+  ...
+# Subtest: late service finally cannot unlock a new request or consume its confirmations
+ok 52 - late service finally cannot unlock a new request or consume its confirmations
+  ---
+  duration_ms: 8.474458
+  type: 'test'
+  ...
+# Subtest: JEV disabled makes no request and mock repeats remain local without confirmations
+ok 53 - JEV disabled makes no request and mock repeats remain local without confirmations
+  ---
+  duration_ms: 8.38275
+  type: 'test'
+  ...
+1..53
+# tests 53
+# suites 0
+# pass 53
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1552.237834

@@ -3,7 +3,7 @@ const { chromium } = require("playwright");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const out = path.resolve(__dirname, "../docs/validation-v1.10.1");
+const out = path.resolve(process.env.LEADSCORER_TEST_OUT || path.join(__dirname, "../docs/validation-v1.10.1"));
 fs.mkdirSync(out, { recursive: true });
 
 (async () => {
@@ -300,6 +300,123 @@ fs.mkdirSync(out, { recursive: true });
     assert.equal(await page.locator("#jevresult").innerText(), "");
     await page.unroute("**/api/jev/classify", held);
     checks.push("JEV: late result discarded after selecting another opportunity; note cleared");
+    // All service outcomes below are intercepted synthetic responses, never a provider call.
+    const readyStub = route => route.fulfill({ json: { service_ready: true } });
+    await page.route('**/api/jev/status', readyStub);
+    let serviceOutcome = 'success', serviceCalls = 0, hold = null;
+    const serviceStub = async route => {
+      serviceCalls++;
+      const body = route.request().postDataJSON();
+      assert.equal(body.mode, 'service');
+      assert.equal(body.allow_transmission, true);
+      assert.equal(body.confirm_cost, true);
+      if (hold) await hold;
+      if (serviceOutcome === 'network') return route.abort('timedout');
+      if (serviceOutcome === 'HTTP error') return route.fulfill({ status: 503, json: {} });
+      if (serviceOutcome === 'invalid JSON') return route.fulfill({ body: '{invalid', contentType: 'application/json' });
+      if (serviceOutcome === 'invalid response') return route.fulfill({ json: null });
+      return route.fulfill({ json: serviceOutcome === 'unavailable'
+        ? { status: 'unavailable', message: 'Synthetic unavailable', classification: null }
+        : { status: 'ok', message: 'Synthetic service result', source: 'browser_stub', model: 'test', classification: { label: 'Synthetic next step', category: 'explicit_next_step', confidence: 0.5 } } });
+    };
+    await page.route('**/api/jev/classify', serviceStub);
+    await page.evaluate(() => {
+      window.__g4OriginalJevSubmit = document.querySelector('#jevform').onsubmit;
+      document.querySelector('#jevform').onsubmit = event => {
+        window.__g4Attempt = window.__g4OriginalJevSubmit(event);
+        return window.__g4Attempt;
+      };
+    });
+    const confirmService = async () => {
+      await page.locator('#jevconsent').check();
+      await page.locator('#jevcost').check();
+    };
+    const awaitAttempt = () => page.evaluate(async () => { await window.__g4Attempt; });
+    const submitDirect = () => page.evaluate(async () => { await document.querySelector('#jevform').onsubmit({ preventDefault() {} }); });
+    try {
+      for (const width of [1440, 375]) {
+        await page.setViewportSize({ width, height: 1000 });
+        const baseIds = await page.locator('article.decision-row').evaluateAll(nodes => nodes.map(n => n.dataset.id));
+        for (const outcome of ['success', 'network', 'HTTP error', 'unavailable', 'invalid JSON', 'invalid response']) {
+          serviceOutcome = outcome;
+          await page.locator('#jevmode').selectOption('service');
+          await page.waitForFunction(() => !document.querySelector('#jevsubmit').disabled);
+          await page.locator('#jevtext').fill('Synthetic browser note.');
+          await page.waitForFunction(() => !document.querySelector('#jevsubmit').disabled);
+          await confirmService();
+          const count = serviceCalls;
+          await page.locator('#jevsubmit').click(); await awaitAttempt();
+          assert.equal(serviceCalls, count + 1);
+          assert.equal(await page.locator('#jevconsent').isChecked(), false);
+          assert.equal(await page.locator('#jevcost').isChecked(), false);
+          assert.equal(await page.locator('#jevsubmit').isDisabled(), false);
+          if (outcome === 'success') assert.match(await page.locator('#jevresult').innerText(), /Synthetic next step/);
+          await submitDirect();
+          await page.locator('#jevconsent').check(); await submitDirect();
+          await page.locator('#jevconsent').uncheck();
+          await page.locator('#jevcost').check(); await submitDirect();
+          assert.equal(serviceCalls, count + 1);
+          await confirmService();
+          await page.locator('#jevsubmit').click(); await awaitAttempt();
+          assert.equal(serviceCalls, count + 2);
+          assert.equal(await page.locator('#jevconsent').isChecked(), false);
+          assert.equal(await page.locator('#jevcost').isChecked(), false);
+          assert.deepEqual(await page.locator('article.decision-row').evaluateAll(nodes => nodes.map(n => n.dataset.id)), baseIds);
+          checks.push(`JEV ${width}px ${outcome}: single-use consent, both required again, synthetic retry and unchanged base order`);
+        }
+        serviceOutcome = 'success';
+        for (const interaction of ['text', 'mode', 'deal']) {
+          await confirmService();
+          let releaseService;
+          hold = new Promise(resolve => releaseService = resolve);
+          const count = serviceCalls;
+          const incoming = page.waitForRequest("**/api/jev/classify");
+          await page.evaluate(() => { window.__g4OldAttempt = document.querySelector('#jevform').onsubmit({ preventDefault() {} }); });
+          await page.waitForFunction(() => document.querySelector('#jevsubmit').disabled);
+          // Direct repeated form dispatch is also blocked while a request is in flight.
+          await submitDirect();
+          await incoming;
+          assert.equal(serviceCalls, count + 1);
+          if (interaction === 'text') await page.locator('#jevtext').fill('New synthetic browser note.');
+          else if (interaction === 'mode') {
+            await page.locator('#jevmode').selectOption('disabled');
+            await page.locator('#jevmode').selectOption('service');
+          } else {
+            await closePanel();
+            await page.locator('article .detail-button').first().click();
+            await page.locator('button[data-analyze]').first().click();
+            await page.locator('#jevmode').selectOption('service');
+          }
+          await page.waitForFunction(() => !document.querySelector('#jevsubmit').disabled);
+          if (interaction === 'deal') {
+            await page.locator('#jevtext').fill('New synthetic deal note.');
+            await page.waitForFunction(() => !document.querySelector('#jevsubmit').disabled);
+          }
+          await confirmService();
+          releaseService(); hold = null;
+          await page.evaluate(async () => { await window.__g4OldAttempt; });
+          assert.equal(await page.locator('#jevconsent').isChecked(), true);
+          assert.equal(await page.locator('#jevcost').isChecked(), true);
+          assert.equal(await page.locator('#jevsubmit').isDisabled(), false);
+          assert.equal(await page.locator('#jevresult').innerText(), '');
+          await page.locator('#jevsubmit').click(); await awaitAttempt();
+          assert.equal(serviceCalls, count + 2);
+          assert.equal(await page.locator('#jevconsent').isChecked(), false);
+          assert.equal(await page.locator('#jevcost').isChecked(), false);
+          checks.push(`JEV ${width}px late result after ${interaction}: concurrent send blocked; new consent preserved, current retry consumes it`);
+        }
+      }
+      await shot('jev-single-use-consent-mobile');
+    } finally {
+      await page.unroute('**/api/jev/status', readyStub);
+      await page.unroute('**/api/jev/classify', serviceStub);
+      await page.evaluate(() => {
+        document.querySelector('#jevform').onsubmit = window.__g4OriginalJevSubmit;
+        delete window.__g4OriginalJevSubmit; delete window.__g4Attempt; delete window.__g4OldAttempt;
+      });
+      await page.setViewportSize({ width: 1440, height: 1000 });
+    }
+
 
     await reset();
     const operationalIds = await page.locator("article").evaluateAll((nodes) => nodes.map((n) => n.dataset.id));
