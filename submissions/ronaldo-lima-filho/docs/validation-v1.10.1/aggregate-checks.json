@@ -1,0 +1,29 @@
+{
+  "time": "2026-10-14T12:54:09.327057+00:00",
+  "implementation_version": "local-v1.10.1",
+  "python": 48,
+  "node": 38,
+  "browser_scenarios": 37,
+  "location": "curated package stage; independent localhost test server",
+  "dataset_hash": "c5a0244edc0ccd97307ee4ac88fff5cae566bb411f9b3e11fcaf8d43827828f3",
+  "baseline_projection_sha256": "d758d0023dff0fd18a7114a525065899db5fb243b96c19fc1268bbb1fd2e3b10",
+  "queue_counts": {
+    "cleanup": 1377,
+    "conversion": 212,
+    "qualify": 500
+  },
+  "original_csv_bytes": "unchanged",
+  "original_policy": "unchanged",
+  "original_score_rules": "unchanged",
+  "policy_csv_exact_ids_verified": 113,
+  "python_ast": "passed",
+  "javascript_syntax": "passed",
+  "analysis_byte_equal": true,
+  "page_errors": [],
+  "external_requests": [],
+  "provider_calls": 0,
+  "paid_calls": 0,
+  "independent_user_test": "pending",
+  "python_runtime": "3.14.7",
+  "node_runtime": "v22.22.3"
+}

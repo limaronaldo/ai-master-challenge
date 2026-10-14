@@ -1,0 +1,138 @@
+{
+  "rules_version": "review-v1.3",
+  "evidence_version": "context-v1.2",
+  "operations_version": "operations-v1.2",
+  "operations_policy": {
+    "cleanup_days_exclusive": 120,
+    "cleanup_cycle_ratio_exclusive": 2.5,
+    "window_ratio_min": 1,
+    "window_ratio_max": 2,
+    "fallback_window_days_min": 30,
+    "fallback_window_days_max": 90,
+    "conversion_identified_account_tiebreak": true
+  },
+  "operations_policy_hash": "bb78ba3d5653eb394b264227663799c5608a8951cc51d996d061c4f85c8d04c4",
+  "queue_counts": {
+    "cleanup": 1377,
+    "conversion": 212,
+    "qualify": 500
+  },
+  "dataset_hash": "c5a0244edc0ccd97307ee4ac88fff5cae566bb411f9b3e11fcaf8d43827828f3",
+  "rules_hash": "1d4268f64e6fcb53ff9103ec782b3d0744b36ba967fbf37d0bf8ac92b10de65f",
+  "baseline_projection_sha256": "d758d0023dff0fd18a7114a525065899db5fb243b96c19fc1268bbb1fd2e3b10",
+  "source_export_date": null,
+  "account_counts_by_queue": {
+    "conversion": {
+      "identified": 61,
+      "unlinked": 151
+    },
+    "cleanup": {
+      "identified": 440,
+      "unlinked": 937
+    },
+    "qualify": {
+      "identified": 163,
+      "unlinked": 337
+    }
+  },
+  "time": "2026-10-14T12:54:09.327057+00:00",
+  "implementation_version": "local-v1.10.1",
+  "code_and_data_sha256": {
+    "solution/.gitignore": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793",
+    "solution/analyze_policy.py": "466d657a414aa943ab6e8c73b3ff068c2a67791e6addaf22451290b32997b8c2",
+    "solution/app.py": "f259e96f2242dc6297a0808f6c8904b76de8af1f6f4b6e05ce5cb454a4b76d90",
+    "solution/assets/OFL-Manrope.txt": "58172e0c0fac2cda8a37b348164bb55e44b0e69051e557e92b1d3f6910141f7b",
+    "solution/assets/manrope.woff2": "e310b55a7fd9677f5e3555e6c6c4d064fa1f1d24393f0ddbe217cea12a8c432f",
+    "solution/audit.py": "7c6d6886616234bd83ee32fb813b7962027e8be9c6277483f68a195e918ceb93",
+    "solution/data/accounts.csv": "e5242324768a563fc632cddfed49a29acbbf2892b8a3c6453cc9650de9ae0358",
+    "solution/data/metadata.csv": "22b34e498d07e3d7f322afdbf81d70a5dc0a389792944e50ca2af86a3597f0af",
+    "solution/data/products.csv": "7c1c8cbbdb6d4c286902e1985eeb529a36366d6a43f43cd4a93c4b1da2a6eb84",
+    "solution/data/sales_pipeline.csv": "825ce8f6c32d4009548b468df3173d55a46fd73f2531f532c5459371dc52adf2",
+    "solution/data/sales_teams.csv": "aeff1272ebe196f5a27e3fc0578aa27abf48ed9ae461aa344fb95990e5ad8bd1",
+    "solution/index.html": "015df154190eddbeb5bed0d7e23205e301976f1c33ae3e6f31358b66f414c783",
+    "solution/jev.py": "78a7d5f7a33d1562b9986a6f16ff8c7c476a56dee0a471714581575e94c33bc3",
+    "solution/revops.py": "2ab7dd7e5adccdb68d1c32565f8a991bc8f51de40c00f140e9cc9d5ddf35d83c",
+    "solution/test_app.py": "b0e943fd6b60df1293abd03f3b88acea977dee11cf1bcd6bb73795773fd39705",
+    "solution/test_browser.cjs": "4e1e3aef6944e16c743654d6a246b7ad6e2893978bb40def09a0a40a03e891c3",
+    "solution/test_data_contracts.py": "5a1c6ff4fbac1cc12847d5dc5b415da905ed5447e0e502fb0e26125fdabdbd78",
+    "solution/test_http.py": "56309b06a7de3b075b678977de8e916cdb2f14ea8301407c4aabfa48e7200c10",
+    "solution/test_jev.py": "fd4373fbe2627c13f151286662994dcea10cd61d178bc7cf635925a1fff2273c",
+    "solution/test_revops.py": "3c63aee44dacefec6a64d3912e52f39e664fabf2f45340f7b8954ec592b5e45b",
+    "solution/test_ui.cjs": "c7b3a89cfa408248e7c7efea5054800eea54dce9a8deff6ef37844e830873605"
+  },
+  "capture_sha256": {
+    "validation-v1.10.1/central-empty.png": "a7caedbda6d61efa5d527dae6fa18435c262c887b2f81ebd995e40f3ec47d246",
+    "validation-v1.10.1/deal-jev-mock.png": "07614c5a6552765a9d863306fc4de2c2075f1a9ba5a7ab66f2683fea95aae64e",
+    "validation-v1.10.1/declared-parent-context.png": "3ca44000a76bfbca806ba46367d28d0657347e94b7179e37f5521a814c69a2a9",
+    "validation-v1.10.1/desktop-account-opportunities.png": "30b71bdd50cd11d1de7fc0395bfc9f7922d7b019733898071b348c53bed1e4f5",
+    "validation-v1.10.1/desktop-conversion.png": "baa8161a05d08da868783473ac2980fca01c4bb936423519de05f85f2421fd2a",
+    "validation-v1.10.1/desktop-manager-shortcuts.png": "f2bfb33101255bf166a8e02b4dc01ca523e824e4763910387ce90b0244d6e47b",
+    "validation-v1.10.1/desktop-policy-cases.png": "03c0086dc961ea1ea1834ad5b9eff2c8f808f2b54e100e7fb1eeb81664064849",
+    "validation-v1.10.1/desktop-policy-lab.png": "b583bab9c66df025a4e4084cd313ef0e1833e2ad9f810b8a9cfedea2d2b11dc1",
+    "validation-v1.10.1/desktop-review.png": "54df94e983159edbfabb3a8aeb7a5b726dfbd10d0c722098c4a44ca9bbc5dbe0",
+    "validation-v1.10.1/group-identified.png": "e544c9cd37bc589b2fb5f7e5cb974255702d3c1adc53cee346cf078809dc4f15",
+    "validation-v1.10.1/group-missing.png": "261ba07e353c1ec9a3fbd1475e1e126377da423d363a0c2a7f4a7719097c55fb",
+    "validation-v1.10.1/index-simulation.png": "d243616184bda99e6bfe616e24910be69b7dfe71cce208ae9f96bb4e44c1e443",
+    "validation-v1.10.1/jev-three-fixtures.png": "d5c36c5ce18c23d73294454831dcb6c74ec81c8af5c9c117e3296fc2df4c6fa9",
+    "validation-v1.10.1/manager.png": "80f1f0ae5e97a868a3139c00b2d60a0b8dbdafdffff4b9df505e7e1673e138b9",
+    "validation-v1.10.1/mobile-account-opportunities.png": "15ea68b6d9712c49e6d3a7be4e00c93073788dcacf55e16b18e2f84c04563a18",
+    "validation-v1.10.1/mobile-conversion.png": "3a8a82836a5d058ed5a8c2b4001140df19c8fc61227e897b887f8ac37f28020c",
+    "validation-v1.10.1/mobile-deal-jev.png": "56efb064553b2b3322031384267e0a296de6461658b938992a30a5e471173d96",
+    "validation-v1.10.1/mobile-grouping.png": "b28ebe646e33dc758ed2ad952ab553ef2d50987f1ef7153fa2e4b8e948025968",
+    "validation-v1.10.1/mobile-manager-shortcuts.png": "36309623871aa071e2fd07adfef8bb50e7861ac0fe64599631a082d6b4d85278",
+    "validation-v1.10.1/mobile-manager.png": "6ef1dfbde44ff88f782161b8b1df14a4bf2f32236ea1e03c919d85ef982907eb",
+    "validation-v1.10.1/mobile-policy-cases.png": "88fdf90aea90d20b6f639352d912cb0ff7d54d43b911ab330145ab51d94350e4",
+    "validation-v1.10.1/mobile-policy-lab.png": "6ebeb40971766f5eef767311cc9aae04c6fd866755fd683ff9cdece8c110e821",
+    "validation-v1.10.1/mobile-review.png": "98bdf79c9876cc7d90c2324c98167e8b645b9f9ec366845251506f21ea30a02c",
+    "validation-v1.10.1/startup-help.png": "f4726da7d31f9da0f3e591b9e24bf62242a0db7cda963e07c8397e723948cba9"
+  },
+  "analysis_sha256": {
+    "policy-analysis.json": "911af151b5f5ae3b2b71b613e5e9caee227fd2b2222f356dbe0888799994f7a5"
+  },
+  "validation_receipts_sha256": {
+    "aggregate-checks.json": "b731a46f580576fc8a7c79ba76bda42e37a9c48c79302e3bef35710849801215",
+    "browser-output.txt": "d00a1ce5fcfedc9567b28c6b7ece616e22fbc819de601c8c285dc9c72a0fe088",
+    "browser-results.json": "8f3b38e12d88d5c92f30563b5a00f017f7312841c02758c765a5f71fcb6e0756",
+    "conversion.csv": "dc9f0755850010011c0edee86614bab0cf3359d0c5d18ba6d6cb08f52b656a1d",
+    "conversion.md": "95eb332b39b55212cbd78bedaa3df5c215e3b689b6bbc6ca2c16c3229085fcdf",
+    "layout-results.json": "33c6db2899fb8a02863c6432afe29b27f113acb8b78f5dfb35673655b5186b9b",
+    "manager-label-layout.json": "8e11e7e245510a9d25b8eeda4b14df47c5988a9b62d0cfbb53c159730f6404eb",
+    "node-tests.txt": "a31409c188eb0982bb221d570159ef448b8160eea06d7dcb9af4fa800137a0d2",
+    "policy-reclassified.csv": "b929193b7969b76a83b048e49aa2a9097497e14c470f2cffcff8bc083d3275fd",
+    "python-tests.txt": "238a4177977e3d2b75a6e364a1305af80a33dd73c9aa264202d9788a8eb6fe9e",
+    "qualification-missing.csv": "2e0a653f16eb84cf8897485cfa2ccd4364275e4778a3449168d46fc86279a057"
+  },
+  "checks": {
+    "python": 48,
+    "node": 38,
+    "browser_scenarios": 37,
+    "python_ast": "passed",
+    "javascript_syntax": "passed",
+    "baseline_projection": "unchanged",
+    "queue_classification": "unchanged",
+    "csv_original_bytes": "unchanged",
+    "analysis_reproduction": "passed",
+    "policy_csv_cohort": "113 exact IDs verified"
+  },
+  "jev": {
+    "enabled": false,
+    "provider_calls": 0,
+    "paid_calls": 0,
+    "default_mode": "disabled"
+  },
+  "independent_user_test": "pending",
+  "patch_scope": [
+    "Manager queue button labels keep words intact; proportional columns and normal word wrapping"
+  ],
+  "prior_implementation_manifest_sha256": "bba5d87700847f0ee9edb69a82032f03eab821e5e5733162b213bd3d6e14aa93",
+  "preserved_packages": {
+    "deliverables/LeadScorer-G4-local-v1.10.zip": "f5e89951955ceac5c07c46fcc77c979ab93352f870b8bbaf0c73e0a002526f9e",
+    "deliverables/LeadScorer-G4-local-v1.10.zip.sha256": "f12833711300611b600c2a87952f7aa973339fc8eeb6899d8a7896d5e57ec554",
+    "deliverables/delivery-receipt-v1.10.json": "f591fc1862f7787cd621364835ddddf66a04af7a1762fef3ef9b49ca2a4a4035"
+  },
+  "packaging": {
+    "archive_name": "LeadScorer-G4-local-v1.10.1.zip",
+    "source_folder": "submissions/ronaldo-lima-filho/",
+    "tests_executed_in_curated_stage": true
+  }
+}

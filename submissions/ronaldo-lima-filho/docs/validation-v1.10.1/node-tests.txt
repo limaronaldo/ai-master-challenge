@@ -1,0 +1,238 @@
+TAP version 13
+# Subtest: global investigation reaches all 500 unknown dates, independently of review ranking
+ok 1 - global investigation reaches all 500 unknown dates, independently of review ranking
+  ---
+  duration_ms: 6.804125
+  type: 'test'
+  ...
+# Subtest: investigation preserves salesperson/manager/region intersections
+ok 2 - investigation preserves salesperson/manager/region intersections
+  ---
+  duration_ms: 1.83825
+  type: 'test'
+  ...
+# Subtest: unidentified opportunity remains recoverable by its ID
+ok 3 - unidentified opportunity remains recoverable by its ID
+  ---
+  duration_ms: 2.545958
+  type: 'test'
+  ...
+# Subtest: typing during initial loading preserves search without rendering incomplete state
+ok 4 - typing during initial loading preserves search without rendering incomplete state
+  ---
+  duration_ms: 1.155708
+  type: 'test'
+  ...
+# Subtest: cards keep record-specific warnings and show readable timing while details retain the ratio
+ok 5 - cards keep record-specific warnings and show readable timing while details retain the ratio
+  ---
+  duration_ms: 24.490125
+  type: 'test'
+  ...
+# Subtest: timing summary distinguishes missing age from an unavailable product cycle
+ok 6 - timing summary distinguishes missing age from an unavailable product cycle
+  ---
+  duration_ms: 11.837417
+  type: 'test'
+  ...
+# Subtest: load failure disables actions and retry preserves pre-load search through successful rendering
+ok 7 - load failure disables actions and retry preserves pre-load search through successful rendering
+  ---
+  duration_ms: 5.317375
+  type: 'test'
+  ...
+# Subtest: opening the HTML as a file shows server instructions without requesting pipeline data
+ok 8 - opening the HTML as a file shows server instructions without requesting pipeline data
+  ---
+  duration_ms: 0.60175
+  type: 'test'
+  ...
+# Subtest: changing JEV mode invalidates delayed result without changing baseline list
+ok 9 - changing JEV mode invalidates delayed result without changing baseline list
+  ---
+  duration_ms: 13.152125
+  type: 'test'
+  ...
+# Subtest: operational queues isolate the oldest deal and favor the cycle window
+ok 10 - operational queues isolate the oldest deal and favor the cycle window
+  ---
+  duration_ms: 9.380375
+  type: 'test'
+  ...
+# Subtest: identified account breaks conversion timing ties without crossing windows or changing other queues
+ok 11 - identified account breaks conversion timing ties without crossing windows or changing other queues
+  ---
+  duration_ms: 0.392166
+  type: 'test'
+  ...
+# Subtest: all identified deals precede orphans within each conversion timing, with baseline order preserved
+ok 12 - all identified deals precede orphans within each conversion timing, with baseline order preserved
+  ---
+  duration_ms: 4.22475
+  type: 'test'
+  ...
+# Subtest: review filters intersect selection without changing ranking or opportunities
+ok 13 - review filters intersect selection without changing ranking or opportunities
+  ---
+  duration_ms: 5.799667
+  type: 'test'
+  ...
+# Subtest: account grouping never merges unrelated orphan deals
+ok 14 - account grouping never merges unrelated orphan deals
+  ---
+  duration_ms: 14.684916
+  type: 'test'
+  ...
+# Subtest: exports include all filtered rows, reviewed state and formula-safe CSV cells
+ok 15 - exports include all filtered rows, reviewed state and formula-safe CSV cells
+  ---
+  duration_ms: 13.781541
+  type: 'test'
+  ...
+# Subtest: tactical actions combine category with cleanup and qualification context
+ok 16 - tactical actions combine category with cleanup and qualification context
+  ---
+  duration_ms: 10.860542
+  type: 'test'
+  ...
+# Subtest: empty conversion offers other queues without clearing region or salesperson
+ok 17 - empty conversion offers other queues without clearing region or salesperson
+  ---
+  duration_ms: 18.844042
+  type: 'test'
+  ...
+# Subtest: central empty queue differs from filters with no matching opportunities
+ok 18 - central empty queue differs from filters with no matching opportunities
+  ---
+  duration_ms: 16.730125
+  type: 'test'
+  ...
+# Subtest: cards emphasize the next step and retain the original index only in details
+ok 19 - cards emphasize the next step and retain the original index only in details
+  ---
+  duration_ms: 11.953375
+  type: 'test'
+  ...
+# Subtest: comparison rows expose four aligned cells and keep history and review controls in details
+ok 20 - comparison rows expose four aligned cells and keep history and review controls in details
+  ---
+  duration_ms: 30.623125
+  type: 'test'
+  ...
+# Subtest: grouping offers separate exhaustive paths and exports only the chosen work
+ok 21 - grouping offers separate exhaustive paths and exports only the chosen work
+  ---
+  duration_ms: 60.574084
+  type: 'test'
+  ...
+# Subtest: group paths replace a conflicting account filter, retain other filters and explain empty paths
+ok 22 - group paths replace a conflicting account filter, retain other filters and explain empty paths
+  ---
+  duration_ms: 32.682584
+  type: 'test'
+  ...
+# Subtest: manager cards expose disjoint queue counts and window subset independently of filters
+ok 23 - manager cards expose disjoint queue counts and window subset independently of filters
+  ---
+  duration_ms: 16.797667
+  type: 'test'
+  ...
+# Subtest: index simulation explains unchanged operational order and offers explicit comparison
+ok 24 - index simulation explains unchanged operational order and offers explicit comparison
+  ---
+  duration_ms: 59.16875
+  type: 'test'
+  ...
+# Subtest: review marking and undo report their session-only effect and preserve the source
+ok 25 - review marking and undo report their session-only effect and preserve the source
+  ---
+  duration_ms: 42.306333
+  type: 'test'
+  ...
+# Subtest: review context labels Won as opportunities and keeps unavailable account values unknown
+ok 26 - review context labels Won as opportunities and keeps unavailable account values unknown
+  ---
+  duration_ms: 12.246375
+  type: 'test'
+  ...
+# Subtest: copy confirmation clears when filters change without clearing the selection
+ok 27 - copy confirmation clears when filters change without clearing the selection
+  ---
+  duration_ms: 14.710583
+  type: 'test'
+  ...
+# Subtest: late clipboard success or failure does not restore a message for an old selection
+ok 28 - late clipboard success or failure does not restore a message for an old selection
+  ---
+  duration_ms: 31.309875
+  type: 'test'
+  ...
+# Subtest: policy laboratory reproduces all backend scenarios on original rows without changing workflow
+ok 29 - policy laboratory reproduces all backend scenarios on original rows without changing workflow
+  ---
+  duration_ms: 520.154458
+  type: 'test'
+  ...
+# Subtest: policy boundaries, missing dates and invalid inputs never silently replace results
+ok 30 - policy boundaries, missing dates and invalid inputs never silently replace results
+  ---
+  duration_ms: 10.644125
+  type: 'test'
+  ...
+# Subtest: policy case identities match the boundary cohort in both directions without mutating the snapshot
+ok 31 - policy case identities match the boundary cohort in both directions without mutating the snapshot
+  ---
+  duration_ms: 23.815583
+  type: 'test'
+  ...
+# Subtest: policy CSV exports the complete cohort with provenance while pagination and filters affect only the view
+ok 32 - policy CSV exports the complete cohort with provenance while pagination and filters affect only the view
+  ---
+  duration_ms: 32.877083
+  type: 'test'
+  ...
+# Subtest: editing policy inputs and restoring the base invalidate old case exports
+ok 33 - editing policy inputs and restoring the base invalidate old case exports
+  ---
+  duration_ms: 14.426292
+  type: 'test'
+  ...
+# Subtest: same-account context uses all original open rows, excludes self and never joins unidentified accounts
+ok 34 - same-account context uses all original open rows, excludes self and never joins unidentified accounts
+  ---
+  duration_ms: 13.286875
+  type: 'test'
+  ...
+# Subtest: account peer content is escaped and remains bound to the exact identified account
+ok 35 - account peer content is escaped and remains bound to the exact identified account
+  ---
+  duration_ms: 13.695291
+  type: 'test'
+  ...
+# Subtest: manager queue shortcuts select both dimensions and preserve the remaining filters and source
+ok 36 - manager queue shortcuts select both dimensions and preserve the remaining filters and source
+  ---
+  duration_ms: 37.677709
+  type: 'test'
+  ...
+# Subtest: JEV selected example sends only mock category, resets late results and stays separate
+ok 37 - JEV selected example sends only mock category, resets late results and stays separate
+  ---
+  duration_ms: 23.803625
+  type: 'test'
+  ...
+# Subtest: group ordering is reproducible by count, catalog and name, preserving orphan identities
+ok 38 - group ordering is reproducible by count, catalog and name, preserving orphan identities
+  ---
+  duration_ms: 14.088125
+  type: 'test'
+  ...
+1..38
+# tests 38
+# suites 0
+# pass 38
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1750.454708

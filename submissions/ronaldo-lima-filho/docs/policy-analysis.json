@@ -1,0 +1,853 @@
+{
+  "reference": "2017-12-31",
+  "dataset_hash": "c5a0244edc0ccd97307ee4ac88fff5cae566bb411f9b3e11fcaf8d43827828f3",
+  "operations_policy": {
+    "cleanup_days_exclusive": 120,
+    "cleanup_cycle_ratio_exclusive": 2.5,
+    "window_ratio_min": 1,
+    "window_ratio_max": 2,
+    "fallback_window_days_min": 30,
+    "fallback_window_days_max": 90,
+    "conversion_identified_account_tiebreak": true
+  },
+  "open_count": 2089,
+  "scenarios": [
+    {
+      "scenario": "current",
+      "cleanup_days_exclusive": 120,
+      "cleanup_cycle_ratio_exclusive": 2.5,
+      "counts": {
+        "cleanup": 1377,
+        "conversion": 212,
+        "qualify": 500
+      },
+      "changed_queue_count": 0
+    },
+    {
+      "scenario": "days_96",
+      "cleanup_days_exclusive": 96,
+      "cleanup_cycle_ratio_exclusive": 2.5,
+      "counts": {
+        "cleanup": 1461,
+        "conversion": 128,
+        "qualify": 500
+      },
+      "changed_queue_count": 84
+    },
+    {
+      "scenario": "days_144",
+      "cleanup_days_exclusive": 144,
+      "cleanup_cycle_ratio_exclusive": 2.5,
+      "counts": {
+        "cleanup": 1264,
+        "conversion": 325,
+        "qualify": 500
+      },
+      "changed_queue_count": 113
+    },
+    {
+      "scenario": "ratio_2",
+      "cleanup_days_exclusive": 120,
+      "cleanup_cycle_ratio_exclusive": 2,
+      "counts": {
+        "cleanup": 1409,
+        "conversion": 180,
+        "qualify": 500
+      },
+      "changed_queue_count": 32
+    },
+    {
+      "scenario": "ratio_3",
+      "cleanup_days_exclusive": 120,
+      "cleanup_cycle_ratio_exclusive": 3,
+      "counts": {
+        "cleanup": 1376,
+        "conversion": 213,
+        "qualify": 500
+      },
+      "changed_queue_count": 1
+    }
+  ],
+  "cleanup_criteria": {
+    "both": 1244,
+    "days_only": 132,
+    "neither": 212,
+    "ratio_only": 1
+  },
+  "cleanup_duration_partition": {
+    "up_to_120_days": 1,
+    "days_121_to_138": 85,
+    "more_than_138_days": 1291
+  },
+  "cleanup_relative_only": [
+    {
+      "id": "KXR63BV7",
+      "product": "GTX Pro",
+      "age": 118
+    }
+  ],
+  "closed_maximum_duration_days": 138,
+  "closed_cumulative_duration_rates": [
+    {
+      "minimum_duration_days": 0,
+      "closed_count": 6687,
+      "won_fraction": 0.6309256766861073
+    },
+    {
+      "minimum_duration_days": 1,
+      "closed_count": 6687,
+      "won_fraction": 0.6309256766861073
+    },
+    {
+      "minimum_duration_days": 2,
+      "closed_count": 6386,
+      "won_fraction": 0.6359223300970874
+    },
+    {
+      "minimum_duration_days": 3,
+      "closed_count": 6108,
+      "won_fraction": 0.6419449901768173
+    },
+    {
+      "minimum_duration_days": 4,
+      "closed_count": 6040,
+      "won_fraction": 0.6425496688741722
+    },
+    {
+      "minimum_duration_days": 5,
+      "closed_count": 5939,
+      "won_fraction": 0.644384576528035
+    },
+    {
+      "minimum_duration_days": 6,
+      "closed_count": 5779,
+      "won_fraction": 0.648035992386226
+    },
+    {
+      "minimum_duration_days": 7,
+      "closed_count": 5575,
+      "won_fraction": 0.6513004484304933
+    },
+    {
+      "minimum_duration_days": 8,
+      "closed_count": 5274,
+      "won_fraction": 0.6566173682214638
+    },
+    {
+      "minimum_duration_days": 9,
+      "closed_count": 4970,
+      "won_fraction": 0.6635814889336016
+    },
+    {
+      "minimum_duration_days": 10,
+      "closed_count": 4660,
+      "won_fraction": 0.6665236051502146
+    },
+    {
+      "minimum_duration_days": 11,
+      "closed_count": 4405,
+      "won_fraction": 0.6703745743473326
+    },
+    {
+      "minimum_duration_days": 12,
+      "closed_count": 4179,
+      "won_fraction": 0.67647762622637
+    },
+    {
+      "minimum_duration_days": 13,
+      "closed_count": 4077,
+      "won_fraction": 0.6845719892077508
+    },
+    {
+      "minimum_duration_days": 14,
+      "closed_count": 3975,
+      "won_fraction": 0.6857861635220126
+    },
+    {
+      "minimum_duration_days": 15,
+      "closed_count": 3886,
+      "won_fraction": 0.6857951621204323
+    },
+    {
+      "minimum_duration_days": 16,
+      "closed_count": 3815,
+      "won_fraction": 0.6838794233289646
+    },
+    {
+      "minimum_duration_days": 17,
+      "closed_count": 3743,
+      "won_fraction": 0.6839433609404221
+    },
+    {
+      "minimum_duration_days": 18,
+      "closed_count": 3694,
+      "won_fraction": 0.6843530048727666
+    },
+    {
+      "minimum_duration_days": 19,
+      "closed_count": 3651,
+      "won_fraction": 0.6844700082169268
+    },
+    {
+      "minimum_duration_days": 20,
+      "closed_count": 3619,
+      "won_fraction": 0.6836142580823432
+    },
+    {
+      "minimum_duration_days": 21,
+      "closed_count": 3597,
+      "won_fraction": 0.6841812621629135
+    },
+    {
+      "minimum_duration_days": 22,
+      "closed_count": 3583,
+      "won_fraction": 0.6835054423667318
+    },
+    {
+      "minimum_duration_days": 23,
+      "closed_count": 3575,
+      "won_fraction": 0.683076923076923
+    },
+    {
+      "minimum_duration_days": 24,
+      "closed_count": 3572,
+      "won_fraction": 0.6828107502799552
+    },
+    {
+      "minimum_duration_days": 25,
+      "closed_count": 3565,
+      "won_fraction": 0.6821879382889201
+    },
+    {
+      "minimum_duration_days": 26,
+      "closed_count": 3563,
+      "won_fraction": 0.6822902048835251
+    },
+    {
+      "minimum_duration_days": 27,
+      "closed_count": 3559,
+      "won_fraction": 0.6819331272829446
+    },
+    {
+      "minimum_duration_days": 28,
+      "closed_count": 3547,
+      "won_fraction": 0.681420919086552
+    },
+    {
+      "minimum_duration_days": 29,
+      "closed_count": 3542,
+      "won_fraction": 0.681253529079616
+    },
+    {
+      "minimum_duration_days": 30,
+      "closed_count": 3537,
+      "won_fraction": 0.6813683912920554
+    },
+    {
+      "minimum_duration_days": 31,
+      "closed_count": 3529,
+      "won_fraction": 0.6814961745536979
+    },
+    {
+      "minimum_duration_days": 32,
+      "closed_count": 3524,
+      "won_fraction": 0.6813280363223609
+    },
+    {
+      "minimum_duration_days": 33,
+      "closed_count": 3519,
+      "won_fraction": 0.6811594202898551
+    },
+    {
+      "minimum_duration_days": 34,
+      "closed_count": 3513,
+      "won_fraction": 0.6806148590947908
+    },
+    {
+      "minimum_duration_days": 35,
+      "closed_count": 3501,
+      "won_fraction": 0.6803770351328192
+    },
+    {
+      "minimum_duration_days": 36,
+      "closed_count": 3494,
+      "won_fraction": 0.680881511161992
+    },
+    {
+      "minimum_duration_days": 37,
+      "closed_count": 3483,
+      "won_fraction": 0.6818834338214184
+    },
+    {
+      "minimum_duration_days": 38,
+      "closed_count": 3471,
+      "won_fraction": 0.6819360414866033
+    },
+    {
+      "minimum_duration_days": 39,
+      "closed_count": 3454,
+      "won_fraction": 0.6815286624203821
+    },
+    {
+      "minimum_duration_days": 40,
+      "closed_count": 3440,
+      "won_fraction": 0.6816860465116279
+    },
+    {
+      "minimum_duration_days": 41,
+      "closed_count": 3432,
+      "won_fraction": 0.6812354312354313
+    },
+    {
+      "minimum_duration_days": 42,
+      "closed_count": 3413,
+      "won_fraction": 0.6806328743041312
+    },
+    {
+      "minimum_duration_days": 43,
+      "closed_count": 3395,
+      "won_fraction": 0.6818851251840943
+    },
+    {
+      "minimum_duration_days": 44,
+      "closed_count": 3372,
+      "won_fraction": 0.6823843416370107
+    },
+    {
+      "minimum_duration_days": 45,
+      "closed_count": 3358,
+      "won_fraction": 0.6831447290053604
+    },
+    {
+      "minimum_duration_days": 46,
+      "closed_count": 3335,
+      "won_fraction": 0.6833583208395803
+    },
+    {
+      "minimum_duration_days": 47,
+      "closed_count": 3324,
+      "won_fraction": 0.6829121540312876
+    },
+    {
+      "minimum_duration_days": 48,
+      "closed_count": 3297,
+      "won_fraction": 0.6827418865635426
+    },
+    {
+      "minimum_duration_days": 49,
+      "closed_count": 3281,
+      "won_fraction": 0.6824138982017678
+    },
+    {
+      "minimum_duration_days": 50,
+      "closed_count": 3251,
+      "won_fraction": 0.6825592125499846
+    },
+    {
+      "minimum_duration_days": 51,
+      "closed_count": 3226,
+      "won_fraction": 0.6828890266584005
+    },
+    {
+      "minimum_duration_days": 52,
+      "closed_count": 3202,
+      "won_fraction": 0.6826983135540288
+    },
+    {
+      "minimum_duration_days": 53,
+      "closed_count": 3174,
+      "won_fraction": 0.6843100189035917
+    },
+    {
+      "minimum_duration_days": 54,
+      "closed_count": 3157,
+      "won_fraction": 0.6838770985112449
+    },
+    {
+      "minimum_duration_days": 55,
+      "closed_count": 3134,
+      "won_fraction": 0.6841097638800255
+    },
+    {
+      "minimum_duration_days": 56,
+      "closed_count": 3117,
+      "won_fraction": 0.6833493743984601
+    },
+    {
+      "minimum_duration_days": 57,
+      "closed_count": 3092,
+      "won_fraction": 0.6836998706338939
+    },
+    {
+      "minimum_duration_days": 58,
+      "closed_count": 3057,
+      "won_fraction": 0.6849852796859667
+    },
+    {
+      "minimum_duration_days": 59,
+      "closed_count": 3032,
+      "won_fraction": 0.6860158311345647
+    },
+    {
+      "minimum_duration_days": 60,
+      "closed_count": 3001,
+      "won_fraction": 0.6864378540486504
+    },
+    {
+      "minimum_duration_days": 61,
+      "closed_count": 2964,
+      "won_fraction": 0.6855600539811066
+    },
+    {
+      "minimum_duration_days": 62,
+      "closed_count": 2929,
+      "won_fraction": 0.6865824513485831
+    },
+    {
+      "minimum_duration_days": 63,
+      "closed_count": 2889,
+      "won_fraction": 0.6860505365178262
+    },
+    {
+      "minimum_duration_days": 64,
+      "closed_count": 2830,
+      "won_fraction": 0.6862190812720848
+    },
+    {
+      "minimum_duration_days": 65,
+      "closed_count": 2787,
+      "won_fraction": 0.6889128094725512
+    },
+    {
+      "minimum_duration_days": 66,
+      "closed_count": 2739,
+      "won_fraction": 0.6885724717050018
+    },
+    {
+      "minimum_duration_days": 67,
+      "closed_count": 2689,
+      "won_fraction": 0.6883599851245816
+    },
+    {
+      "minimum_duration_days": 68,
+      "closed_count": 2632,
+      "won_fraction": 0.6903495440729484
+    },
+    {
+      "minimum_duration_days": 69,
+      "closed_count": 2592,
+      "won_fraction": 0.6905864197530864
+    },
+    {
+      "minimum_duration_days": 70,
+      "closed_count": 2539,
+      "won_fraction": 0.6908231587239071
+    },
+    {
+      "minimum_duration_days": 71,
+      "closed_count": 2468,
+      "won_fraction": 0.692868719611021
+    },
+    {
+      "minimum_duration_days": 72,
+      "closed_count": 2416,
+      "won_fraction": 0.6932947019867549
+    },
+    {
+      "minimum_duration_days": 73,
+      "closed_count": 2379,
+      "won_fraction": 0.692728036990332
+    },
+    {
+      "minimum_duration_days": 74,
+      "closed_count": 2332,
+      "won_fraction": 0.6938250428816467
+    },
+    {
+      "minimum_duration_days": 75,
+      "closed_count": 2276,
+      "won_fraction": 0.6942003514938488
+    },
+    {
+      "minimum_duration_days": 76,
+      "closed_count": 2223,
+      "won_fraction": 0.6945569050832209
+    },
+    {
+      "minimum_duration_days": 77,
+      "closed_count": 2166,
+      "won_fraction": 0.6939058171745153
+    },
+    {
+      "minimum_duration_days": 78,
+      "closed_count": 2094,
+      "won_fraction": 0.6943648519579751
+    },
+    {
+      "minimum_duration_days": 79,
+      "closed_count": 2031,
+      "won_fraction": 0.6957163958641064
+    },
+    {
+      "minimum_duration_days": 80,
+      "closed_count": 1989,
+      "won_fraction": 0.6968325791855203
+    },
+    {
+      "minimum_duration_days": 81,
+      "closed_count": 1928,
+      "won_fraction": 0.6991701244813278
+    },
+    {
+      "minimum_duration_days": 82,
+      "closed_count": 1870,
+      "won_fraction": 0.7010695187165775
+    },
+    {
+      "minimum_duration_days": 83,
+      "closed_count": 1809,
+      "won_fraction": 0.6998341625207297
+    },
+    {
+      "minimum_duration_days": 84,
+      "closed_count": 1758,
+      "won_fraction": 0.6996587030716723
+    },
+    {
+      "minimum_duration_days": 85,
+      "closed_count": 1693,
+      "won_fraction": 0.7017129356172475
+    },
+    {
+      "minimum_duration_days": 86,
+      "closed_count": 1634,
+      "won_fraction": 0.7037943696450428
+    },
+    {
+      "minimum_duration_days": 87,
+      "closed_count": 1578,
+      "won_fraction": 0.7008871989860583
+    },
+    {
+      "minimum_duration_days": 88,
+      "closed_count": 1529,
+      "won_fraction": 0.7030739045127534
+    },
+    {
+      "minimum_duration_days": 89,
+      "closed_count": 1475,
+      "won_fraction": 0.7064406779661017
+    },
+    {
+      "minimum_duration_days": 90,
+      "closed_count": 1407,
+      "won_fraction": 0.7114427860696517
+    },
+    {
+      "minimum_duration_days": 91,
+      "closed_count": 1350,
+      "won_fraction": 0.7103703703703703
+    },
+    {
+      "minimum_duration_days": 92,
+      "closed_count": 1294,
+      "won_fraction": 0.7094281298299846
+    },
+    {
+      "minimum_duration_days": 93,
+      "closed_count": 1236,
+      "won_fraction": 0.709546925566343
+    },
+    {
+      "minimum_duration_days": 94,
+      "closed_count": 1178,
+      "won_fraction": 0.7071307300509337
+    },
+    {
+      "minimum_duration_days": 95,
+      "closed_count": 1109,
+      "won_fraction": 0.7042380522993688
+    },
+    {
+      "minimum_duration_days": 96,
+      "closed_count": 1062,
+      "won_fraction": 0.7052730696798494
+    },
+    {
+      "minimum_duration_days": 97,
+      "closed_count": 1021,
+      "won_fraction": 0.702252693437806
+    },
+    {
+      "minimum_duration_days": 98,
+      "closed_count": 961,
+      "won_fraction": 0.708636836628512
+    },
+    {
+      "minimum_duration_days": 99,
+      "closed_count": 914,
+      "won_fraction": 0.7056892778993435
+    },
+    {
+      "minimum_duration_days": 100,
+      "closed_count": 889,
+      "won_fraction": 0.7041619797525309
+    },
+    {
+      "minimum_duration_days": 101,
+      "closed_count": 838,
+      "won_fraction": 0.7064439140811456
+    },
+    {
+      "minimum_duration_days": 102,
+      "closed_count": 787,
+      "won_fraction": 0.7052096569250318
+    },
+    {
+      "minimum_duration_days": 103,
+      "closed_count": 726,
+      "won_fraction": 0.699724517906336
+    },
+    {
+      "minimum_duration_days": 104,
+      "closed_count": 676,
+      "won_fraction": 0.7041420118343196
+    },
+    {
+      "minimum_duration_days": 105,
+      "closed_count": 640,
+      "won_fraction": 0.703125
+    },
+    {
+      "minimum_duration_days": 106,
+      "closed_count": 597,
+      "won_fraction": 0.7102177554438861
+    },
+    {
+      "minimum_duration_days": 107,
+      "closed_count": 570,
+      "won_fraction": 0.712280701754386
+    },
+    {
+      "minimum_duration_days": 108,
+      "closed_count": 538,
+      "won_fraction": 0.7100371747211895
+    },
+    {
+      "minimum_duration_days": 109,
+      "closed_count": 511,
+      "won_fraction": 0.7142857142857143
+    },
+    {
+      "minimum_duration_days": 110,
+      "closed_count": 477,
+      "won_fraction": 0.7190775681341719
+    },
+    {
+      "minimum_duration_days": 111,
+      "closed_count": 448,
+      "won_fraction": 0.7276785714285714
+    },
+    {
+      "minimum_duration_days": 112,
+      "closed_count": 423,
+      "won_fraction": 0.7257683215130024
+    },
+    {
+      "minimum_duration_days": 113,
+      "closed_count": 399,
+      "won_fraction": 0.7268170426065163
+    },
+    {
+      "minimum_duration_days": 114,
+      "closed_count": 364,
+      "won_fraction": 0.739010989010989
+    },
+    {
+      "minimum_duration_days": 115,
+      "closed_count": 333,
+      "won_fraction": 0.7417417417417418
+    },
+    {
+      "minimum_duration_days": 116,
+      "closed_count": 294,
+      "won_fraction": 0.7380952380952381
+    },
+    {
+      "minimum_duration_days": 117,
+      "closed_count": 273,
+      "won_fraction": 0.7435897435897436
+    },
+    {
+      "minimum_duration_days": 118,
+      "closed_count": 256,
+      "won_fraction": 0.74609375
+    },
+    {
+      "minimum_duration_days": 119,
+      "closed_count": 237,
+      "won_fraction": 0.7552742616033755
+    },
+    {
+      "minimum_duration_days": 120,
+      "closed_count": 215,
+      "won_fraction": 0.7534883720930232
+    },
+    {
+      "minimum_duration_days": 121,
+      "closed_count": 191,
+      "won_fraction": 0.7591623036649214
+    },
+    {
+      "minimum_duration_days": 122,
+      "closed_count": 169,
+      "won_fraction": 0.7514792899408284
+    },
+    {
+      "minimum_duration_days": 123,
+      "closed_count": 148,
+      "won_fraction": 0.7567567567567568
+    },
+    {
+      "minimum_duration_days": 124,
+      "closed_count": 134,
+      "won_fraction": 0.7388059701492538
+    },
+    {
+      "minimum_duration_days": 125,
+      "closed_count": 116,
+      "won_fraction": 0.7672413793103449
+    },
+    {
+      "minimum_duration_days": 126,
+      "closed_count": 99,
+      "won_fraction": 0.8080808080808081
+    },
+    {
+      "minimum_duration_days": 127,
+      "closed_count": 79,
+      "won_fraction": 0.7721518987341772
+    },
+    {
+      "minimum_duration_days": 128,
+      "closed_count": 64,
+      "won_fraction": 0.796875
+    },
+    {
+      "minimum_duration_days": 129,
+      "closed_count": 60,
+      "won_fraction": 0.7833333333333333
+    },
+    {
+      "minimum_duration_days": 130,
+      "closed_count": 57,
+      "won_fraction": 0.7719298245614035
+    },
+    {
+      "minimum_duration_days": 131,
+      "closed_count": 53,
+      "won_fraction": 0.7735849056603774
+    },
+    {
+      "minimum_duration_days": 132,
+      "closed_count": 46,
+      "won_fraction": 0.7608695652173914
+    },
+    {
+      "minimum_duration_days": 133,
+      "closed_count": 38,
+      "won_fraction": 0.7631578947368421
+    },
+    {
+      "minimum_duration_days": 134,
+      "closed_count": 35,
+      "won_fraction": 0.7428571428571429
+    },
+    {
+      "minimum_duration_days": 135,
+      "closed_count": 26,
+      "won_fraction": 0.8076923076923077
+    },
+    {
+      "minimum_duration_days": 136,
+      "closed_count": 23,
+      "won_fraction": 0.8260869565217391
+    },
+    {
+      "minimum_duration_days": 137,
+      "closed_count": 13,
+      "won_fraction": 0.8461538461538461
+    },
+    {
+      "minimum_duration_days": 138,
+      "closed_count": 2,
+      "won_fraction": 0.5
+    }
+  ],
+  "closed_cumulative_rate_decreases": 53,
+  "central_pattern": {
+    "prospecting_open": 500,
+    "engaging_open": 408,
+    "engage_date_min": "2017-07-19",
+    "engage_date_max": "2017-08-15",
+    "age_days_min": 138,
+    "age_days_max": 165,
+    "recent_closed_strict": {
+      "Won": 466,
+      "Lost": 308
+    },
+    "recent_closed_inclusive": {
+      "Won": 474,
+      "Lost": 309
+    }
+  },
+  "closed_before_reference": 6687,
+  "won_count": 4219,
+  "lost_count": 2468,
+  "won_median_days": 57,
+  "lost_median_days": 14.0,
+  "won_p90_days_inclusive": 106.0,
+  "won_more_than_120_days_count": 145,
+  "closed_duration_groups": {
+    "less_than_30_days": {
+      "closed_count": 3150,
+      "won_count": 1809,
+      "won_fraction": 0.5742857142857143
+    },
+    "more_than_120_days": {
+      "closed_count": 191,
+      "won_count": 145,
+      "won_fraction": 0.7591623036649214
+    }
+  },
+  "regions": {
+    "Central": {
+      "open_count": 908,
+      "queues": {
+        "cleanup": 408,
+        "qualify": 500
+      }
+    },
+    "East": {
+      "open_count": 433,
+      "queues": {
+        "cleanup": 359,
+        "conversion": 74
+      }
+    },
+    "West": {
+      "open_count": 748,
+      "queues": {
+        "cleanup": 610,
+        "conversion": 138
+      }
+    }
+  },
+  "salespeople_with_open_pipeline": 27,
+  "salespeople_without_conversion_count": 10,
+  "top20_index_queues": {
+    "cleanup": 19,
+    "conversion": 1
+  },
+  "interpretation": "Descriptive snapshot checks only. Closed duration groups are selected by eventual duration and observed closure; they do not estimate open-deal win probability or validate causal effects. No historical account snapshots or last-contact observations are available."
+}

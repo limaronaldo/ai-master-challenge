@@ -1,0 +1,2636 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Plano de ação comercial · Lead Scorer</title>
+    <style>
+@font-face {
+  font-family: Manrope;
+  src: url(/assets/manrope.woff2) format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+:root {
+  font-family: Manrope, system-ui, sans-serif;
+  color: #031a26;
+  background: #f5f4f3;
+  font-size: 16px;
+  line-height: 1.45;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+header {
+  background: #001f35;
+  color: white;
+  padding: 20px max(24px, calc((100vw - 1512px) / 2));
+}
+h1 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0 0 7px;
+}
+header p {
+  margin: 0;
+  color: #e0e5e9;
+}
+main {
+  max-width: 1560px;
+  margin: auto;
+  padding: 20px 24px;
+}
+h2 {
+  font-size: 17px;
+  line-height: 1.35;
+  margin: 0 0 4px;
+}
+h3 {
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+p {
+  margin: 6px 0;
+}
+a {
+  color: #001f35;
+}
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+  min-height: 42px;
+  border: 1px solid #aeb6bc;
+  border-radius: 6px;
+  background: white;
+  padding: 8px 10px;
+}
+button {
+  cursor: pointer;
+}
+button:hover {
+  background: #eeece8;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+:focus-visible {
+  outline: 3px solid #8c652f;
+  outline-offset: 3px;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: 600;
+}
+.filters {
+  display: flex;
+  gap: 10px 14px;
+  flex-wrap: wrap;
+  align-items: end;
+  margin-bottom: 12px;
+}
+.filters label {
+  flex: 1;
+  min-width: 150px;
+}
+.filters label.search {
+  flex: 1.3;
+}
+label span {
+  font-size: 14px;
+}
+input,
+select {
+  width: 100%;
+}
+.meta,
+.subtle {
+  color: #53616b;
+  font-size: 14px;
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 26px;
+  margin: 14px 0 4px;
+}
+.stats strong {
+  font-size: 20px;
+  margin-right: 5px;
+}
+.selection {
+  margin-top: 10px;
+}
+.list-head,
+.decision-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1.6fr) minmax(130px, .65fr);
+  gap: 10px 18px;
+}
+.list-head {
+  padding: 10px 16px;
+  background: #e8e7e5;
+  border-radius: 8px 8px 0 0;
+  font-weight: 650;
+  color: #001f35;
+}
+.decision-row {
+  background: white;
+  border: 1px solid #dddcd8;
+  border-top: 0;
+  padding: 14px 16px;
+}
+.decision-row:last-child {
+  border-radius: 0 0 8px 8px;
+}
+.cell {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.cell p {
+  margin: 2px 0;
+}
+.cell-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+.field-label {
+  font-size: 14px;
+  color: #53616b;
+}
+.role-line {
+  margin-bottom: 4px;
+}
+.pill {
+  display: inline-block;
+  background: #f0efed;
+  border: 1px solid #c9ccce;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 1px 6px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.pill.incomplete {
+  background: #fff3e0;
+  border-color: #cbb28d;
+  color: #6e4716;
+}
+.recommendation {
+  font-weight: 600;
+}
+.op-audit {
+  grid-column: 1/-1;
+  margin-top: 0;
+}
+.op-audit > summary {
+  cursor: pointer;
+  color: #001f35;
+  font-weight: 600;
+  list-style-position: inside;
+  text-align: right;
+}
+.op-audit[open] > summary {
+  text-align: left;
+  padding: 6px 0 12px;
+}
+.audit-content {
+  background: #faf9f7;
+  border: 1px solid #dddcd8;
+  border-radius: 8px;
+  padding: 18px;
+  margin-top: 6px;
+}
+.audit-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+}
+.audit-content th,
+.audit-content td {
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid #c9ccce;
+}
+.audit-content th {
+  background: #ecebe8;
+}
+.audit-block {
+  margin: 16px 0;
+}
+.audit-content dl {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 6px 12px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.audit-content dt {
+  font-weight: 600;
+}
+.audit-content dd {
+  margin: 0;
+}
+.total {
+  font-weight: 650;
+}
+.comparison {
+  border-left: 3px solid #8c652f;
+  padding-left: 12px;
+}
+.pager {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin: 18px 0;
+}
+.empty {
+  padding: 24px;
+  background: white;
+  border: 1px solid #c9ccce;
+  border-radius: 8px;
+}
+.advanced {
+  border-top: 1px solid #c9ccce;
+  margin-top: 24px;
+  padding: 14px 0;
+}
+.advanced summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+.advanced p {
+  max-width: 1000px;
+}
+.ruleinputs {
+  margin: 15px 0;
+}
+.ruleinputs label {
+  min-width: 210px;
+}
+#simerror {
+  color: #853810;
+}
+.audit-summary {
+  font-size: 14px;
+}
+footer {
+  font-size: 14px;
+  color: #53616b;
+  padding: 20px 0;
+}
+#status {
+  margin: 12px 0 10px;
+  font-weight: 600;
+}
+.audit-scroll {
+  overflow-x: auto;
+}
+.selection-state {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 8px 0;
+}
+.selection-state p {
+  overflow-wrap: anywhere;
+}
+#simulation-banner:not([hidden]) {
+  display: block;
+  background: #fff3de;
+  border: 1px solid #be9c59;
+  padding: 10px 14px;
+  margin: 10px 0;
+}
+#simulation-banner button {
+  margin-left: 10px;
+}
+#filterpanel > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 10px 0;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (min-width: 861px) {
+  #filterpanel > summary {
+    display: block;
+  }
+}
+@media (max-width: 860px) {
+  header {
+    padding: 18px 16px;
+  }
+  main {
+    padding: 16px;
+  }
+  h1 {
+    font-size: 25px;
+  }
+  .list-head {
+    display: none;
+  }
+  .decision-row {
+    display: block;
+    border: 1px solid #ccd8ce;
+    border-radius: 10px !important;
+    margin: 12px 0;
+    padding: 16px;
+  }
+  .cell {
+    margin: 8px 0;
+  }
+  .cell:first-child {
+    margin-top: 0;
+  }
+  .cell-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    color: #53616b;
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  .action-cell .cell-label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    display: block;
+    margin-bottom: 3px;
+  }
+  .responsible {
+    display: flex;
+    gap: 4px 14px;
+    flex-wrap: wrap;
+  }
+  .responsible .role-line {
+    margin: 0;
+  }
+  .op-audit {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #dddcd8;
+  }
+  .op-audit > summary {
+    text-align: left;
+  }
+  .audit-content {
+    padding: 12px;
+  }
+  .audit-content table {
+    min-width: 640px;
+  }
+  .audit-content dl {
+    display: block;
+  }
+  .audit-content dt {
+    margin-top: 10px;
+  }
+  .filters label {
+    min-width: 140px;
+  }
+  .stats {
+    gap: 8px 16px;
+  }
+  .stats strong {
+    font-size: 19px;
+  }
+  .pager {
+    justify-content: space-between;
+  }
+  .scope {
+    font-size: 15px;
+  }
+  .queue-switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .queue-switch button {
+    min-width: 0;
+  }
+  #filterpanel {
+    margin-bottom: 12px;
+    border-bottom: 1px solid #c9ccce;
+  }
+}
+
+.brandline {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+.brandline strong {
+  font-size: 30px;
+  letter-spacing: -2px;
+}
+.brandline span {
+  font-size: 12px;
+  letter-spacing: 1.3px;
+  color: #b9915b;
+}
+header {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+header .historical {
+  font-size: 13px;
+  color: #bac6cf;
+  margin-top: 10px;
+}
+h1 {
+  font-size: 32px;
+  letter-spacing: -0.7px;
+}
+.primary-filters {
+  margin-top: 6px;
+}
+.primary-filters label.search {
+  flex: 2;
+}
+.primary-filters label {
+  flex: 1;
+}
+#filterpanel {
+  border-bottom: 1px solid #d8d9da;
+  margin-bottom: 12px;
+}
+#filterpanel > summary {
+  display: inline-block;
+  padding: 8px 0;
+  color: #001f35;
+}
+.selection-state {
+  align-items: flex-start;
+}
+#activefilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 4px;
+}
+.filter-chip {
+  font-size: 13px;
+  min-height: 34px;
+  padding: 5px 9px;
+  background: #eeece8;
+}
+.decision-row {
+  padding: 12px 16px;
+  row-gap: 4px;
+}
+.decision-row h2 {
+  font-size: 16px;
+}
+.op-audit > summary {
+  display: block;
+  color: #001f35;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.op-audit > summary { display: none; }
+.op-audit:not([open]) { display: none; }
+.detail-button { width: 100%; min-height: 44px; }
+.review-state { color: #53616b; font-size: 12px; }
+.review-state.complete { color: #285640; font-weight: 600; }
+.data-warning { color: #6e4716; }
+.review-controls { border-left: 3px solid #b9915b; padding: 8px 12px; margin: 14px 0; }
+.review-controls p { margin: 6px 0; }
+.score-explanation {
+  margin: 16px 0;
+  border: 1px solid #c9ccce;
+  border-radius: 6px;
+  padding: 12px;
+}
+.score-explanation > summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.queue-switch button[aria-pressed="true"] {
+  background: #001f35;
+  color: #fff;
+  border-color: #001f35;
+}
+.stats {
+  padding: 10px 0;
+}
+.stats strong {
+  color: #001f35;
+}
+#reset {
+  font-size: 14px;
+  white-space: nowrap;
+}
+a:hover,
+summary:hover {
+  color: #886338;
+}
+@media (max-width: 860px) {
+  h1 {
+    font-size: 26px;
+  }
+  .brandline {
+    margin-bottom: 18px;
+  }
+  .brandline span {
+    font-size: 10px;
+  }
+  .primary-filters {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .primary-filters label {
+    min-width: 0;
+  }
+  .selection-state {
+    flex-wrap: wrap;
+  }
+  .decision-row {
+    padding: 14px;
+  }
+  .decision-row .cell {
+    margin: 6px 0;
+  }
+  .queue-switch {
+    display: flex;
+  }
+  .queue-switch button {
+    flex: 1;
+    font-size: 14px;
+  }
+  .stats {
+    gap: 6px 14px;
+  }
+  .stats span {
+    font-size: 13px;
+  }
+  .stats strong {
+    font-size: 18px;
+  }
+  .historical {
+    line-height: 1.5;
+  }
+}
+:root {
+  --g4-navy: #001f35;
+  --g4-gold: #b9915b;
+  --g4-paper: #f5f4f3;
+  --g4-ink: #031a26;
+}
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  line-height: 1.5;
+  border: 1px solid #aeb6bc;
+  border-radius: 6px;
+  padding: 12px;
+  resize: vertical;
+}
+.group-paths {
+  padding: 16px;
+  margin: 16px 0;
+  border: 1px solid #d5d9dc;
+  border-radius: 8px;
+}
+.group-paths[hidden] { display: none; }
+.group-paths p { margin: 0 0 10px; }
+.group-paths button[aria-pressed="true"] { background: #001f35; color: white; }
+.team-queues { margin: 12px 0 0; }
+.team-queues > div { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 12px; margin: 8px 0; }
+.team-queues dd { min-width: 0; margin: 0; text-align: right; font-weight: 600; }
+.team-queues .meta { display: block; font-weight: 400; overflow-wrap: normal; word-break: normal; }
+#jevform {
+  max-width: 800px;
+}
+#jevcontrols {
+  margin-top: 14px;
+}
+#jevcontrols[hidden],
+#jevconsents[hidden] {
+  display: none;
+}
+.consent {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  font-weight: 400;
+  margin: 12px 0;
+  gap: 10px;
+}
+.consent input {
+  width: 20px;
+  min-height: 20px;
+  flex-shrink: 0;
+}
+.filter-chip {
+  white-space: normal;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+#activefilters {
+  min-width: 0;
+  max-width: 100%;
+}
+select {
+  min-width: 0;
+  max-width: 100%;
+}
+.action-cell p {
+  font-size: 14px;
+}
+.audit-scroll {
+  max-width: 100%;
+}
+.audit-content {
+  min-width: 0;
+}
+.audit-content table {
+  table-layout: fixed;
+}
+button {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 860px) {
+  .filters label {
+    min-width: 0;
+    flex-basis: 100%;
+  }
+  .stats span {
+    font-size: 14px;
+  }
+  .decision-row h2 {
+    font-size: 17px;
+  }
+  .queue-switch {
+    flex-wrap: wrap;
+  }
+  .queue-switch button {
+    flex-basis: 45%;
+    min-width: 0;
+  }
+  .audit-content table {
+    min-width: 0;
+    table-layout: fixed;
+    font-size: 14px;
+  }
+  .audit-content th,
+  .audit-content td {
+    padding: 6px;
+    overflow-wrap: anywhere;
+  }
+  .brandline span {
+    font-size: 12px;
+  }
+}
+@media (max-width: 860px) {
+  .audit-content table,
+  .audit-content tbody,
+  .audit-content tr,
+  .audit-content th,
+  .audit-content td {
+    display: block;
+    width: 100%;
+  }
+  .audit-content thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+  .audit-content tr {
+    margin: 12px 0;
+  }
+  .audit-content th,
+  .audit-content td {
+    padding: 10px;
+    font-size: 14px;
+  }
+  .audit-content td::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .audit-content th {
+    font-size: 16px;
+  }
+}
+
+#workflowtools > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 8px 0;
+  color: var(--g4-navy);
+}
+.workflow-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin: 14px 0;
+}
+.workflow-bar label {
+  flex: 1;
+  min-width: 170px;
+}
+.workflow-bar button {
+  flex: 0 1 auto;
+}
+.review-check {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 13px;
+  gap: 6px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.review-check input {
+  width: 18px;
+  min-height: 18px;
+}
+.queue-switch button {
+  flex: 1;
+}
+.queue-switch small {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+}
+.account-group {
+  background: #fff;
+  border: 1px solid #c9ccce;
+  border-radius: 8px;
+  margin: 12px 0;
+  padding: 14px;
+}
+.account-group > summary {
+  cursor: pointer;
+  list-style-position: inside;
+  font-weight: 700;
+}
+.account-group .decision-row {
+  margin-top: 12px;
+  border-top: 1px solid #dddcd8;
+}
+.team-panel {
+  background: #fff;
+  border: 1px solid #c9ccce;
+  border-radius: 8px;
+  padding: 14px;
+  margin: 16px 0;
+}
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.team-card {
+  background: #f5f4f3;
+  border-radius: 6px;
+  padding: 12px;
+}
+.team-card button {
+  font-weight: 650;
+  width: 100%;
+  text-align: left;
+}
+.fit-context {
+  font-size: 13px;
+  color: #53616b;
+}
+.timing {
+  color: #6e4716;
+}
+.jev-deal-host .advanced {
+  margin: 16px 0 0;
+}
+.export-note {
+  margin-bottom: 16px;
+}
+.workflow-bar [hidden],
+#jevhome[hidden],
+#jevpanel[hidden],
+#team-panel[hidden] {
+  display: none;
+}
+@media (max-width: 860px) {
+  .workflow-bar label {
+    min-width: 0;
+    flex-basis: 100%;
+  }
+  .workflow-bar button {
+    flex: 1 1 45%;
+  }
+  .queue-switch button {
+    flex-basis: 100%;
+  }
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+  .account-group {
+    padding: 10px;
+  }
+}
+
+/* Keep the entry compact so the first recommendation is visible on a phone. */
+[hidden] {
+  display: none !important;
+}
+.empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+.brandline {
+  margin-bottom: 10px;
+}
+header {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.primary-filters {
+  margin-top: 0;
+  margin-bottom: 6px;
+}
+#filterpanel {
+  margin-bottom: 6px;
+}
+.stats {
+  margin: 6px 0;
+  padding: 4px 0;
+}
+.queue-switch {
+  margin-bottom: 6px;
+}
+#queuehint {
+  margin: 4px 0 6px;
+}
+.workflow-bar {
+  margin: 8px 0;
+}
+#workflowtools > summary {
+  padding: 6px 0;
+}
+#status {
+  font-size: 14px;
+  margin: 8px 0;
+}
+.review-check {
+  margin-top: 0;
+}
+@media (max-width: 860px) {
+  header {
+    padding: 12px;
+  }
+  h1 {
+    font-size: 22px;
+  }
+  header > p {
+    font-size: 14px;
+  }
+  header .historical {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+  .brandline {
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .brandline strong {
+    font-size: 24px;
+  }
+  .brandline span {
+    font-size: 10px;
+    letter-spacing: 0.6px;
+  }
+  main {
+    padding: 10px 12px;
+  }
+  .primary-filters {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 8px;
+  }
+  .primary-filters label {
+    min-width: 0;
+  }
+  .primary-filters label span {
+    font-size: 12px;
+  }
+  .primary-filters input,
+  .primary-filters select {
+    padding: 7px;
+    font-size: 13px;
+  }
+  .stats {
+    gap: 2px 12px;
+    line-height: 1.4;
+  }
+  .stats span {
+    font-size: 12px;
+  }
+  .stats strong {
+    font-size: 16px;
+  }
+  .queue-switch {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .queue-switch button {
+    font-size: 12px;
+    padding: 6px;
+    line-height: 1.3;
+  }
+  #queuehint {
+    font-size: 12px;
+  }
+  #workflowtools > summary {
+    font-size: 13px;
+  }
+  #status {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .decision-row {
+    margin: 8px 0;
+    padding: 12px;
+  }
+  .decision-row .cell {
+    margin: 4px 0;
+  }
+  .decision-row .meta {
+    font-size: 12px;
+  }
+  .decision-row .catalog-price {
+    display: none;
+  }
+  .responsible {
+    font-size: 12px;
+  }
+  .timing,
+  .recommendation {
+    font-size: 14px;
+  }
+}
+.startup-help {
+  margin-bottom: 20px;
+  border-left: 4px solid #B9915B;
+}
+.startup-help h2 { font-size: 22px; }
+.startup-help li { margin: 12px 0; }
+.startup-help pre {
+  padding: 12px;
+  background: #F5F4F3;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Review stays in a bounded, accessible dialog; the list keeps its state underneath. */
+body:has(.review-drawer[open]) { overflow: hidden; }
+.decision-row:has(.review-drawer[open]) { background: #f3efe8; }
+.review-drawer {
+  position: fixed; inset: 0 0 0 auto; margin: 0; padding: 0;
+  width: min(720px, 100vw); max-width: 100vw; height: 100dvh; max-height: 100dvh;
+  border: 0; border-left: 1px solid #d7d9da; color: var(--g4-ink); background: #faf9f7;
+  box-shadow: -10px 0 32px #001f3526;
+}
+.review-drawer::backdrop { background: #001f3540; }
+.review-drawer:not([open]) { display: none; }
+.review-drawer .review-layout {
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%; margin: 0; padding: 0; border: 0; border-radius: 0;
+}
+.review-header { display: flex; justify-content: space-between; align-items: start; gap: 16px; padding: 18px 24px; border-bottom: 1px solid #dddcd8; background: #fff; }
+.review-header h2 { font-size: 24px; margin: 2px 0 6px; }
+.review-header p { margin: 3px 0; }
+.review-header .eyebrow { font-size: 12px; color: #53616b; }
+.review-header button { flex-shrink: 0; min-height: 44px; }
+.date-reference { font-size: 12px; color: #53616b; }
+.review-scroll { overflow-y: auto; padding: 20px 24px; overscroll-behavior: contain; }
+.review-scroll p { max-width: 65ch; line-height: 1.55; }
+.review-scroll h3 { font-size: 16px; margin: 0 0 8px; }
+.decision-block { padding-bottom: 18px; }
+.decision-block h3:not(:first-child) { margin-top: 18px; }
+.decision-block p { margin: 6px 0; }
+.decision-block .recommendation { font-size: 18px; }
+.context-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+.context-card { padding: 14px; background: #fff; border: 1px solid #dddcd8; border-radius: 8px; min-width: 0; }
+.review-drawer .facts { display: block; font-size: 14px; margin: 0; }
+.facts > div { margin: 12px 0; }
+.review-drawer .facts dt { font-size: 12px; font-weight: 500; color: #53616b; }
+.review-drawer .facts dd { margin: 3px 0 0; font-weight: 600; overflow-wrap: anywhere; }
+.context-card .meta { font-size: 12px; }
+.criteria-explanation { border-block: 1px solid #dddcd8; padding: 14px 0; }
+.criteria-explanation > summary { cursor: pointer; font-weight: 650; }
+.criteria-explanation .audit-block { margin: 20px 0; }
+.note-tools { margin-top: 18px; }
+.review-footer { padding: 12px 24px; background: #fff; border-top: 1px solid #dddcd8; }
+.review-footer-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.review-footer .review-check { margin: 0; font-size: 14px; min-height: 44px; }
+.review-footer .meta { font-size: 12px; margin: 8px 0 0; }
+.panel-feedback { font-size: 13px; margin: 6px 0 0; color: #285640; }
+.panel-feedback:empty { display: none; }
+.account-opportunities { margin: 0 0 20px; padding: 14px; border: 1px solid #dddcd8; border-radius: 8px; background: #fff; }
+.account-opportunities > summary { cursor: pointer; font-weight: 650; }
+.context-list, .policy-case-list { list-style: none; padding: 0; margin: 14px 0; }
+.context-list > li, .policy-case-list > li { padding: 14px; margin: 10px 0; border: 1px solid #d7d9da; border-radius: 8px; background: #fff; overflow-wrap: anywhere; }
+.context-list p, .policy-case-list p { margin: 5px 0; }
+.policy-case-list > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 16px; align-items: start; }
+.policy-case-list button { min-height: 44px; }
+.policy-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.team-queues dt button { padding: 4px 6px; min-height: 44px; font-size: inherit; text-align: left; overflow-wrap: normal; word-break: normal; }
+.team-queues dt { min-width: 0; }
+.review-context-note { padding: 10px; background: #f0f3f4; border-radius: 6px; }
+#policychanges[hidden] { display: none; }
+@media (max-width: 540px) {
+  .review-drawer { width: 100vw; border: 0; }
+  .review-header { padding: 14px 16px; gap: 10px; }
+  .review-header h2 { font-size: 22px; }
+  .review-scroll { padding: 18px 16px; }
+  .review-footer { padding: 12px 16px; }
+  .context-grid { grid-template-columns: 1fr; }
+  .review-footer-top button { font-size: 13px; flex-shrink: 0; }
+  .review-footer .review-check { font-size: 13px; }
+  .policy-case-list > li { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .review-footer-top { flex-wrap: wrap; }
+}
+
+</style>
+  </head>
+  <body>
+    <header>
+      <div class="brandline"><strong>G4</strong><span>LEAD SCORER · DEMONSTRAÇÃO LOCAL</span></div>
+      <h1>Seu plano de ação comercial</h1>
+      <p>Avance conversões, valide negócios estagnados e prepare novas contas.</p>
+      <p class="historical">
+        Dados históricos · referência: 31/12/2017 · não retratam a carteira atual.
+      </p>
+    </header>
+    <main>
+      <section id="server-help" class="empty startup-help" role="alert" aria-labelledby="server-help-title" hidden>
+        <h2 id="server-help-title">Inicie o servidor local para usar o aplicativo</h2>
+        <p id="server-help-reason"></p>
+        <ol>
+          <li>Abra um terminal na pasta <code>submissions/ronaldo-lima-filho/</code> extraída do ZIP e execute:
+            <pre><code>cd solution
+python3 -B app.py</code></pre>
+            É necessário Python 3.10 ou superior. Se já estiver na pasta <code>solution</code>, execute somente o comando Python.
+          </li>
+          <li>Mantenha esse terminal aberto enquanto usa o aplicativo.</li>
+          <li>Com o servidor Python rodando, acesse:<br>
+            <a id="open-local-app" href="http://127.0.0.1:8765/">http://127.0.0.1:8765/</a>
+          </li>
+        </ol>
+        <p>O servidor lê os CSVs da pasta <code>solution/data/</code>. Abrir o arquivo <code>index.html</code> diretamente não inicia esse serviço.</p>
+      </section>
+      <div id="workspace">
+      <section class="primary-filters filters" aria-label="Busca e vendedor">
+        <label class="search"
+          ><span>Buscar conta ou ID</span
+          ><input id="search" aria-label="Buscar conta ou ID" placeholder="Ex.: HAXMC4IX" /></label
+        ><label
+          ><span>Vendedor</span
+          ><select id="agent" aria-label="Vendedor">
+            <option value="">Todos</option>
+          </select></label
+        >
+      </section>
+      <details id="filterpanel">
+        <summary id="filtersummary">Mais filtros</summary>
+        <section aria-label="Filtros da lista">
+          <div class="filters">
+            <label
+              ><span>Gestor</span
+              ><select id="manager" aria-label="Gestor">
+                <option value="">Todos</option>
+              </select></label
+            >
+            <label
+              ><span>Região</span
+              ><select id="region" aria-label="Região">
+                <option value="">Todas</option>
+              </select></label
+            >
+            <label
+              ><span>Etapa</span
+              ><select id="stage" aria-label="Etapa">
+                <option value="">Todas abertas</option>
+                <option>Engaging</option>
+                <option>Prospecting</option>
+              </select></label
+            >
+
+            <label
+              ><span>Conta identificada</span
+              ><select id="accountfilter">
+                <option value="">Todas</option>
+                <option value="identified">Com conta</option>
+                <option value="missing">Sem conta</option>
+              </select></label
+            >
+            <label
+              ><span>Ordenação</span
+              ><select id="sort" aria-label="Ordenação">
+                <option value="operational">Janela de atenção primeiro</option>
+                <option value="urgency">Baseline · mais antigos</option>
+                <option value="score">Maior índice</option>
+                <option value="catalog_price">Maior catálogo</option>
+              </select></label
+            >
+            <label
+              ><span>Exibir</span
+              ><select id="view" aria-label="Exibir">
+                <option value="top10">Primeiras 10</option>
+                <option value="all">Fila completa</option>
+              </select></label
+            >
+          </div>
+          <button id="reviewqueue" type="button" aria-pressed="false">
+            Consultar baseline por idade
+          </button>
+          <p id="scope" class="scope">
+            Visão global permitida. Selecione um vendedor para ver sua carteira.
+          </p>
+        </section>
+      </details>
+      <div id="selectionstate" class="selection-state">
+        <div id="activefilters" class="meta" aria-label="Seleções ativas">Sem filtros ativos.</div>
+        <button id="reset">Limpar filtros</button>
+      </div>
+      <div id="simulation-banner" role="status" hidden>
+        <strong>SIMULAÇÃO DO ÍNDICE</strong> · filas e critérios operacionais preservados.
+        <p id="simulation-impact"></p>
+        <button id="comparesimulation" type="button">Comparar por maior índice</button>
+        <button id="restorevisible">Voltar à base</button>
+      </div>
+      <div id="stats" class="stats" aria-live="polite"></div>
+      <section id="team-panel" class="team-panel" aria-label="Resumo do gestor" hidden></section>
+      <div class="filters queue-switch" aria-label="Fila de trabalho">
+        <button id="conversionqueue" aria-pressed="true">Ação de conversão</button
+        ><button id="cleanupqueue" aria-pressed="false">Saneamento de pipeline</button
+        ><button id="investigate" aria-pressed="false">Qualificação e cadastro</button>
+      </div>
+      <p id="queuehint" class="meta"></p>
+      <details id="workflowtools">
+        <summary>Organizar e exportar fila</summary>
+        <div class="workflow-bar">
+          <label
+            ><span>Visualização</span
+            ><select id="layout">
+              <option value="opportunities">Oportunidades</option>
+              <option value="accounts">Agrupar por conta</option>
+            </select></label
+          ><label
+            ><span>Revisão desta sessão</span
+            ><select id="reviewfilter">
+              <option value="">Todas</option>
+              <option value="pending">Pendentes</option>
+              <option value="reviewed">Revisadas</option>
+            </select></label
+          >
+        </div>
+        <div class="workflow-bar">
+          <button id="exportcsv" type="button">Exportar fila · CSV</button
+          ><button id="exportmd" type="button">Exportar resumo · Markdown</button
+          ><button id="copysummary" type="button">Copiar resumo para Slack</button>
+        </div>
+        <p class="meta export-note">
+          Exportação inclui toda a fila filtrada, além da página visível. Revisados ficam somente
+          nesta aba e são apagados ao recarregar.
+        </p>
+      </details>
+      <p id="workflowstatus" role="status"></p>
+      <p id="reviewstatus" role="status"></p>
+      <section id="group-paths" class="group-paths" aria-label="Objetivo do agrupamento" hidden>
+        <p><strong>Escolha o trabalho desta fila</strong></p>
+        <div class="workflow-bar">
+          <button id="groupidentified" type="button" aria-pressed="true">Coordenar contas identificadas</button>
+          <button id="groupmissing" type="button" aria-pressed="false">Identificar contas</button>
+        </div>
+        <p id="group-hint" class="meta"></p>
+      </section>
+      <div id="status" role="status" tabindex="-1">Carregando dados locais…</div>
+      <button id="retryload" type="button" hidden>Tentar carregar novamente</button>
+      <div class="list-head" aria-hidden="true">
+        <span>Oportunidade</span><span>Responsável</span><span>Motivo para revisar</span
+        ><span>Ação</span>
+      </div>
+      <section id="list" aria-label="Oportunidades para revisar"></section>
+      <div class="pager">
+        <button id="prev">Anterior</button><span id="page"></span><button id="next">Próxima</button>
+      </div>
+      <p class="subtle">
+        Fila e sugestões produzidas por regras locais. O módulo de texto JEV é opcional e separado.
+        Execução e correções de cadastro devem ocorrer no CRM; esta ferramenta não altera dados.
+      </p>
+      <div id="jevhome" hidden>
+        <section id="jevpanel" class="advanced" aria-labelledby="jevtitle">
+          <h2 id="jevtitle">Nota da oportunidade · JEV opcional</h2>
+          <p id="jevdeal" class="meta"></p>
+          <p class="meta">
+            Desativado por padrão. Não altera índice, pesos ou ordenação. O dataset não contém notas
+            de contato; nenhum registro é enviado automaticamente.
+          </p>
+          <form id="jevform">
+            <label
+              >Modo do módulo<select id="jevmode">
+                <option value="disabled">Desativado · somente regras locais</option>
+                <option value="mock">Demonstração local · mock sem rede</option>
+                <option value="service">Serviço JEV · exige autorização e configuração</option>
+              </select></label
+            >
+            <div id="jevcontrols" hidden>
+              <label id="jevfixturecontrol" hidden>Exemplo sintético para demonstração
+                <select id="jevfixture">
+                  <option value="insufficient_context">Contexto insuficiente</option>
+                  <option value="explicit_next_step">Próximo passo explícito</option>
+                  <option value="explicit_objection">Objeção explícita</option>
+                </select>
+              </label>
+              <label for="jevtext">Texto público ou sintético para classificar</label
+              ><textarea
+                id="jevtext"
+                maxlength="4000"
+                rows="4"
+                placeholder="Exemplo sintético: Foi combinado revisar a proposta na próxima reunião."
+              ></textarea>
+              <p class="meta">
+                Máximo 4.000 caracteres. O texto e a classificação não são salvos pelo aplicativo.
+              </p>
+              <div id="jevconsents" hidden>
+                <label
+                  >Natureza do texto<select id="jevdata">
+                    <option value="synthetic">Sintético</option>
+                    <option value="public">Público</option>
+                  </select></label
+                ><label class="consent"
+                  ><input id="jevconsent" type="checkbox" />Confirmo que este texto é público ou
+                  sintético e autorizo enviar somente este texto para api.typesafe.ai.</label
+                ><label class="consent"
+                  ><input id="jevcost" type="checkbox" />Autorizo o custo desta única requisição com
+                  as credenciais configuradas no servidor.</label
+                >
+              </div>
+              <button id="jevsubmit" type="submit">Analisar nota e sugerir próximo passo</button>
+            </div>
+          </form>
+          <p id="jevstatus" role="status">JEV desativado. Fila e regras locais preservadas.</p>
+          <div id="jevresult" aria-live="polite"></div>
+        </section>
+      </div>
+      <details class="advanced" id="simulator">
+        <summary>Simular índice</summary>
+        <p>
+          Experimente os pesos e limiares do índice opcional. As três filas, seus limites e a
+          ordenação operacional permanecem iguais. Veja o índice nos detalhes ou compare pela
+          ordenação “Maior índice”. A simulação mostra sensibilidade às regras, não efeito sobre
+          vendas; dados ausentes não têm bônus ou penalidade de cadastro.
+        </p>
+        <form id="simform">
+          <div id="ruleinputs" class="filters ruleinputs"></div>
+          <button id="apply" type="submit">Aplicar ao índice</button>
+          <button id="simreset" type="button">Restaurar índice original</button>
+        </form>
+        <p id="simstatus" role="status">Base original; nenhuma simulação aplicada.</p>
+        <p id="simerror" role="alert"></p>
+      </details>
+      <details class="advanced" id="policy-lab">
+        <summary>Laboratório de políticas operacionais</summary>
+        <p>Inspecione limites alternativos sobre todas as 2.089 abertas da base, independentemente dos filtros e da simulação do índice. A fila principal e suas exportações permanecem na política-base: &gt;120 dias OU &gt;2,5× mediana Won do produto.</p>
+        <form id="policyform">
+          <div class="filters">
+            <label>Limite em dias para saneamento<input id="policydays" type="number" min="1" max="3650" step="1" value="120" required></label>
+            <label>Limite relativo à mediana Won do produto<input id="policyratio" type="number" min="0.1" max="100" step="0.1" value="2.5" required></label>
+            <label class="consent"><input id="policydayonly" type="checkbox">Avaliar apenas o limite em dias</label>
+          </div>
+          <button type="submit">Inspecionar cenário de filas</button>
+          <button id="policyreset" type="button">Restaurar limites-base do laboratório</button>
+        </form>
+        <p>Este laboratório mostra quantas e quais oportunidades mudariam de fila sob outros limites operacionais. Alterar limites redistribui a triagem, mas não cria oportunidades melhores nem altera a chance de fechamento.</p>
+        <p id="policystatus" role="status">Nenhum cenário inspecionado; fila principal na política-base.</p>
+        <p id="policyerror" role="alert"></p>
+        <details id="policychanges" hidden>
+          <summary id="policychangessummary">Oportunidades que mudariam de fila</summary>
+          <p class="meta">Transições hipotéticas sobre toda a base original, independentemente dos filtros. Os detalhes mostram a fila registrada na política-base. Este CSV contém somente os casos reclassificados e não altera a exportação da fila principal.</p>
+          <button id="exportpolicy" type="button" disabled>Exportar todos os casos reclassificados · CSV</button>
+          <div id="policycases"></div>
+          <div class="policy-pagination">
+            <button id="policyprev" type="button" disabled>Casos anteriores</button>
+            <span id="policycasepage" role="status"></span>
+            <button id="policynext" type="button" disabled>Próximos casos</button>
+          </div>
+          <p id="policyexportstatus" role="status"></p>
+        </details>
+      </details>
+      <details class="advanced">
+        <summary>Metodologia, fonte e limites</summary>
+        <p>
+          Filas operacionais: conversão; saneamento (>120 dias OU >2,5× mediana de ciclo Won do
+          produto); qualificação (Prospecting ou início sem data válida). Conversão destaca 1–2× o
+          ciclo, com fallback de 30–90 dias quando não há mediana positiva. São critérios propostos
+          de atenção, sem diagnóstico de esfriamento. Baseline por idade continua disponível.
+          A base não contém a data do último contato. Segundo a fonte, a idade considera o início
+          de Engaging; não há histórico para validar reentradas ou tempo contínuo na etapa. Índice opcional de até 80
+          pontos: fase + idade + catálogo. Não é probabilidade de conversão nem confiança.
+        </p>
+        <p>
+          Completude não valida correção: os quatro campos de contexto são conta, produto, vendedor
+          e data. “Limitada”/“parcial” são rótulos operacionais, não confiança estatística. Sem data
+          não é baixa urgência comprovada. Os comparáveis, ciclos históricos e atributos de conta
+          não acrescentam pontos. Ciclos históricos orientam somente a fila operacional, separada do
+          índice-base.
+        </p>
+        <p>
+          Won e Lost ficam fora da fila. close_value e close_date não entram no score. Fechamentos
+          anteriores à referência compõem o histórico da conta (Won/Lost) e o ciclo mediano do
+          produto (Won). Dados de fechamento da oportunidade aberta nunca entram no cálculo. Sem
+          versões históricas dos atributos de conta, isto é uma demonstração retrospectiva, sem
+          backtest temporal.
+        </p>
+        <div id="identity" class="meta"></div>
+        <p>
+          Fonte:
+          <a href="https://www.kaggle.com/datasets/agungpambudi/crm-sales-predictive-analytics"
+            >CRM Sales Predictive Analytics</a
+          >; CC0 declarado no brief G4. Atributos sem versões históricas; nenhuma melhoria comercial
+          demonstrada.
+        </p>
+      </details>
+      <footer>
+        Lead Scorer G4 · demonstração local · dados e regras revisáveis, sem integração ao CRM.
+      </footer>
+      </div>
+    </main>
+    <script>
+let rows = [],
+  base = null,
+  current = null,
+  simulation = false,
+  page = 0,
+  requestId = 0,
+  workflowRevision = 0,
+  queue = "conversion",
+  groupPath = "identified",
+  reviewed = new Set(),
+  jevDealId = null;
+const size = 30;
+const detailPositions = new Map();
+const contextDetails = new Set();
+const detailReturnStack = [];
+let policyScenario = null, policyPage = 0;
+const queueNames = { conversion: "Ação de conversão", cleanup: "Saneamento", qualify: "Qualificação" };
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) =>
+  String(s).replace(
+    /[&<>"']/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+  );
+const num = (n) => (n === null ? "Não disponível" : new Intl.NumberFormat("pt-BR").format(n));
+const price = (n) =>
+  n === null
+    ? "Não disponível"
+    : new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(
+        n,
+      );
+function operationalOrder(a, b) {
+  const weight = { window: 0, overrun: 1, early: 2, qualification: 3, critical: 4 };
+  const sameConversionTiming =
+    a.operations.queue === "conversion" &&
+    b.operations.queue === "conversion" &&
+    a.operations.timing === b.operations.timing;
+  return (
+    weight[a.operations.timing] - weight[b.operations.timing] ||
+    (sameConversionTiming ? Number(b.account_identified) - Number(a.account_identified) : 0) ||
+    (b.age ?? -1) - (a.age ?? -1) ||
+    (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
+  );
+}
+function selection(ignoreAccountFilter = false) {
+  return rows
+    .filter(
+      (r) =>
+        ["agent", "manager", "region", "stage"].every((k) => !$(k).value || r[k] === $(k).value) &&
+        (!$("search").value ||
+          [r.account, r.id].some((v) =>
+            v.toLowerCase().includes($("search").value.toLowerCase().trim()),
+          )) &&
+        (ignoreAccountFilter || !$("accountfilter").value ||
+          r.account_identified === ($("accountfilter").value === "identified")) &&
+        (!$("reviewfilter").value ||
+          reviewed.has(r.id) === ($("reviewfilter").value === "reviewed")),
+    )
+    .sort((a, b) =>
+      $("sort").value === "operational"
+        ? operationalOrder(a, b)
+        : (b[$("sort").value] ?? -1) - (a[$("sort").value] ?? -1) ||
+          (b.age ?? -1) - (a.age ?? -1) ||
+          (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+    );
+}
+function filtered(allGroupPaths = false) {
+  return selection(allGroupPaths).filter((r) =>
+    (queue === "review" ? r.age !== null : r.operations.queue === queue) &&
+    (allGroupPaths || $("layout").value !== "accounts" ||
+      r.account_identified === (groupPath === "identified")),
+  );
+}
+function decisiveMissing(r) {
+  return r.missing.filter(
+    (v) =>
+      !(
+        r.stage === "Prospecting" &&
+        r.age === null &&
+        v === "Data de engajamento ausente/inválida"
+      ),
+  );
+}
+function emptyState(selected) {
+  if (!selected.length)
+    return '<div class="empty"><p>Nenhuma oportunidade corresponde aos filtros atuais.</p><p>Ajuste a busca ou os filtros de conta e revisão para conferir sua seleção.</p></div>';
+  const names = {
+    conversion: "Ação de conversão",
+    cleanup: "Saneamento de pipeline",
+    qualify: "Qualificação e cadastro",
+  };
+  const alternatives = Object.entries(names)
+    .map(([key, label]) => ({
+      key,
+      label,
+      count: selected.filter((row) => row.operations.queue === key).length,
+    }))
+    .filter((item) => item.key !== queue && item.count > 0);
+  return `<div class="empty"><p>Esta fila está vazia na seleção atual.</p><p>Troque de fila mantendo vendedor, região e demais filtros:</p><div class="empty-actions">${alternatives.map((item) => `<button type="button" data-queue="${item.key}">${item.label} · ${item.count} oportunidades</button>`).join("")}</div></div>`;
+}
+function limitation(r) {
+  const names = r.missing.map((value) =>
+    value.startsWith("Conta")
+      ? "Conta não identificada"
+      : value.startsWith("Data")
+        ? value.includes("futura")
+          ? "Data de engajamento futura"
+          : "Início do engajamento sem data válida"
+        : value.startsWith("Produto")
+          ? "Produto sem vínculo de catálogo"
+          : "Vendedor sem vínculo de equipe",
+  );
+  return [
+    ...names,
+    ...(r.stage === "Prospecting" && r.age === null && !r.missing.some((v) => v.startsWith("Data"))
+      ? ["Início de Engaging não informado; pode ser esperado em Prospecting"]
+      : []),
+  ].join("; ");
+}
+function timingSummary(r) {
+  const age = r.age === null
+    ? "Início do engajamento sem data válida."
+    : `Engajamento iniciado há ${num(r.age)} dias.`;
+  const policy = current?.operations_policy || base?.operations_policy;
+  const cycle = r.operations.median_cycle_days;
+  const windowMin = cycle > 0 ? cycle * policy.window_ratio_min : policy.fallback_window_days_min;
+  const windowMax = cycle > 0 ? cycle * policy.window_ratio_max : policy.fallback_window_days_max;
+  const labels = {
+    window: `Faixa de atenção proposta: ${num(windowMin)}–${num(windowMax)} dias${cycle > 0 ? "" : " (alternativa)"}.`,
+    overrun: "Acima da faixa de atenção proposta; conferir andamento.",
+    early: "Fora da faixa de atenção proposta; acompanhar evolução.",
+    qualification: "Qualificar necessidade e validar cadastro.",
+    critical: "Limite de revisão ultrapassado; conferir continuidade.",
+  };
+  return `<p class="timing"><strong>${esc(age)}</strong></p><p class="meta">${esc(labels[r.operations.timing])}</p>`;
+}
+function reason(r) {
+  const op = r.operations;
+  return `${r.age === null ? "Sem idade calculável" : num(r.age) + " dias desde o início"}. ${op.cycle_ratio === null ? "Ciclo relativo indisponível" : num(Math.round(op.cycle_ratio * 100) / 100) + "× a mediana de " + num(op.median_cycle_days) + " dias"}. ${op.reason}`;
+}
+function shortAction(r) {
+  if (!r.account_identified) return r.operations.queue === "cleanup"
+    ? "Identificar conta e conferir continuidade."
+    : "Vincular conta no CRM antes de avançar.";
+  return r.operations.queue === "cleanup"
+    ? "Conferir continuidade do projeto."
+    : r.operations.queue === "qualify"
+      ? "Validar necessidade e próximo passo."
+      : "Conferir andamento e combinar o próximo passo.";
+}
+function displayDate(value) {
+  return value ? String(value).split("-").reverse().join("/") : "Não informado";
+}
+function sameAccountOpportunities(r) {
+  if (!r.account_identified) return [];
+  return (base?.rows || []).filter((other) => other.account_identified && other.account === r.account && other.id !== r.id)
+    .sort((a, b) => operationalOrder(a, b));
+}
+function accountOpportunities(r) {
+  const others = sameAccountOpportunities(r);
+  if (!others.length) return "";
+  return `<details class="account-opportunities" data-open-key="related:${esc(r.id)}"><summary>Outras ${num(others.length)} oportunidades abertas desta conta</summary>
+    <p class="meta">Toda a base em ${displayDate(r.as_of)}, incluindo outros vendedores e filas. Não comprova contatos simultâneos. Consultar os detalhes preserva os filtros da lista.</p>
+    <ul class="context-list">${others.map((other) => `<li data-related-id="${esc(other.id)}"><strong>${esc(other.product)} · ${esc(other.stage)}</strong><p>${esc(other.agent)} · ${esc(other.region)}</p><p>${esc(queueNames[other.operations.queue])} · ${other.age === null ? "Início sem data válida" : num(other.age) + " dias desde o início"}</p><p class="meta">ID: ${esc(other.id)}</p><button type="button" id="related-open-${esc(r.id)}-${esc(other.id)}" data-context-open="${esc(other.id)}" aria-label="Ver detalhes de ${esc(other.id)} nesta conta">Ver detalhes</button></li>`).join("")}</ul>
+  </details>`;
+}
+function contextFacts(r) {
+  const c = r.account_context;
+  return `<div class="context-grid">
+    <section class="context-card"><h3>Histórico comercial</h3>
+      ${!r.account_identified ? '<p class="meta">Conta não identificada; histórico indisponível.</p>' : ""}
+      <dl class="facts">
+        <div><dt>Oportunidades ganhas</dt><dd>${num(c.prior_won)}</dd></div>
+        <div><dt>Oportunidades perdidas</dt><dd>${num(c.prior_lost)}</dd></div>
+        <div><dt>Abertas na conta · toda a base</dt><dd>${num(c.open_count)}</dd></div>
+      </dl><p class="meta">Desfechos anteriores a ${displayDate(r.as_of)}.</p>
+    </section>
+    <section class="context-card"><h3>Perfil cadastral</h3><dl class="facts">
+      <div><dt>Funcionários</dt><dd>${num(c.employees)}</dd></div>
+      <div><dt>Receita anual</dt><dd>${c.revenue_million_usd === null ? "Não disponível" : "US$ " + price(c.revenue_million_usd) + " milhões"}</dd></div>
+      <div><dt>Período dos atributos</dt><dd>Não informado na fonte</dd></div>
+      ${c.subsidiary_of ? `<div><dt>Controladora declarada</dt><dd>${esc(c.subsidiary_of)}</dd></div>` : ""}
+      ${c.declared_subsidiaries_count ? `<div><dt>Registros que declaram esta conta como controladora</dt><dd>${num(c.declared_subsidiaries_count)}</dd></div>` : ""}
+    </dl>${c.subsidiary_of || c.declared_subsidiaries_count ? '<p class="meta">Vínculo cadastral em accounts.csv / subsidiary_of. Receita por registro, sem informação sobre consolidação; não somamos receitas do grupo. Ganhos não comprovam instalação ativa ou homologação.</p>' : ""}</section>
+  </div>`;
+}
+function auditCriteria(r, before) {
+  const period = r.evidence.previous_won_period;
+  const source = [esc(r.stage), r.age === null ? "Data ausente/inválida" : num(r.age) + " dias até " + displayDate(r.as_of), price(r.catalog_price) + " · moeda não confirmada"];
+  const rules = [
+    `Engaging: +${current.rules.engaging}; Prospecting: +${current.rules.prospecting}`,
+    `${current.rules.days_30}/${current.rules.days_60}/${current.rules.days_90} dias → +${current.rules.age_30}/+${current.rules.age_60}/+${current.rules.age_90}`,
+    `${num(current.rules.price_1000)}/${num(current.rules.price_5000)}/${num(current.rules.price_10000)} → +${current.rules.value_1000}/+${current.rules.value_5000}/+${current.rules.value_10000}`,
+  ];
+  const names = ["Etapa observada", "Idade do início do engajamento", "Preço unitário de catálogo"];
+  const sum = r.factors.reduce((n, f) => n + f.points, 0);
+  const policy = current.operations_policy;
+  return `<details class="criteria-explanation" data-open-key="criteria:${esc(r.id)}"><summary>Critérios e origem dos dados</summary>
+    <section class="audit-block"><h3>Regra de entrada na fila</h3><p>${esc(reason(r))}</p>
+      <p>Qualificação reúne prospecção ou início sem data válida. Revisão de continuidade reúne mais de ${num(policy.cleanup_days_exclusive)} dias ou mais de ${num(policy.cleanup_cycle_ratio_exclusive)} ciclos medianos. As demais oportunidades com início válido ficam em conversão.</p>
+      <p>A faixa de atenção proposta vai de ${num(policy.window_ratio_min)} a ${num(policy.window_ratio_max)} ciclos medianos. Sem ciclo positivo disponível, usa ${num(policy.fallback_window_days_min)}–${num(policy.fallback_window_days_max)} dias.</p>
+      <p>A idade vai do início de Engaging até ${displayDate(r.as_of)}; o ciclo histórico vai do início de Engaging ao fechamento dos ganhos do produto. São intervalos com o mesmo início e finais diferentes. A faixa não comprova atraso, contato recente ou chance de ganhar.</p>
+      <p>Ordem padrão: momento na fila, conta identificada no mesmo momento de conversão, dias decrescentes e ID. O índice abaixo é uma ordenação alternativa e não define essa ordem.</p>
+    </section>
+    <section class="audit-block"><h3>Amostra da mediana histórica</h3><dl class="facts">
+      <div><dt>População</dt><dd>Oportunidades ganhas de ${esc(r.product)}, com início e fechamento válidos, início até fechamento e fechamento anterior a ${displayDate(r.as_of)}.</dd></div>
+      <div><dt>Tamanho da amostra</dt><dd>${num(r.evidence.previous_won_n)} oportunidades ganhas</dd></div>
+      <div><dt>Ciclo mediano · início → fechamento</dt><dd>${r.evidence.previous_won_median_cycle === null ? "Não calculável" : num(r.evidence.previous_won_median_cycle) + " dias"}</dd></div>
+      <div><dt>Período dos fechamentos</dt><dd>${period ? displayDate(period.earliest_close_date) + " a " + displayDate(period.latest_close_date) : "Sem amostra válida"}</dd></div>
+      <div><dt>Primeiro início registrado na amostra</dt><dd>${period ? displayDate(period.earliest_engage_date) : "Sem amostra válida"}</dd></div>
+    </dl><p class="meta">Só ganhos: há viés de seleção. A amostra não prevê ciclo, não valida as faixas e não comprova efeito comercial. Histórico fora dos pontos do índice.</p></section>
+    <details class="score-explanation" data-open-key="score:${esc(r.id)}"><summary>Como o índice foi calculado · ${r.score}/80 pontos${simulation ? " · cenário simulado" : ""}</summary>
+      <p>Índice de prioridade (heurístico): <strong>${r.score} de 80 pontos</strong>${simulation ? "; regras originais: " + before.score + "/80" : ""}. Não representa chance de fechar ou confiança. O índice usa etapa, idade e catálogo; a ordem operacional usa regras separadas. “Maior índice” é uma alternativa explícita.</p>
+      <div class="audit-scroll" tabindex="0" aria-label="Componentes do índice"><table><thead><tr><th scope="col">Componente</th><th scope="col">Valor de origem / unidade</th><th scope="col">Pesos e limiares</th><th scope="col">Pontos</th></tr></thead><tbody>${r.factors.map((f, i) => `<tr><th scope="row">${names[i]}</th><td data-label="Valor de origem / unidade">${source[i]}</td><td data-label="Pesos e limiares">${rules[i]}</td><td data-label="Pontos">+${f.points}${simulation ? " (original: +" + before.factors[i].points + ")" : ""}</td></tr>`).join("")}</tbody></table></div>
+      <p class="total">Soma exata: ${r.factors.map((f) => f.points).join(" + ")} = ${sum} pontos.${sum !== r.score ? " Inconsistência de soma: revisar resultado." : ""}</p>
+      <p>Idade ou catálogo indisponível contribui zero por falta de sinal; isso não diagnostica baixo desempenho. Conta e responsável não acrescentam nem retiram pontos. Uma data futura não calcula idade.</p>
+    </details>
+    <section class="audit-block"><h3>Catálogo e unidades</h3><p>Preço unitário: ${price(r.catalog_price)}. Fonte: products.csv / sales_price${r.product_normalized ? "; vínculo normalizado GTXPro → GTX Pro" : ""}. Moeda não confirmada. Não é valor negociado nem receita esperada.</p><p>Soma de preços unitários de catálogo das abertas na conta: ${price(r.account_context.catalog_sum)}. Não informa quantidades negociadas ou receita prevista.</p></section>
+    <section class="audit-block"><h3>Completude e campos ausentes</h3><p>${r.evidence.available_fields}/4 campos de contexto disponíveis: conta, produto, responsável e início do engajamento. Disponibilidade não certifica correção ou atualização.</p><p>${esc(limitation(r)) || "Nenhuma pendência específica nos quatro campos."}</p><p>A base não contém último contato. Sem histórico de reentradas, não é possível certificar tempo contínuo na etapa. Atributos cadastrais não têm versões históricas.</p><p>Classificação interna da completude: ${esc(r.evidence.level)}. Considera campos disponíveis e comparáveis; não é confiança estatística. A contagem de ganhos representa oportunidades encerradas, não transações comprovadas nem contrato ativo.</p></section>
+    <section class="audit-block"><h3>Comparáveis de contexto</h3><p>${num(r.evidence.comparable_n)} outras oportunidades abertas, em ${num(r.evidence.comparable_distinct_accounts)} contas identificadas distintas. Critério: ${esc(r.evidence.comparable_scope)}; exclui a própria oportunidade. Setor: ${esc(r.sector)}.</p><p>${num(r.evidence.comparable_dated_n)} têm data; idade mediana: ${r.evidence.comparable_median_age === null ? "não calculável" : num(r.evidence.comparable_median_age) + " dias"}. Esse grupo não é histórico de conversão e não acrescenta pontos.</p></section>
+    <section class="audit-block"><h3>Responsável e rastreabilidade</h3><dl class="facts"><div><dt>Oportunidade</dt><dd>${esc(r.id)}</dd></div><div><dt>Gestor / região</dt><dd>${esc(r.manager)} / ${esc(r.region)}</dd></div><div><dt>Data-base</dt><dd>${displayDate(r.as_of)}</dd></div><div><dt>Versão da regra</dt><dd>${esc(r.rules_version)}</dd></div><div><dt>Hash das regras</dt><dd>${esc(r.rules_hash)}</dd></div><div><dt>Hash do dataset</dt><dd>${esc(r.dataset_hash)}</dd></div><div><dt>Versão do contexto</dt><dd>${esc(r.evidence.version)}</dd></div></dl><p class="meta">Fontes: sales_pipeline.csv, accounts.csv, products.csv e sales_teams.csv. Corte técnico: close_date &lt; ${esc(r.as_of)}.</p></section>
+    ${simulation ? `<section class="audit-block comparison"><h3>Comparação da simulação</h3><p>Índice ${before.score} → ${r.score}. ${r.age === null ? "Sem posição de revisão por idade." : "Posição na referência original de revisão: " + before.position + " → " + r.position + "."} Universo: ${base.rows.length} abertas antes dos filtros. Sensibilidade a regras, não impacto em vendas.</p></section>` : ""}
+  </details>`;
+}
+function audit(r) {
+  const before = base.rows.find((b) => b.id === r.id);
+  return `<div class="audit-content review-layout">
+    <div class="review-header"><div><p class="eyebrow">Revisão da oportunidade</p><h2 id="audit-title-${esc(r.id)}" tabindex="-1">${r.account_identified ? esc(r.account) : "Oportunidade " + esc(r.id)}</h2><p>${esc(r.product)} · ${esc(r.stage)}</p><p class="meta">Responsável: ${esc(r.agent)}</p><p class="date-reference">Data-base: ${displayDate(r.as_of)}</p></div><button type="button" data-close="${esc(r.id)}" aria-label="Fechar revisão de ${esc(r.id)}">Fechar</button></div>
+    <div class="review-scroll">
+      <p id="review-context-${esc(r.id)}" class="meta review-context-note" hidden></p>
+      <section class="decision-block"><h3>Próximo passo</h3><p class="recommendation">${esc(shortAction(r))}</p><h3>Por que revisar</h3><p>${r.age === null ? "Início do engajamento sem data válida." : "Engajamento iniciado há <strong>" + num(r.age) + " dias</strong>."}</p><p>Mediana histórica do produto: ${r.operations.median_cycle_days !== null ? "<strong>" + num(r.operations.median_cycle_days) + " dias</strong>" : "não disponível"}.</p><p class="meta">Referência histórica; não comprova atraso.${r.operations.queue === "cleanup" ? " Idade sozinha não justifica encerramento." : ""}</p></section>
+      ${contextFacts(r)}
+      ${accountOpportunities(r)}
+      ${auditCriteria(r, before)}
+      <section class="note-tools"><button type="button" data-analyze="${esc(r.id)}">Analisar nota desta oportunidade · opcional</button><div id="jevhost-${esc(r.id)}" class="jev-deal-host"></div></section>
+    </div>
+    <div class="review-footer"><div class="review-footer-top"><label class="review-check"><input type="checkbox" data-review="${esc(r.id)}" ${reviewed.has(r.id) ? "checked" : ""}>Revisado nesta sessão <span class="sr-only">${esc(r.id)}</span></label><button type="button" data-close="${esc(r.id)}">Voltar à lista</button></div><p class="meta">Marcação temporária nesta aba. Perdida ao recarregar; não atualiza o CRM.</p><p id="panel-feedback-${esc(r.id)}" class="panel-feedback" role="status"></p></div>
+  </div>`;
+}
+function row(r) {
+  return `<article class="decision-row" aria-labelledby="title-${esc(r.id)}" data-id="${esc(r.id)}">
+          <div class="cell"><h2 id="title-${esc(r.id)}">${r.account_identified ? esc(r.account) : "Oportunidade " + esc(r.id)}</h2><p>${esc(r.product)} · ${esc(r.stage)}</p><p class="meta">ID: ${esc(r.id)}</p>${decisiveMissing(r).length ? `<p class="meta data-warning">${esc(limitation(r))}</p>` : ""}</div>
+          <div class="cell responsible"><p class="role-line"><span class="field-label">Vendedor:</span> ${esc(r.agent)}</p></div>
+          <div class="cell"><span class="cell-label">Motivo para revisar</span>${timingSummary(r)}</div>
+          <div class="cell action-cell"><button type="button" class="detail-button" id="open-${esc(r.id)}" data-open="${esc(r.id)}" aria-controls="details-${esc(r.id)}" aria-expanded="false" aria-label="Ver detalhes de ${esc(r.id)}">Ver detalhes</button><p class="review-state ${reviewed.has(r.id) ? "complete" : ""}">${reviewed.has(r.id) ? "Revisada nesta sessão" : "Revisão pendente"}</p></div>
+          <details class="op-audit" id="details-${esc(r.id)}" data-open-key="deal:${esc(r.id)}"><summary>Detalhes de ${esc(r.id)}</summary><dialog class="review-drawer" id="review-dialog-${esc(r.id)}" data-deal-id="${esc(r.id)}" aria-labelledby="audit-title-${esc(r.id)}">${audit(r)}</dialog></details>
+        </article>`;
+}
+function appendContextDetails() {
+  for (const id of contextDetails) {
+    if (document.getElementById("review-dialog-" + id)) continue;
+    const r = rows.find((item) => item.id === id);
+    if (!r) continue;
+    $("list").insertAdjacentHTML("beforeend", `<div class="context-details"><details class="op-audit" id="details-${esc(id)}" data-open-key="deal:${esc(id)}"><summary>Detalhes de ${esc(id)}</summary><dialog class="review-drawer" id="review-dialog-${esc(id)}" data-deal-id="${esc(id)}" aria-labelledby="audit-title-${esc(id)}">${audit(r)}</dialog></details></div>`);
+  }
+}
+function groupAccounts(data) {
+  const groups = new Map();
+  data.forEach((r) => {
+    const key = r.account_identified ? "account:" + r.account : "orphan:" + r.id;
+    if (!groups.has(key))
+      groups.set(key, {
+        account: r.account,
+        identified: r.account_identified,
+        rows: [],
+        catalog: 0,
+        known: 0,
+      });
+    const g = groups.get(key);
+    g.rows.push(r);
+    if (r.catalog_price !== null) {
+      g.catalog += r.catalog_price;
+      g.known++;
+    }
+  });
+  return [...groups.values()].sort((a, b) =>
+    Number(b.identified) - Number(a.identified) || b.rows.length - a.rows.length ||
+    b.catalog - a.catalog || (a.account < b.account ? -1 : a.account > b.account ? 1 : 0) ||
+    (a.rows[0].id < b.rows[0].id ? -1 : a.rows[0].id > b.rows[0].id ? 1 : 0));
+}
+function groupedRow(g) {
+  return `<details class="account-group" data-open-key="${esc(g.identified ? "account:" + g.account : "orphan:" + g.rows[0].id)}"><summary>${esc(g.identified ? g.account : "Sem conta · " + g.rows[0].id)} · ${g.rows.length} oportunidades nesta fila · soma catálogo ${price(g.catalog)}</summary><p class="meta">${[...new Set(g.rows.map((r) => r.agent))].map(esc).join(", ")}. ${g.known}/${g.rows.length} preços conhecidos. Soma unitária de catálogo, moeda não confirmada; sem valor negociado ou receita esperada.</p>${g.rows.map(row).join("")}</details>`;
+}
+function managerSummary() {
+  const manager = $("manager").value;
+  $("team-panel").hidden = !manager;
+  if (!manager) return;
+  // Team-wide denominator: intentionally independent of salesperson, queue, search and review status.
+  const team = rows.filter((r) => r.manager === manager);
+  const agents = [
+    ...new Set((current.teams || rows).filter((r) => r.manager === manager).map((r) => r.agent)),
+  ].sort();
+  $("team-panel").innerHTML =
+    `<h2>1:1 da equipe · ${esc(manager)}</h2><p class="meta">Todas as abertas deste gestor; não muda com os demais filtros. Percentuais sobre o total aberto de cada vendedor.</p><div class="team-grid">${agents
+      .map((agent) => {
+        const data = team.filter((r) => r.agent === agent);
+        const count = (queue) => data.filter((r) => r.operations.queue === queue).length;
+        const window = data.filter((r) => r.operations.queue === "conversion" && r.operations.timing === "window").length;
+        return `<div class="team-card" data-team-agent="${esc(agent)}"><button type="button" data-agent="${esc(agent)}">${esc(agent)}</button><p>${data.length} abertas${data.length ? " · " + num(Math.round((100 * data.filter((r) => !r.account_identified).length) / data.length)) + "% sem conta · " + num(Math.round((100 * data.filter((r) => r.age !== null && r.age > 90).length) / data.length)) + "% acima de 90 dias" : " · sem carteira aberta"}</p><dl class="team-queues">${["conversion", "cleanup", "qualify"].map((q) => `<div><dt><button type="button" data-agent="${esc(agent)}" data-agent-queue="${q}" aria-label="Abrir ${queueNames[q]} de ${esc(agent)}: ${num(count(q))} oportunidades">${queueNames[q]}</button></dt><dd>${num(count(q))}${q === "conversion" ? ` <span class="meta">(${num(window)} na janela de atenção)</span>` : ""}</dd></div>`).join("")}</dl></div>`;
+      })
+      .join("")}</div>`;
+}
+function render() {
+  if (!current) return;
+  workflowRevision++;
+  $("workflowstatus").textContent = "";
+  const activePanel = $("list").querySelector?.(".review-drawer[open]");
+  const activeId = activePanel?.dataset.dealId;
+  const panelScroll = activePanel?.querySelector(".review-scroll").scrollTop || 0;
+  const openKeys = new Set(
+    [...($("list").querySelectorAll?.("details[open][data-open-key]") || [])].map(
+      (d) => d.dataset.openKey,
+    ),
+  );
+  const selected = selection(),
+    data = filtered(),
+    grouped = $("layout").value === "accounts";
+  const accountGroups = grouped && groupPath === "identified";
+  const units = accountGroups ? groupAccounts(data) : data;
+  $("group-paths").hidden = !grouped;
+  const allPaths = filtered(true);
+  const identified = allPaths.filter((r) => r.account_identified);
+  $("groupidentified").textContent = `Coordenar ${new Set(identified.map((r) => r.account)).size} contas · ${identified.length} oportunidades`;
+  $("groupmissing").textContent = `Identificar contas · ${allPaths.length - identified.length} oportunidades sem vínculo`;
+  $("groupidentified").setAttribute("aria-pressed", String(groupPath === "identified"));
+  $("groupmissing").setAttribute("aria-pressed", String(groupPath === "missing"));
+  $("group-hint").textContent = accountGroups
+    ? "Contas ordenadas por quantidade de oportunidades nesta fila, soma de catálogo e nome. Selecionar contas identificadas é uma escolha operacional de navegação, não maior probabilidade de ganho. O outro caminho mantém oportunidades sem vínculo individuais. Os atalhos substituem o filtro Com/Sem conta. Exportações seguem o caminho selecionado."
+    : "Cada oportunidade sem vínculo permanece individual, na ordenação selecionada. Exportações seguem este caminho. Nenhum índice ou critério de fila foi alterado.";
+  const visible = $("view").value === "top10" ? units.slice(0, 10) : units;
+  const pages = Math.max(1, Math.ceil(visible.length / size));
+  page = Math.min(page, pages - 1);
+  $("stats").innerHTML =
+    `<span><strong>${num(selected.length)}</strong> oportunidades abertas na seleção</span><span><strong>${num(selected.filter((r) => !r.account_identified).length)}</strong> sem conta</span><span><strong>${num(rows.filter((r) => reviewed.has(r.id)).length)}</strong> revisadas nesta sessão (toda a base)</span>`;
+  const queues = {
+    conversionqueue: "conversion",
+    cleanupqueue: "cleanup",
+    investigate: "qualify",
+    reviewqueue: "review",
+  };
+  const titles = {
+    conversion: "Ação de conversão",
+    cleanup: "Saneamento de pipeline",
+    qualify: "Qualificação e cadastro",
+    review: "Baseline por idade",
+  };
+  Object.entries(queues).forEach(([id, q]) => {
+    $(id).textContent =
+      titles[q] +
+      " (" +
+      selected.filter((r) => (q === "review" ? r.age !== null : r.operations.queue === q)).length +
+      ")";
+    $(id).setAttribute("aria-pressed", String(queue === q));
+  });
+  $("queuehint").textContent =
+    queue === "conversion"
+      ? selected.filter(
+          (r) => r.operations.queue === "conversion" && r.operations.timing === "window",
+        ).length + " na janela de atenção · critérios propostos; confira o contexto nos detalhes."
+      : queue === "cleanup"
+        ? "Revisar continuidade: mais de 120 dias OU 2,5× o ciclo. Idade sozinha não justifica encerramento."
+        : queue === "qualify"
+          ? "Prospecting ou sem início válido. Use Com conta para qualificar e Sem conta para higienizar cadastro."
+          : "Baseline preservado: oportunidades com idade conhecida. Selecione Baseline · mais antigos na ordenação para reproduzir a fila original.";
+  const labels = {
+    agent: "Vendedor",
+    manager: "Gestor",
+    region: "Região",
+    stage: "Etapa",
+    search: "Busca",
+    accountfilter: "Conta",
+    reviewfilter: "Revisão",
+  };
+  const active = Object.keys(labels).filter((k) => $(k).value);
+  $("filtersummary").textContent =
+    "Mais filtros · " + (active.length ? active.length + " ativos" : "nenhum filtro ativo");
+  $("selectionstate").hidden = !active.length && queue === "conversion" && $("sort").value === "operational" && $("layout").value === "opportunities" && $("view").value === "top10";
+  $("activefilters").innerHTML = active.length
+    ? active
+        .map(
+          (k) =>
+            `<button class="filter-chip" type="button" data-remove="${k}" aria-label="Remover ${labels[k]}: ${esc($(k).value)}">${labels[k]}: ${esc($(k).options?.[$(k).selectedIndex]?.textContent || $(k).value)} <span aria-hidden="true">×</span></button>`,
+        )
+        .join("")
+    : "Sem filtros ativos · visão global";
+  $("simulation-banner").hidden = !simulation;
+  $("comparesimulation").hidden = $("sort").value === "score";
+  if (simulation) {
+    const originals = new Map(base.rows.map((r) => [r.id, r.score]));
+    const changed = rows.filter((r) => r.score !== originals.get(r.id)).length;
+    $("simulation-impact").textContent = `${num(changed)} de ${num(rows.length)} oportunidades com índice diferente da base. ` +
+      ($("sort").value === "operational"
+        ? "A ordem operacional permanece igual. Confira o índice nos detalhes ou use Comparar por maior índice."
+        : $("sort").value === "score"
+          ? "A lista está ordenada pelo índice simulado, dentro da fila e dos filtros selecionados."
+          : "A ordenação selecionada continua ativa. Confira o índice nos detalhes ou compare por maior índice.");
+  }
+  $("scope").textContent = $("agent").value
+    ? "Carteira de " + $("agent").value + " · demais filtros refinam a seleção."
+    : "Visão global. Escolha vendedor ou gestor para preparar sua semana.";
+  const direction =
+    $("sort").value === "operational"
+      ? "Janela de atenção primeiro; contas identificadas primeiro no mesmo momento de conversão."
+      : $("sort").value === "urgency"
+        ? "Maior faixa de idade primeiro; depois mais antigos."
+        : $("sort").value === "score"
+          ? "Maior índice opcional primeiro."
+          : "Maior catálogo primeiro.";
+  const slice = visible.slice(page * size, (page + 1) * size);
+  $("status").textContent = data.length
+    ? `Mostrando ${slice.length} de ${units.length} ${accountGroups ? "grupos" : "oportunidades"}${accountGroups ? " · " + data.length + " oportunidades com conta nesta fila" : ""}.${simulation ? " Simulação do índice ativa." : ""}`
+    : grouped && allPaths.length
+      ? "Nenhuma oportunidade neste caminho. Escolha o outro caminho mantendo os filtros."
+      : selected.length
+      ? "Nenhuma oportunidade nesta fila. Troque de fila mantendo sua seleção."
+      : "Nenhuma oportunidade corresponde aos filtros atuais. Ajuste busca ou filtros.";
+  // Move the one live form out before replacing list nodes; never lose handlers or cross-link a late response.
+  const panel = $("jevpanel");
+  if (panel && $("jevhome").appendChild) $("jevhome").appendChild(panel);
+  $("list").innerHTML = data.length
+    ? slice.map(accountGroups ? groupedRow : row).join("")
+    : grouped && allPaths.length
+      ? '<div class="empty"><p>Nenhuma oportunidade neste caminho da fila. Use os botões acima para conferir contas identificadas ou oportunidades sem vínculo.</p></div>'
+      : emptyState(selected);
+  appendContextDetails();
+  for (const detail of $("list").querySelectorAll?.("details[data-open-key]") || [])
+    if (openKeys.has(detail.dataset.openKey)) detail.open = true;
+  syncDetailButtons();
+  if (jevDealId) {
+    const host = $("jevhost-" + jevDealId);
+    if (host && host.appendChild) {
+      host.appendChild(panel);
+      host.closest("details").open = true;
+      const group = host.closest(".account-group");
+      if (group) group.open = true;
+    } else clearDealJev();
+  }
+  if (activeId) {
+    const panel = $("review-dialog-" + activeId);
+    if (panel) {
+      panel.showModal();
+      configureReviewContext(activeId);
+      panel.querySelector(".review-scroll").scrollTop = panelScroll;
+    }
+  }
+  $("page").textContent = `Página ${page + 1} de ${pages}`;
+  $("prev").disabled = page === 0;
+  $("next").disabled = page === pages - 1;
+  managerSummary();
+}
+[
+  "agent",
+  "manager",
+  "region",
+  "stage",
+  "sort",
+  "view",
+  "accountfilter",
+  "reviewfilter",
+  "layout",
+].forEach((k) =>
+  $(k).addEventListener("change", () => {
+    if ($("layout").value === "accounts" && (k === "layout" || k === "accountfilter")) {
+      if ($("accountfilter").value) groupPath = $("accountfilter").value;
+      else if (k === "layout") groupPath = filtered(true).some((r) => r.account_identified) ? "identified" : "missing";
+    }
+    page = 0;
+    render();
+  }),
+);
+$("search").addEventListener("input", () => {
+  page = 0;
+  render();
+});
+$("reset").onclick = () => {
+  ["agent", "manager", "region", "stage", "search", "accountfilter", "reviewfilter"].forEach(
+    (k) => ($(k).value = ""),
+  );
+  $("sort").value = "operational";
+  $("layout").value = "opportunities";
+  groupPath = "identified";
+  $("view").value = "top10";
+  queue = "conversion";
+  page = 0;
+  render();
+};
+$("prev").onclick = () => {
+  page--;
+  render();
+};
+$("next").onclick = () => {
+  page++;
+  render();
+};
+Object.entries({
+  conversionqueue: "conversion",
+  cleanupqueue: "cleanup",
+  investigate: "qualify",
+  reviewqueue: "review",
+}).forEach(
+  ([id, q]) =>
+    ($(id).onclick = () => {
+      queue = q;
+      if (q === "review") $("sort").value = "urgency";
+      page = 0;
+      render();
+    }),
+);
+$("activefilters").addEventListener("click", (event) => {
+  const b = event.target.closest("button[data-remove]");
+  if (b) {
+    $(b.dataset.remove).value = "";
+    page = 0;
+    render();
+    $(b.dataset.remove).focus();
+  }
+});
+function syncDetailButtons() {
+  for (const details of $("list").querySelectorAll?.("details.op-audit") || []) {
+    const id = details.dataset.openKey.slice(5);
+    const button = $("open-" + id);
+    if (button) {
+      button.setAttribute("aria-expanded", String(details.open));
+      button.setAttribute("aria-label", (details.open ? "Fechar detalhes de " : "Ver detalhes de ") + id);
+      button.textContent = details.open ? "Fechar detalhes" : "Ver detalhes";
+    }
+  }
+}
+function configureReviewContext(id) {
+  const origin = detailReturnStack.at(-1);
+  const note = $("review-context-" + id);
+  note.hidden = !origin;
+  note.textContent = !origin ? "" : origin.fromId
+    ? "Outras abertas da mesma conta em toda a base. Filtros da lista preservados."
+    : "Consulta a partir do laboratório. A fila nos detalhes é a política-base; a transição do cenário é hipotética.";
+  $("review-dialog-" + id).querySelector(".review-footer button[data-close]").textContent = !origin
+    ? "Voltar à lista" : origin.fromId ? "Voltar à oportunidade anterior" : "Voltar ao laboratório";
+}
+function openContextDetails(id, trigger) {
+  if (!rows.some((r) => r.id === id)) return;
+  const active = $("list").querySelector(".review-drawer[open]");
+  if (active?.dataset.dealId === id) return;
+  detailReturnStack.push({ fromId: active?.dataset.dealId || null, triggerId: trigger.id,
+    panelScroll: active?.querySelector(".review-scroll").scrollTop || 0, windowY: window.scrollY });
+  if (active) {
+    active.close();
+    $("details-" + active.dataset.dealId).open = false;
+    clearDealJev();
+  }
+  contextDetails.add(id);
+  appendContextDetails();
+  toggleDealDetails(id);
+}
+function closeDealDetails(id) {
+  $("review-dialog-" + id).close();
+  $("details-" + id).open = false;
+  if (jevDealId === id) clearDealJev();
+  syncDetailButtons();
+  const origin = detailReturnStack.pop();
+  if (origin?.fromId) {
+    const previous = $("review-dialog-" + origin.fromId);
+    $("details-" + origin.fromId).open = true;
+    previous.showModal();
+    configureReviewContext(origin.fromId);
+    previous.querySelector(".review-scroll").scrollTop = origin.panelScroll;
+    $(origin.triggerId)?.focus({ preventScroll: true });
+    syncDetailButtons();
+  } else {
+    const returnControl = origin ? $(origin.triggerId) : $("open-" + id);
+    (returnControl || $("status")).focus({ preventScroll: true });
+    window.scrollTo(0, origin?.windowY ?? detailPositions.get(id) ?? window.scrollY);
+    contextDetails.clear();
+    for (const node of $("list").querySelectorAll(".context-details")) node.remove();
+  }
+  detailPositions.delete(id);
+}
+function toggleDealDetails(id) {
+  const details = $("details-" + id);
+  if (details.open) return closeDealDetails(id);
+  detailPositions.set(id, window.scrollY);
+  details.open = true;
+  $("review-dialog-" + id).showModal();
+  configureReviewContext(id);
+  syncDetailButtons();
+  $("audit-title-" + id).focus({ preventScroll: true });
+}
+$("list").addEventListener("toggle", syncDetailButtons, true);
+$("list").addEventListener("keydown", (event) => {
+  if (event.key !== "Tab") return;
+  const panel = event.target.closest(".review-drawer[open]");
+  if (!panel) return;
+  const controls = [...panel.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex="0"]')].filter((node) => node.getClientRects().length);
+  const first = controls[0], last = controls.at(-1);
+  if (event.shiftKey && (event.target === first || event.target.id.startsWith("audit-title-"))) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && event.target === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});
+$("list").addEventListener("cancel", (event) => {
+  if (event.target.matches(".review-drawer")) {
+    event.preventDefault();
+    closeDealDetails(event.target.dataset.dealId);
+  }
+}, true);
+$("list").addEventListener("click", (event) => {
+  if (event.target.matches?.(".review-drawer")) {
+    const bounds = event.target.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeDealDetails(event.target.dataset.dealId);
+    return;
+  }
+  const alternative = event.target.closest("button[data-queue]");
+  if (alternative && ["conversion", "cleanup", "qualify"].includes(alternative.dataset.queue)) {
+    queue = alternative.dataset.queue;
+    page = 0;
+    render();
+    $("status").focus();
+    return;
+  }
+  const opener = event.target.closest("button[data-open]");
+  if (opener) {
+    toggleDealDetails(opener.dataset.open);
+    return;
+  }
+  const related = event.target.closest("button[data-context-open]");
+  if (related) {
+    openContextDetails(related.dataset.contextOpen, related);
+    return;
+  }
+  const analyze = event.target.closest("button[data-analyze]");
+  if (analyze) {
+    selectDealJev(analyze.dataset.analyze);
+    return;
+  }
+  const button = event.target.closest("button[data-close]");
+  if (button) {
+    closeDealDetails(button.dataset.close);
+  }
+});
+const ruleLabels = {
+  engaging: "Fase Engaging (0–25)",
+  prospecting: "Fase Prospecting (0–25)",
+  age_30: "Pontos faixa inicial (0–30)",
+  age_60: "Pontos faixa intermediária (0–30)",
+  age_90: "Pontos faixa superior (0–30)",
+  value_1000: "Pontos catálogo inicial (0–25)",
+  value_5000: "Pontos catálogo intermediário (0–25)",
+  value_10000: "Pontos catálogo superior (0–25)",
+  days_30: "Limiar inicial em dias",
+  days_60: "Limiar intermediário em dias",
+  days_90: "Limiar superior em dias",
+  price_1000: "Limiar catálogo inicial",
+  price_5000: "Limiar catálogo intermediário",
+  price_10000: "Limiar catálogo superior",
+};
+function showRules() {
+  Object.keys(base.rules).forEach((k) => {
+    const input = $("rule_" + k);
+    if (input) input.value = current.rules[k];
+  });
+  $("identity").textContent =
+    `Dataset ${current.dataset_hash.slice(0, 12)}… · regras ${current.rules_version} / ${current.rules_hash.slice(0, 12)}… · referência ${current.as_of} · ${simulation ? "SIMULAÇÃO" : "BASE"}`;
+}
+function restore() {
+  if (!base) return;
+  requestId++;
+  current = base;
+  rows = base.rows;
+  simulation = false;
+  page = 0;
+  $("simerror").textContent = "";
+  $("simstatus").textContent = "Base original restaurada; dados e ranking-base preservados.";
+  $("apply").disabled = false;
+  showRules();
+  render();
+}
+function evaluatePolicyScenario(daysLimit, ratioLimit) {
+  if (!Number.isInteger(daysLimit) || daysLimit < 1 || daysLimit > 3650 ||
+      (ratioLimit !== null && (typeof ratioLimit !== "number" || !Number.isFinite(ratioLimit) || ratioLimit < 0.1 || ratioLimit > 100)))
+    throw Error("Use dias inteiros de 1 a 3.650 e razão de 0,1 a 100, ou apenas dias.");
+  if (!base) throw Error("Carregue a base local antes de inspecionar um cenário.");
+  const counts = { conversion: 0, cleanup: 0, qualify: 0 };
+  const changes = [];
+  let changed = 0, centralConversion = 0, centralAdded = 0;
+  const agents = new Set(), originalAgents = new Set(), allAgents = new Set();
+  base.rows.forEach((r) => {
+    allAgents.add(r.agent);
+    if (r.operations.queue === "conversion") originalAgents.add(r.agent);
+    const q = r.stage === "Prospecting" || r.age === null ? "qualify" :
+      r.age > daysLimit || (ratioLimit !== null && r.operations.cycle_ratio !== null && r.operations.cycle_ratio > ratioLimit) ? "cleanup" : "conversion";
+    counts[q]++;
+    if (q !== r.operations.queue) {
+      changed++;
+      changes.push({ id: r.id, account: r.account, agent: r.agent, region: r.region, product: r.product,
+        age: r.age, cycle_ratio: r.operations.cycle_ratio, from_queue: r.operations.queue, to_queue: q });
+    }
+    if (q === "conversion") {
+      agents.add(r.agent);
+      if (r.region === "Central") {
+        centralConversion++;
+        if (r.operations.queue !== "conversion") centralAdded++;
+      }
+    }
+  });
+  return { counts, changed, changes, centralConversion, centralAdded,
+    conversionAgents: agents.size, addedAgents: [...agents].filter((a) => !originalAgents.has(a)).length,
+    activeAgents: allAgents.size, total: base.rows.length, as_of: base.as_of,
+    dataset_hash: base.dataset_hash, daysLimit, ratioLimit };
+}
+function policyCaseReason(r, scenario) {
+  const p = base.operations_policy;
+  const days = `Idade ${num(r.age)} dias: ${r.age > p.cleanup_days_exclusive ? ">" : "≤"}${num(p.cleanup_days_exclusive)} na base e ${r.age > scenario.daysLimit ? ">" : "≤"}${num(scenario.daysLimit)} no cenário.`;
+  const ratio = r.cycle_ratio === null ? "Razão de ciclo indisponível." :
+    `Razão ${num(Math.round(r.cycle_ratio * 100) / 100)}×: ${r.cycle_ratio > p.cleanup_cycle_ratio_exclusive ? ">" : "≤"}${num(p.cleanup_cycle_ratio_exclusive)}× na base${scenario.ratioLimit === null ? "; limite relativo desativado no cenário." : ` e ${r.cycle_ratio > scenario.ratioLimit ? ">" : "≤"}${num(scenario.ratioLimit)}× no cenário.`}`;
+  return days + " " + ratio;
+}
+function invalidatePolicyScenario() {
+  policyScenario = null;
+  policyPage = 0;
+  $("policychanges").hidden = true;
+  $("policychanges").open = false;
+  $("policycases").innerHTML = "";
+  $("exportpolicy").disabled = true;
+  $("policyexportstatus").textContent = "";
+  $("policycasepage").textContent = "";
+}
+function renderPolicyChanges() {
+  if (!policyScenario) return;
+  const changes = policyScenario.changes, pages = Math.max(1, Math.ceil(changes.length / size));
+  policyPage = Math.max(0, Math.min(policyPage, pages - 1));
+  $("policychanges").hidden = !changes.length;
+  $("exportpolicy").disabled = !changes.length;
+  $("policychangessummary").textContent = `Ver ${num(changes.length)} oportunidades que mudariam de fila`;
+  $("policycases").innerHTML = `<ul class="policy-case-list">${changes.slice(policyPage * size, (policyPage + 1) * size).map((r) => `<li data-policy-id="${esc(r.id)}"><div><strong>${esc(r.account)}</strong><p>${esc(r.product)} · ${esc(r.agent)} · ${esc(r.region)}</p><p class="meta">ID: ${esc(r.id)}</p></div><div><strong>${esc(queueNames[r.from_queue])} → ${esc(queueNames[r.to_queue])}</strong><p>${esc(policyCaseReason(r, policyScenario))}</p></div><button id="policy-open-${esc(r.id)}" type="button" data-policy-open="${esc(r.id)}" aria-label="Ver detalhes de ${esc(r.id)} na política-base">Ver detalhes na base</button></li>`).join("")}</ul>`;
+  $("policycasepage").textContent = `Página ${policyPage + 1} de ${pages} · ${num(changes.length)} casos no cenário`;
+  $("policyprev").disabled = policyPage === 0;
+  $("policynext").disabled = policyPage === pages - 1;
+}
+function policyCasesCsv(scenario) {
+  if (!scenario) throw Error("Inspecione um cenário válido antes de exportar.");
+  const p = base.operations_policy;
+  return "\ufeff" + [["id", "conta", "vendedor", "regiao", "produto", "idade_dias", "razao_ciclo", "fila_base", "fila_cenario", "motivo", "limite_dias_base", "limite_relativo_base", "limite_dias_cenario", "limite_relativo_cenario", "referencia", "dataset_hash", "tipo"],
+    ...scenario.changes.map((r) => [r.id, r.account, r.agent, r.region, r.product, r.age, r.cycle_ratio, r.from_queue, r.to_queue, policyCaseReason(r, scenario), p.cleanup_days_exclusive, p.cleanup_cycle_ratio_exclusive, scenario.daysLimit, scenario.ratioLimit, scenario.as_of, scenario.dataset_hash, "cenario_hipotetico_nao_aplicado"])]
+    .map((row) => row.map(csvCell).join(",")).join("\r\n");
+}
+function inspectPolicy() {
+  invalidatePolicyScenario();
+  $("policyerror").textContent = "";
+  $("policystatus").textContent = "Nenhum resultado válido para os limites atuais.";
+  try {
+    const days = $("policydays").value.trim(), ratio = $("policyratio").value.trim();
+    const s = evaluatePolicyScenario(days ? Number(days) : NaN,
+      $("policydayonly").checked ? null : ratio ? Number(ratio) : NaN);
+    policyScenario = s;
+    renderPolicyChanges();
+    $("policystatus").textContent = `Cenário: >${num(s.daysLimit)} dias${s.ratioLimit === null ? " (somente dias)" : " OU >" + num(s.ratioLimit) + "× mediana"}. ${num(s.counts.conversion)} conversão · ${num(s.counts.cleanup)} saneamento · ${num(s.counts.qualify)} qualificação. ${num(s.changed)} reclassificadas frente à política-base. Central: ${num(s.centralConversion)} em conversão (${num(s.centralAdded)} acrescentadas). ${num(s.conversionAgents)} de ${num(s.activeAgents)} vendedores com conversão (${num(s.addedAgents)} acrescentados). Universo: ${num(s.total)} abertas · referência ${displayDate(s.as_of)} · dataset ${s.dataset_hash.slice(0, 12)}… Fila principal, índice e exportações preservados.`;
+  } catch (error) { $("policyerror").textContent = error.message; }
+}
+$("policyform").onsubmit = (event) => { event.preventDefault(); inspectPolicy(); };
+$("policyreset").onclick = () => {
+  $("policydays").value = "120";
+  $("policyratio").value = "2.5";
+  $("policydayonly").checked = false;
+  $("policyratio").disabled = false;
+  inspectPolicy();
+};
+for (const id of ["policydays", "policyratio", "policydayonly"]) {
+  $(id).addEventListener(id === "policydayonly" ? "change" : "input", () => {
+    invalidatePolicyScenario();
+    $("policyratio").disabled = $("policydayonly").checked;
+    $("policyerror").textContent = "";
+    $("policystatus").textContent = "Limites alterados; inspecione o cenário para atualizar as contagens. Fila principal preservada.";
+  });
+}
+$("policyprev").onclick = () => { policyPage--; renderPolicyChanges(); };
+$("policynext").onclick = () => { policyPage++; renderPolicyChanges(); };
+$("policycases").addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-policy-open]");
+  if (button) openContextDetails(button.dataset.policyOpen, button);
+});
+$("exportpolicy").onclick = () => {
+  if (!policyScenario?.changes.length) return;
+  saveFile(policyCasesCsv(policyScenario), "text/csv;charset=utf-8",
+    `leadscorer-${policyScenario.as_of}-cenario-${policyScenario.daysLimit}-dias-${policyScenario.ratioLimit ?? "somente-dias"}-reclassificadas.csv`);
+  $("policyexportstatus").textContent = `${num(policyScenario.changes.length)} casos hipotéticos exportados; política-base e exportação principal preservadas.`;
+};
+$("simreset").onclick = restore;
+$("restorevisible").onclick = restore;
+$("comparesimulation").onclick = () => {
+  $("sort").value = "score";
+  page = 0;
+  render();
+  $("status").focus();
+};
+for (const [id, path] of [["groupidentified", "identified"], ["groupmissing", "missing"]]) {
+  $(id).onclick = () => {
+    groupPath = path;
+    $("accountfilter").value = "";
+    page = 0;
+    render();
+    $("status").focus();
+  };
+}
+$("simform").onsubmit = async (event) => {
+  event.preventDefault();
+  if (!base) return;
+  const rules = {};
+  Object.keys(base.rules).forEach((k) => (rules[k] = Number($("rule_" + k).value)));
+  const token = ++requestId;
+  $("apply").disabled = true;
+  $("simerror").textContent = "";
+  $("simstatus").textContent = "Calculando índice simulado…";
+  try {
+    const result = await fetch("/api/pipeline?rules=" + encodeURIComponent(JSON.stringify(rules)));
+    if (!result.ok)
+      throw Error(
+        "Regras inválidas: use inteiros dentro dos limites e limiares positivos crescentes.",
+      );
+    const data = await result.json();
+    if (token !== requestId) return;
+    current = data;
+    rows = data.rows;
+    simulation = current.rules_hash !== base.rules_hash;
+    page = 0;
+    showRules();
+    render();
+    $("simstatus").textContent = simulation
+      ? "Índice simulado aplicado; filas e limites operacionais preservados. As diferenças não medem impacto comercial."
+      : "Regras iguais à base; ranking e índices restaurados.";
+  } catch (error) {
+    if (token === requestId) {
+      $("simerror").textContent = error.message;
+      $("simstatus").textContent = "Simulação não aplicada; resultado anterior preservado.";
+    }
+  } finally {
+    if (token === requestId) $("apply").disabled = false;
+  }
+};
+const loadingControls = [
+  "agent",
+  "manager",
+  "region",
+  "stage",
+  "sort",
+  "view",
+  "prev",
+  "next",
+  "reviewqueue",
+  "investigate",
+  "conversionqueue",
+  "cleanupqueue",
+  "accountfilter",
+  "reviewfilter",
+  "layout",
+  "exportcsv",
+  "exportmd",
+  "copysummary",
+  "apply",
+  "simreset",
+  "restorevisible",
+  "comparesimulation",
+  "groupidentified",
+  "groupmissing",
+];
+function setLoading(value) {
+  loadingControls.forEach((k) => ($(k).disabled = value));
+}
+function showServerHelp(openedAsFile) {
+  $("server-help").hidden = false;
+  $("workspace").hidden = openedAsFile;
+  $("server-help-title").textContent = openedAsFile
+    ? "Inicie o servidor local para usar o aplicativo"
+    : "Não foi possível carregar os dados";
+  $("server-help-reason").textContent = openedAsFile
+    ? "O index.html foi aberto diretamente como arquivo. Os dados são fornecidos pelo servidor Python; siga os passos abaixo."
+    : "Confira se o servidor Python continua aberto e se os CSVs estão na pasta data. Se houver um erro no terminal, confira a mensagem antes de tentar novamente.";
+}
+function load() {
+  setLoading(true);
+  $("server-help").hidden = true;
+  $("workspace").hidden = false;
+  $("retryload").hidden = true;
+  if (typeof location !== "undefined" && location.protocol === "file:") {
+    showServerHelp(true);
+    return;
+  }
+  $("status").textContent = "Carregando dados locais…";
+  fetch("/api/pipeline")
+    .then((r) => {
+      if (!r.ok) throw Error("HTTP " + r.status);
+      return r.json();
+    })
+    .then((data) => {
+      base = data;
+      current = data;
+      rows = base.rows;
+      ["agent", "manager", "region"].forEach((k) =>
+        [...new Set((data.teams || rows).map((r) => r[k]))].sort().forEach((v) => {
+          const o = document.createElement("option");
+          o.value = v;
+          o.textContent = v;
+          $(k).append(o);
+        }),
+      );
+      $("ruleinputs").innerHTML = Object.keys(base.rules)
+        .map(
+          (k) =>
+            `<label>${esc(ruleLabels[k])}<input type="number" required step="1" min="${k.startsWith("days_") || k.startsWith("price_") ? 1 : 0}" max="${k.startsWith("days_") ? 3650 : k.startsWith("price_") ? 1000000 : k.startsWith("age_") ? 30 : k.startsWith("value_") || ["engaging", "prospecting"].includes(k) ? 25 : 10}" id="rule_${k}" value="${base.rules[k]}"></label>`,
+        )
+        .join("");
+      setLoading(false);
+      showRules();
+      render();
+      $("retryload").hidden = true;
+    })
+    .catch(() => {
+      showServerHelp(false);
+      $("status").textContent =
+        "Falha ao carregar dados locais. Siga a orientação acima e tente novamente; sua busca será mantida.";
+      $("retryload").hidden = false;
+    });
+}
+$("retryload").onclick = load;
+load();
+// Session-only review state; filtering never writes to the source CSVs.
+$("list").addEventListener("change", (event) => {
+  const box = event.target.closest("input[data-review]");
+  if (!box) return;
+  const id = box.dataset.review;
+  if (box.checked) reviewed.add(id);
+  else reviewed.delete(id);
+  const willDisappear =
+    ($("reviewfilter").value === "pending" && box.checked) ||
+    ($("reviewfilter").value === "reviewed" && !box.checked);
+  render();
+  $("reviewstatus").textContent = id + (box.checked ? ": marcada como revisada nesta sessão. Desmarque para desfazer." : ": revisão desmarcada nesta sessão.") + " Nenhum dado foi alterado no CRM.";
+  const feedback = $("panel-feedback-" + id);
+  if (feedback) feedback.textContent = box.checked ? "Marcada como revisada nesta sessão." : "Marcação desfeita.";
+  const replacement = [...($("list").querySelectorAll?.("input[data-review]") || [])].find(
+    (input) => input.dataset.review === id,
+  );
+  if (replacement) replacement.focus({ preventScroll: true });
+  else if (willDisappear) $("reviewfilter").focus();
+});
+$("team-panel").addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-agent]");
+  if (button) {
+    $("agent").value = button.dataset.agent;
+    if (["conversion", "cleanup", "qualify"].includes(button.dataset.agentQueue)) queue = button.dataset.agentQueue;
+    page = 0;
+    render();
+    $("status").focus();
+  }
+});
+function csvCell(value) {
+  let text = value === null ? "" : String(value);
+  // Quotes alone do not stop spreadsheet formulas from executing.
+  if (/^[\s]*[=+@-]/.test(text) || /^[\t\r\n]/.test(text)) text = "'" + text;
+  return '"' + text.replace(/"/g, '""') + '"';
+}
+function csvExport(data) {
+  const headers = [
+    "id",
+    "conta",
+    "vendedor",
+    "gestor",
+    "produto",
+    "etapa",
+    "fila",
+    "idade_dias",
+    "ciclo_mediano_dias",
+    "razao_ciclo",
+    "catalogo_unitario_moeda_nao_confirmada",
+    "oportunidades_ganhas_anteriores",
+    "indice",
+    "revisado_sessao",
+    "acao",
+    "referencia",
+    "modo",
+    "regras_hash",
+    "operacoes_versao",
+  ];
+  return (
+    "\ufeff" +
+    [
+      headers,
+      ...data.map((r) => [
+        r.id,
+        r.account,
+        r.agent,
+        r.manager,
+        r.product,
+        r.stage,
+        r.operations.queue,
+        r.age,
+        r.operations.median_cycle_days,
+        r.operations.cycle_ratio,
+        r.catalog_price,
+        r.account_context.prior_won,
+        r.score,
+        reviewed.has(r.id) ? "sim" : "nao",
+        r.operations.action,
+        current.as_of,
+        simulation ? "simulacao" : "base",
+        current.rules_hash,
+        r.operations.version,
+      ]),
+    ]
+      .map((row) => row.map(csvCell).join(","))
+      .join("\r\n")
+  );
+}
+function mdText(value) {
+  return String(value)
+    .replace(/[\r\n]+/g, " ")
+    .replace(/[\\`*_{}[\]()#+.!|<>]/g, "\\$&");
+}
+function summaryExport(data) {
+  const scope =
+    ["agent", "manager", "region", "stage", "search", "accountfilter", "reviewfilter"]
+      .filter((k) => $(k).value)
+      .map((k) => k + ": " + $(k).value)
+      .join(" · ") || "Visão global";
+  return (
+    `# Plano de ação comercial\n\nReferência: ${current.as_of} · ${simulation ? "SIMULAÇÃO" : "BASE"} · fila: ${queue}\nFiltros: ${mdText(scope)}\n${data.length} oportunidades · ${data.filter((r) => reviewed.has(r.id)).length} revisadas nesta fila.\nRegras: ${current.rules_hash} · operações: ${current.operations_version}\n\n` +
+    data
+      .map(
+        (r) =>
+          `- ${mdText(r.id)} · ${mdText(r.account)} · ${mdText(r.agent)} · ${mdText(r.product)} · ${mdText(r.stage)} · idade: ${r.age === null ? "indisponível" : r.age + " dias"} · ciclo relativo: ${r.operations.cycle_ratio === null ? "indisponível" : r.operations.cycle_ratio.toFixed(2) + "x"} · índice ${r.score}/80 · ${reviewed.has(r.id) ? "revisado" : "pendente"}\n  Próximo passo: ${mdText(r.operations.action)}`,
+      )
+      .join("\n") +
+    "\n\nRevisão humana no CRM. Critérios propostos; catálogo não é receita esperada.\n"
+  );
+}
+function saveFile(content, type, filename) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function downloadExport(content, type, extension) {
+  saveFile(content, type,
+    "leadscorer-" +
+    current.as_of +
+    "-" +
+    queue +
+    (simulation ? "-simulacao" : "") +
+    "." +
+    extension);
+  $("workflowstatus").textContent =
+    filtered().length + " oportunidades exportadas; CSVs originais preservados.";
+}
+$("exportcsv").onclick = () =>
+  downloadExport(csvExport(filtered()), "text/csv;charset=utf-8", "csv");
+$("exportmd").onclick = () =>
+  downloadExport(summaryExport(filtered()), "text/markdown;charset=utf-8", "md");
+$("copysummary").onclick = async () => {
+  const revision = workflowRevision;
+  const copiedRows = filtered();
+  try {
+    await navigator.clipboard.writeText(summaryExport(copiedRows));
+    if (revision === workflowRevision)
+      $("workflowstatus").textContent =
+        copiedRows.length + " oportunidades copiadas. Cole o resumo no seu canal.";
+  } catch (error) {
+    if (revision === workflowRevision)
+      $("workflowstatus").textContent =
+        "Cópia indisponível neste navegador. Use Exportar resumo · Markdown.";
+  }
+};
+function tacticalAction(deal, category) {
+  if (deal.operations.queue === "cleanup")
+    return (
+      deal.operations.action +
+      (category === "explicit_next_step"
+        ? " Conferir se o próximo passo registrado ainda é válido."
+        : category === "explicit_objection"
+          ? " Validar o bloqueio antes de decidir continuidade."
+          : " Obter contexto atual antes da decisão.")
+    );
+  if (deal.operations.queue === "qualify")
+    return (
+      deal.operations.action +
+      (category === "explicit_objection"
+        ? " Registrar e esclarecer o bloqueio durante a qualificação."
+        : category === "explicit_next_step"
+          ? " Confirmar responsável e próximo passo registrado."
+          : " Confirmar necessidade, responsável e contexto.")
+    );
+  return (
+    (category === "explicit_next_step"
+      ? "Confirmar responsável e prazo do próximo passo explícito."
+      : category === "explicit_objection"
+        ? "Esclarecer a objeção e combinar uma ação para resolvê-la."
+        : "Pedir contexto e combinar um próximo passo verificável.") +
+    " " +
+    deal.operations.action
+  );
+}
+function clearDealJev() {
+  jevDealId = null;
+  $("jevmode").value = "disabled";
+  $("jevtext").value = "";
+  $("jevfixture").value = "insufficient_context";
+  resetJev();
+  $("jevdeal").textContent = "";
+}
+function selectDealJev(id) {
+  const deal = rows.find((r) => r.id === id);
+  if (!deal) return;
+  if (jevDealId !== id) {
+    clearDealJev();
+    jevDealId = id;
+  }
+  const host = $("jevhost-" + id);
+  host.appendChild($("jevpanel"));
+  $("jevdeal").textContent =
+    id +
+    " · " +
+    deal.account +
+    " · " +
+    deal.stage +
+    " · " +
+    (deal.age === null ? "idade indisponível" : deal.age + " dias") +
+    ". Só o texto colado será classificado; ID e dados do deal ficam locais.";
+  $("jevmode").focus();
+}
+let jevRequest = 0;
+function resetJev() {
+  jevRequest++;
+  $("jevcontrols").hidden = $("jevmode").value === "disabled";
+  $("jevconsents").hidden = $("jevmode").value !== "service";
+  $("jevfixturecontrol").hidden = $("jevmode").value !== "mock";
+  $("jevresult").textContent = "";
+  $("jevsubmit").disabled = false;
+  $("jevconsent").checked = false;
+  $("jevcost").checked = false;
+  $("jevstatus").textContent =
+    $("jevmode").value === "disabled"
+      ? "JEV desativado. Fila e regras locais preservadas."
+      : $("jevmode").value === "mock"
+        ? "MOCK local fixo: sem inferência, rede ou credenciais."
+        : "Serviço externo: confirmação por envio e configuração do servidor necessárias. Nenhum texto enviado.";
+}
+async function changeJevMode() {
+  resetJev();
+  if ($("jevmode").value !== "service") return;
+  const token = jevRequest;
+  $("jevsubmit").disabled = true;
+  try {
+    const response = await fetch("/api/jev/status");
+    if (!response.ok) throw Error();
+    const state = await response.json();
+    if (token !== jevRequest) return;
+    $("jevsubmit").disabled = !state.service_ready;
+    if (!state.service_ready)
+      $("jevstatus").textContent =
+        "Serviço JEV indisponível ou não autorizado. Continue pelas regras locais; nenhum texto foi enviado.";
+  } catch (error) {
+    if (token === jevRequest)
+      $("jevstatus").textContent =
+        "Serviço JEV indisponível. Continue pelas regras locais; nenhum texto foi enviado.";
+  }
+}
+const mockTexts = {
+  insufficient_context: "Exemplo sintético: ainda precisamos confirmar necessidade e responsável.",
+  explicit_next_step: "Exemplo sintético: foi combinado revisar a proposta na próxima reunião.",
+  explicit_objection: "Exemplo sintético: a conta registrou uma objeção de orçamento ainda não resolvida.",
+};
+$("jevmode").onchange = () => {
+  if ($("jevmode").value === "mock") $("jevtext").value = mockTexts[$("jevfixture").value];
+  return changeJevMode();
+};
+$("jevfixture").onchange = () => {
+  $("jevtext").value = mockTexts[$("jevfixture").value];
+  resetJev();
+};
+$("jevtext").oninput = changeJevMode;
+$("jevform").onsubmit = async (event) => {
+  event.preventDefault();
+  if (!jevDealId) {
+    $("jevstatus").textContent = "Selecione uma oportunidade nos detalhes.";
+    return;
+  }
+  const deal = rows.find((r) => r.id === jevDealId);
+  const mode = $("jevmode").value;
+  if (mode === "disabled") return;
+  const text = $("jevtext").value;
+  if (!text.trim() || text.length > 4000) {
+    $("jevstatus").textContent = "Forneça texto entre 1 e 4.000 caracteres.";
+    return;
+  }
+  if (mode === "service" && (!$("jevconsent").checked || !$("jevcost").checked)) {
+    $("jevstatus").textContent =
+      "Confirme destino, natureza pública/sintética do texto e custo desta requisição.";
+    return;
+  }
+  const token = ++jevRequest;
+  $("jevsubmit").disabled = true;
+  $("jevstatus").textContent = "Classificando texto separadamente…";
+  $("jevresult").textContent = "";
+  try {
+    const response = await fetch("/api/jev/classify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode,
+        text,
+        ...(mode === "mock" ? { mock_category: $("jevfixture").value } : {}),
+        data_classification: $("jevdata").value,
+        allow_transmission: $("jevconsent").checked,
+        confirm_cost: $("jevcost").checked,
+      }),
+    });
+    if (!response.ok) throw Error("Falha local");
+    const result = await response.json();
+    if (token !== jevRequest) return;
+    $("jevstatus").textContent = result.message;
+    $("jevresult").innerHTML = result.classification
+      ? `<p><strong>${esc(result.classification.label)}</strong> · ${esc(result.source)}</p><p class="meta">${result.status === "mock" ? "Mock fixo, sem interpretação do texto. Próximo passo abaixo é uma demonstração." : esc(result.model) + " · confiança do serviço: " + num(result.classification.confidence) + "; não é chance de venda."}</p><p><strong>Próximo passo sugerido para ${esc(deal.id)}:</strong> ${esc(tacticalAction(deal, result.classification.category))}</p>`
+      : "";
+  } catch (error) {
+    if (token === jevRequest)
+      $("jevstatus").textContent =
+        "Módulo indisponível. Continue pelas regras locais; fila e índice preservados.";
+  } finally {
+    if (token === jevRequest) $("jevsubmit").disabled = false;
+  }
+};
+</script>
+  </body>
+</html>

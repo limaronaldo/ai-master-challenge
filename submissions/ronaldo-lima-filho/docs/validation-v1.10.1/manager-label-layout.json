@@ -1,0 +1,302 @@
+[
+  {
+    "viewport_width": 1440,
+    "buttons": [
+      {
+        "agent": "Anna Snelling",
+        "label": "Ação de conversão",
+        "width": 152.25,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Cecily Lampkin",
+        "label": "Ação de conversão",
+        "width": 152.265625,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Lajuana Vencill",
+        "label": "Ação de conversão",
+        "width": 152.25,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Moses Frase",
+        "label": "Ação de conversão",
+        "width": 152.265625,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Versie Hillebrand",
+        "label": "Ação de conversão",
+        "width": 152.25,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      }
+    ]
+  },
+  {
+    "viewport_width": 1024,
+    "buttons": [
+      {
+        "agent": "Anna Snelling",
+        "label": "Ação de conversão",
+        "width": 181.765625,
+        "height": 44,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Cecily Lampkin",
+        "label": "Ação de conversão",
+        "width": 181.78125,
+        "height": 44,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Lajuana Vencill",
+        "label": "Ação de conversão",
+        "width": 181.765625,
+        "height": 44,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Moses Frase",
+        "label": "Ação de conversão",
+        "width": 181.765625,
+        "height": 44,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Versie Hillebrand",
+        "label": "Ação de conversão",
+        "width": 181.78125,
+        "height": 44,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      }
+    ]
+  },
+  {
+    "viewport_width": 861,
+    "buttons": [
+      {
+        "agent": "Anna Snelling",
+        "label": "Ação de conversão",
+        "width": 145.546875,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Cecily Lampkin",
+        "label": "Ação de conversão",
+        "width": 145.546875,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Lajuana Vencill",
+        "label": "Ação de conversão",
+        "width": 145.546875,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Moses Frase",
+        "label": "Ação de conversão",
+        "width": 145.546875,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Versie Hillebrand",
+        "label": "Ação de conversão",
+        "width": 145.546875,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      }
+    ]
+  },
+  {
+    "viewport_width": 375,
+    "buttons": [
+      {
+        "agent": "Anna Snelling",
+        "label": "Ação de conversão",
+        "width": 190,
+        "height": 44,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Cecily Lampkin",
+        "label": "Ação de conversão",
+        "width": 190,
+        "height": 44,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Lajuana Vencill",
+        "label": "Ação de conversão",
+        "width": 190,
+        "height": 44,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Moses Frase",
+        "label": "Ação de conversão",
+        "width": 190,
+        "height": 44,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Versie Hillebrand",
+        "label": "Ação de conversão",
+        "width": 190,
+        "height": 44,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      }
+    ]
+  },
+  {
+    "viewport_width": 320,
+    "buttons": [
+      {
+        "agent": "Anna Snelling",
+        "label": "Ação de conversão",
+        "width": 153.328125,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Cecily Lampkin",
+        "label": "Ação de conversão",
+        "width": 153.328125,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Lajuana Vencill",
+        "label": "Ação de conversão",
+        "width": 153.328125,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Moses Frase",
+        "label": "Ação de conversão",
+        "width": 153.328125,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      },
+      {
+        "agent": "Versie Hillebrand",
+        "label": "Ação de conversão",
+        "width": 153.328125,
+        "height": 56.375,
+        "word_lines": {
+          "Ação": 1,
+          "de": 1,
+          "conversão": 1
+        }
+      }
+    ]
+  }
+]

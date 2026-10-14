@@ -1,0 +1,296 @@
+{
+  "implementation_version": "local-v1.10.1",
+  "operations_version": "operations-v1.2",
+  "packaged_at": "2026-10-14T12:54:09.327057+00:00",
+  "layout": "Only submissions/ronaldo-lima-filho/",
+  "files": {
+    "submissions/ronaldo-lima-filho/README.md": {
+      "bytes": 21332,
+      "sha256": "fa4c777845f9dff0c790f433c2fdd337ae8986aa0d776839544f6b5b90d6d00c"
+    },
+    "submissions/ronaldo-lima-filho/docs/data-audit.json": {
+      "bytes": 3326,
+      "sha256": "dc5f7460acefda4f9b27033f9f5e0797269f568a1d0f1ee47e84c747eeefca6a"
+    },
+    "submissions/ronaldo-lima-filho/docs/data-governance.md": {
+      "bytes": 2411,
+      "sha256": "9f1a494b7f1d9e3a26e2139407add5a274606e5f8714925c3f3edef1bc50bf9a"
+    },
+    "submissions/ronaldo-lima-filho/docs/implementation-manifest.json": {
+      "bytes": 8673,
+      "sha256": "d4e0c9bc9bb07f124d8832bc3da38434a89c58ab7aac9ee7b8171e49a75ba80c"
+    },
+    "submissions/ronaldo-lima-filho/docs/implementation-plan-reconciled.md": {
+      "bytes": 6156,
+      "sha256": "1981f70336869e904f524b4bc83ecf85c41838b48173a4ac0065328c7fd1322d"
+    },
+    "submissions/ronaldo-lima-filho/docs/interface-comparison.md": {
+      "bytes": 7235,
+      "sha256": "eaaf0942c075431f7b0bcbf79d91cf4ec210e62758a8fd2b6b2fda6815cbf477"
+    },
+    "submissions/ronaldo-lima-filho/docs/jev-optional.md": {
+      "bytes": 6121,
+      "sha256": "9d524fd4fa9e9b634ecc17447bf8812e5742ac2e8bd73242328e094b6170190a"
+    },
+    "submissions/ronaldo-lima-filho/docs/policy-analysis.json": {
+      "bytes": 20050,
+      "sha256": "911af151b5f5ae3b2b71b613e5e9caee227fd2b2222f356dbe0888799994f7a5"
+    },
+    "submissions/ronaldo-lima-filho/docs/policy-analysis.md": {
+      "bytes": 4902,
+      "sha256": "be21db2cbb5ac5f5aa4f1591203aa31677291e5cc8a750e5ee0eedff56c9788f"
+    },
+    "submissions/ronaldo-lima-filho/docs/revops-verification.md": {
+      "bytes": 5227,
+      "sha256": "7bf71c3942490e3e6cd1b72a54e2309b24d190a3e2bdfdff4d10676371009958"
+    },
+    "submissions/ronaldo-lima-filho/docs/source-manifest.json": {
+      "bytes": 1550,
+      "sha256": "0fc1ce49e8c58cadc591c04df5606b5417974977bf0b244b4c8266f989f8da4c"
+    },
+    "submissions/ronaldo-lima-filho/docs/submission-preparation.md": {
+      "bytes": 4725,
+      "sha256": "5b0cb5edab5ddb1ffeeb3e79310b6d32abf1fd2776b213f6611260607eddbf39"
+    },
+    "submissions/ronaldo-lima-filho/docs/treatment-matrix.md": {
+      "bytes": 6601,
+      "sha256": "8f9d7862ff9bd2bb3a0541360b7007e26ec1fbcf04abcc6a1c30f664a3b595d3"
+    },
+    "submissions/ronaldo-lima-filho/docs/user-test-protocol.md": {
+      "bytes": 2940,
+      "sha256": "35d76192307e6679978d13b5ea302805b2504b4e619998de55db6c503a4890ac"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/aggregate-checks.json": {
+      "bytes": 927,
+      "sha256": "b731a46f580576fc8a7c79ba76bda42e37a9c48c79302e3bef35710849801215"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/browser-output.txt": {
+      "bytes": 3982,
+      "sha256": "d00a1ce5fcfedc9567b28c6b7ece616e22fbc819de601c8c285dc9c72a0fe088"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/browser-results.json": {
+      "bytes": 4089,
+      "sha256": "8f3b38e12d88d5c92f30563b5a00f017f7312841c02758c765a5f71fcb6e0756"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/central-empty.png": {
+      "bytes": 148751,
+      "sha256": "a7caedbda6d61efa5d527dae6fa18435c262c887b2f81ebd995e40f3ec47d246"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/conversion.csv": {
+      "bytes": 75738,
+      "sha256": "dc9f0755850010011c0edee86614bab0cf3359d0c5d18ba6d6cb08f52b656a1d"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/conversion.md": {
+      "bytes": 56254,
+      "sha256": "95eb332b39b55212cbd78bedaa3df5c215e3b689b6bbc6ca2c16c3229085fcdf"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/deal-jev-mock.png": {
+      "bytes": 242064,
+      "sha256": "07614c5a6552765a9d863306fc4de2c2075f1a9ba5a7ab66f2683fea95aae64e"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/declared-parent-context.png": {
+      "bytes": 225745,
+      "sha256": "3ca44000a76bfbca806ba46367d28d0657347e94b7179e37f5521a814c69a2a9"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/desktop-account-opportunities.png": {
+      "bytes": 218040,
+      "sha256": "30b71bdd50cd11d1de7fc0395bfc9f7922d7b019733898071b348c53bed1e4f5"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/desktop-conversion.png": {
+      "bytes": 186606,
+      "sha256": "baa8161a05d08da868783473ac2980fca01c4bb936423519de05f85f2421fd2a"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/desktop-manager-shortcuts.png": {
+      "bytes": 172757,
+      "sha256": "f2bfb33101255bf166a8e02b4dc01ca523e824e4763910387ce90b0244d6e47b"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/desktop-policy-cases.png": {
+      "bytes": 202789,
+      "sha256": "03c0086dc961ea1ea1834ad5b9eff2c8f808f2b54e100e7fb1eeb81664064849"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/desktop-policy-lab.png": {
+      "bytes": 205326,
+      "sha256": "b583bab9c66df025a4e4084cd313ef0e1833e2ad9f810b8a9cfedea2d2b11dc1"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/desktop-review.png": {
+      "bytes": 208250,
+      "sha256": "54df94e983159edbfabb3a8aeb7a5b726dfbd10d0c722098c4a44ca9bbc5dbe0"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/group-identified.png": {
+      "bytes": 201987,
+      "sha256": "e544c9cd37bc589b2fb5f7e5cb974255702d3c1adc53cee346cf078809dc4f15"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/group-missing.png": {
+      "bytes": 211565,
+      "sha256": "261ba07e353c1ec9a3fbd1475e1e126377da423d363a0c2a7f4a7719097c55fb"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/index-simulation.png": {
+      "bytes": 161169,
+      "sha256": "d243616184bda99e6bfe616e24910be69b7dfe71cce208ae9f96bb4e44c1e443"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/jev-three-fixtures.png": {
+      "bytes": 278002,
+      "sha256": "d5c36c5ce18c23d73294454831dcb6c74ec81c8af5c9c117e3296fc2df4c6fa9"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/layout-results.json": {
+      "bytes": 121,
+      "sha256": "33c6db2899fb8a02863c6432afe29b27f113acb8b78f5dfb35673655b5186b9b"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/manager-label-layout.json": {
+      "bytes": 6456,
+      "sha256": "8e11e7e245510a9d25b8eeda4b14df47c5988a9b62d0cfbb53c159730f6404eb"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/manager.png": {
+      "bytes": 170977,
+      "sha256": "80f1f0ae5e97a868a3139c00b2d60a0b8dbdafdffff4b9df505e7e1673e138b9"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/mobile-account-opportunities.png": {
+      "bytes": 66854,
+      "sha256": "15ea68b6d9712c49e6d3a7be4e00c93073788dcacf55e16b18e2f84c04563a18"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/mobile-conversion.png": {
+      "bytes": 78917,
+      "sha256": "3a8a82836a5d058ed5a8c2b4001140df19c8fc61227e897b887f8ac37f28020c"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/mobile-deal-jev.png": {
+      "bytes": 78996,
+      "sha256": "56efb064553b2b3322031384267e0a296de6461658b938992a30a5e471173d96"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/mobile-grouping.png": {
+      "bytes": 81658,
+      "sha256": "b28ebe646e33dc758ed2ad952ab553ef2d50987f1ef7153fa2e4b8e948025968"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/mobile-manager-shortcuts.png": {
+      "bytes": 62152,
+      "sha256": "36309623871aa071e2fd07adfef8bb50e7861ac0fe64599631a082d6b4d85278"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/mobile-manager.png": {
+      "bytes": 61633,
+      "sha256": "6ef1dfbde44ff88f782161b8b1df14a4bf2f32236ea1e03c919d85ef982907eb"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/mobile-policy-cases.png": {
+      "bytes": 78832,
+      "sha256": "88fdf90aea90d20b6f639352d912cb0ff7d54d43b911ab330145ab51d94350e4"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/mobile-policy-lab.png": {
+      "bytes": 94657,
+      "sha256": "6ebeb40971766f5eef767311cc9aae04c6fd866755fd683ff9cdece8c110e821"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/mobile-review.png": {
+      "bytes": 61425,
+      "sha256": "98bdf79c9876cc7d90c2324c98167e8b645b9f9ec366845251506f21ea30a02c"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/node-tests.txt": {
+      "bytes": 9085,
+      "sha256": "a31409c188eb0982bb221d570159ef448b8160eea06d7dcb9af4fa800137a0d2"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/policy-reclassified.csv": {
+      "bytes": 41427,
+      "sha256": "b929193b7969b76a83b048e49aa2a9097497e14c470f2cffcff8bc083d3275fd"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/python-tests.txt": {
+      "bytes": 8005,
+      "sha256": "238a4177977e3d2b75a6e364a1305af80a33dd73c9aa264202d9788a8eb6fe9e"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/qualification-missing.csv": {
+      "bytes": 103166,
+      "sha256": "2e0a653f16eb84cf8897485cfa2ccd4364275e4778a3449168d46fc86279a057"
+    },
+    "submissions/ronaldo-lima-filho/docs/validation-v1.10.1/startup-help.png": {
+      "bytes": 173655,
+      "sha256": "f4726da7d31f9da0f3e591b9e24bf62242a0db7cda963e07c8397e723948cba9"
+    },
+    "submissions/ronaldo-lima-filho/docs/verification-v1.10.1.md": {
+      "bytes": 1426,
+      "sha256": "d763de76c2e860ced4166127cc6237ee55b9792a0a9ed28c66be6515d679fc95"
+    },
+    "submissions/ronaldo-lima-filho/process-log/log.md": {
+      "bytes": 15167,
+      "sha256": "62d2837dc474f29f9a5303561f440e4e86deb86b983264523f8b0cb0b338db3d"
+    },
+    "submissions/ronaldo-lima-filho/solution/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    "submissions/ronaldo-lima-filho/solution/analyze_policy.py": {
+      "bytes": 7228,
+      "sha256": "466d657a414aa943ab6e8c73b3ff068c2a67791e6addaf22451290b32997b8c2"
+    },
+    "submissions/ronaldo-lima-filho/solution/app.py": {
+      "bytes": 17572,
+      "sha256": "f259e96f2242dc6297a0808f6c8904b76de8af1f6f4b6e05ce5cb454a4b76d90"
+    },
+    "submissions/ronaldo-lima-filho/solution/assets/OFL-Manrope.txt": {
+      "bytes": 4387,
+      "sha256": "58172e0c0fac2cda8a37b348164bb55e44b0e69051e557e92b1d3f6910141f7b"
+    },
+    "submissions/ronaldo-lima-filho/solution/assets/manrope.woff2": {
+      "bytes": 24576,
+      "sha256": "e310b55a7fd9677f5e3555e6c6c4d064fa1f1d24393f0ddbe217cea12a8c432f"
+    },
+    "submissions/ronaldo-lima-filho/solution/audit.py": {
+      "bytes": 3417,
+      "sha256": "7c6d6886616234bd83ee32fb813b7962027e8be9c6277483f68a195e918ceb93"
+    },
+    "submissions/ronaldo-lima-filho/solution/data/accounts.csv": {
+      "bytes": 4670,
+      "sha256": "e5242324768a563fc632cddfed49a29acbbf2892b8a3c6453cc9650de9ae0358"
+    },
+    "submissions/ronaldo-lima-filho/solution/data/metadata.csv": {
+      "bytes": 996,
+      "sha256": "22b34e498d07e3d7f322afdbf81d70a5dc0a389792944e50ca2af86a3597f0af"
+    },
+    "submissions/ronaldo-lima-filho/solution/data/products.csv": {
+      "bytes": 171,
+      "sha256": "7c1c8cbbdb6d4c286902e1985eeb529a36366d6a43f43cd4a93c4b1da2a6eb84"
+    },
+    "submissions/ronaldo-lima-filho/solution/data/sales_pipeline.csv": {
+      "bytes": 637773,
+      "sha256": "825ce8f6c32d4009548b468df3173d55a46fd73f2531f532c5459371dc52adf2"
+    },
+    "submissions/ronaldo-lima-filho/solution/data/sales_teams.csv": {
+      "bytes": 1284,
+      "sha256": "aeff1272ebe196f5a27e3fc0578aa27abf48ed9ae461aa344fb95990e5ad8bd1"
+    },
+    "submissions/ronaldo-lima-filho/solution/index.html": {
+      "bytes": 102801,
+      "sha256": "015df154190eddbeb5bed0d7e23205e301976f1c33ae3e6f31358b66f414c783"
+    },
+    "submissions/ronaldo-lima-filho/solution/jev.py": {
+      "bytes": 7221,
+      "sha256": "78a7d5f7a33d1562b9986a6f16ff8c7c476a56dee0a471714581575e94c33bc3"
+    },
+    "submissions/ronaldo-lima-filho/solution/revops.py": {
+      "bytes": 5488,
+      "sha256": "2ab7dd7e5adccdb68d1c32565f8a991bc8f51de40c00f140e9cc9d5ddf35d83c"
+    },
+    "submissions/ronaldo-lima-filho/solution/test_app.py": {
+      "bytes": 7668,
+      "sha256": "b0e943fd6b60df1293abd03f3b88acea977dee11cf1bcd6bb73795773fd39705"
+    },
+    "submissions/ronaldo-lima-filho/solution/test_browser.cjs": {
+      "bytes": 46303,
+      "sha256": "4e1e3aef6944e16c743654d6a246b7ad6e2893978bb40def09a0a40a03e891c3"
+    },
+    "submissions/ronaldo-lima-filho/solution/test_data_contracts.py": {
+      "bytes": 6658,
+      "sha256": "5a1c6ff4fbac1cc12847d5dc5b415da905ed5447e0e502fb0e26125fdabdbd78"
+    },
+    "submissions/ronaldo-lima-filho/solution/test_http.py": {
+      "bytes": 3728,
+      "sha256": "56309b06a7de3b075b678977de8e916cdb2f14ea8301407c4aabfa48e7200c10"
+    },
+    "submissions/ronaldo-lima-filho/solution/test_jev.py": {
+      "bytes": 6652,
+      "sha256": "fd4373fbe2627c13f151286662994dcea10cd61d178bc7cf635925a1fff2273c"
+    },
+    "submissions/ronaldo-lima-filho/solution/test_revops.py": {
+      "bytes": 6790,
+      "sha256": "3c63aee44dacefec6a64d3912e52f39e664fabf2f45340f7b8954ec592b5e45b"
+    },
+    "submissions/ronaldo-lima-filho/solution/test_ui.cjs": {
+      "bytes": 39320,
+      "sha256": "c7b3a89cfa408248e7c7efea5054800eea54dce9a8deff6ef37844e830873605"
+    }
+  }
+}

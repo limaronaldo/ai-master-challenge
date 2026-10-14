@@ -1,0 +1,36 @@
+{
+  "retrieved_on": "2026-10-13",
+  "archive_sha256": "74d535826330b616758ebb6bb393abf701a5126364a72fbe71003cb6a7a87a9c",
+  "repository_commit": "4aed364d572fabe0f1fff1f0c6f32960b30fe575",
+  "source": "https://www.kaggle.com/datasets/agungpambudi/crm-sales-predictive-analytics",
+  "method": "Public Kaggle download API, no credentials; original CSV bytes preserved",
+  "files": {
+    "products.csv": "7c1c8cbbdb6d4c286902e1985eeb529a36366d6a43f43cd4a93c4b1da2a6eb84",
+    "accounts.csv": "e5242324768a563fc632cddfed49a29acbbf2892b8a3c6453cc9650de9ae0358",
+    "metadata.csv": "22b34e498d07e3d7f322afdbf81d70a5dc0a389792944e50ca2af86a3597f0af",
+    "sales_pipeline.csv": "825ce8f6c32d4009548b468df3173d55a46fd73f2531f532c5459371dc52adf2",
+    "sales_teams.csv": "aeff1272ebe196f5a27e3fc0578aa27abf48ed9ae461aa344fb95990e5ad8bd1"
+  },
+  "dataset_hash": "c5a0244edc0ccd97307ee4ac88fff5cae566bb411f9b3e11fcaf8d43827828f3",
+  "dataset_hash_definition": "SHA256 of sorted compact JSON mapping the four original CSV basenames to their individual SHA256",
+  "rules_version": "review-v1.3",
+  "base_rules_hash": "1d4268f64e6fcb53ff9103ec782b3d0744b36ba967fbf37d0bf8ac92b10de65f",
+  "base_rules": {
+    "engaging": 25,
+    "prospecting": 10,
+    "age_30": 10,
+    "age_60": 20,
+    "age_90": 30,
+    "value_1000": 10,
+    "value_5000": 20,
+    "value_10000": 25,
+    "days_30": 30,
+    "days_60": 60,
+    "days_90": 90,
+    "price_1000": 1000,
+    "price_5000": 5000,
+    "price_10000": 10000
+  },
+  "as_of": "2017-12-31",
+  "evidence_version": "context-v1"
+}

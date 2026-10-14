@@ -1,0 +1,127 @@
+{
+  "source": "https://www.kaggle.com/datasets/agungpambudi/crm-sales-predictive-analytics",
+  "download": "https://www.kaggle.com/api/v1/datasets/download/agungpambudi/crm-sales-predictive-analytics",
+  "license": "CC0 as declared by G4 brief; upstream page supplied no readable license metadata",
+  "audit_generated_utc": "2026-10-14T01:57:15.727030+00:00",
+  "snapshot_reference": "2017-12-31",
+  "tables": {
+    "accounts.csv": {
+      "rows": 85,
+      "key": "account",
+      "sha256": "e5242324768a563fc632cddfed49a29acbbf2892b8a3c6453cc9650de9ae0358",
+      "duplicate_rows": 0,
+      "duplicate_keys": {},
+      "missing": {
+        "account": 0,
+        "sector": 0,
+        "year_established": 0,
+        "revenue": 0,
+        "employees": 0,
+        "office_location": 0,
+        "subsidiary_of": 70
+      }
+    },
+    "products.csv": {
+      "rows": 7,
+      "key": "product",
+      "sha256": "7c1c8cbbdb6d4c286902e1985eeb529a36366d6a43f43cd4a93c4b1da2a6eb84",
+      "duplicate_rows": 0,
+      "duplicate_keys": {},
+      "missing": {
+        "product": 0,
+        "series": 0,
+        "sales_price": 0
+      }
+    },
+    "sales_teams.csv": {
+      "rows": 35,
+      "key": "sales_agent",
+      "sha256": "aeff1272ebe196f5a27e3fc0578aa27abf48ed9ae461aa344fb95990e5ad8bd1",
+      "duplicate_rows": 0,
+      "duplicate_keys": {},
+      "missing": {
+        "sales_agent": 0,
+        "manager": 0,
+        "regional_office": 0
+      }
+    },
+    "sales_pipeline.csv": {
+      "rows": 8800,
+      "key": "opportunity_id",
+      "sha256": "825ce8f6c32d4009548b468df3173d55a46fd73f2531f532c5459371dc52adf2",
+      "duplicate_rows": 0,
+      "duplicate_keys": {},
+      "missing": {
+        "opportunity_id": 0,
+        "sales_agent": 0,
+        "product": 0,
+        "account": 1425,
+        "deal_stage": 0,
+        "engage_date": 500,
+        "close_date": 2089,
+        "close_value": 2089
+      }
+    }
+  },
+  "stages": {
+    "Won": 4238,
+    "Engaging": 1589,
+    "Lost": 2473,
+    "Prospecting": 500
+  },
+  "dates": {
+    "engage_date": {
+      "min": "2016-10-20",
+      "max": "2017-12-27"
+    },
+    "close_date": {
+      "min": "2017-03-01",
+      "max": "2017-12-31"
+    }
+  },
+  "missing_by_stage": {
+    "Won": {
+      "account": 0,
+      "engage_date": 0,
+      "close_date": 0,
+      "close_value": 0
+    },
+    "Engaging": {
+      "account": 1088,
+      "engage_date": 0,
+      "close_date": 1589,
+      "close_value": 1589
+    },
+    "Lost": {
+      "account": 0,
+      "engage_date": 0,
+      "close_date": 0,
+      "close_value": 0
+    },
+    "Prospecting": {
+      "account": 337,
+      "engage_date": 500,
+      "close_date": 500,
+      "close_value": 500
+    }
+  },
+  "join_checks": {
+    "account": {},
+    "product": {
+      "GTXPro": 1480
+    },
+    "sales_agent": {}
+  },
+  "product_alias": {
+    "GTXPro": "GTX Pro"
+  },
+  "invalid_dates": [],
+  "close_before_engage": [],
+  "leakage_risks": [
+    "close_value and close_date reveal outcome and are excluded from scoring",
+    "Won/Lost are final outcomes; excluded from actionable queue",
+    "Account and product attributes have no historical version; point-in-time validity unproven",
+    "Engage date is not last contact or time in current stage",
+    "Open snapshot is censored; no calibrated probability or conversion evaluation"
+  ]
+}
