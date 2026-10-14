@@ -2,7 +2,10 @@
 
 **Lead Scorer — seu plano de ação comercial · versão 1.11.1**
 
-**Demo hospedada:** [https://leadscorer.fly.dev/](https://leadscorer.fly.dev/) — Fly.io, GRU, JEV desligado.
+## Abrir o LeadScorer
+
+> **[Abrir o LeadScorer](https://leadscorer.fly.dev/)**  
+> https://leadscorer.fly.dev/ · Acesso direto no navegador, sem instalação. JEV permanece desligado.
 
 ## Sobre mim
 
@@ -18,7 +21,7 @@ Construí uma aplicação que transforma 2.089 oportunidades abertas em três fi
 
 ## Solução
 
-### Como rodar
+### Execução local (alternativa)
 
 Python 3.10+ e biblioteca padrão. A partir de `submissions/ronaldo-lima-filho/`:
 
