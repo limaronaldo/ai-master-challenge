@@ -56,14 +56,13 @@ Saída: `status`, `source`, `model`, `baseline_unchanged`, `classification`, men
 
 HTTPS fixo, sem redirects ou proxy de ambiente. Timeout de cinco segundos; resposta até 64 KiB; nenhum retry automático, lote ou envio após carregar, filtrar ou simular. A UI funciona com serviço indisponível.
 
-## Testes e limites
-
 ## Limites antes de qualquer ativação real
 
 O endpoint atual não autentica identidade, não aplica cotas por usuário nem limite global de chamadas, não limita concorrência e não mantém orçamento persistente. Os campos de confirmação enviados pelo navegador podem ser forjados. A confirmação de uso único na interface não impede replay direto da API. Portanto, origem permitida e flags de ambiente não tornam seguro habilitar o serviço em um app público.
 
 Antes de qualquer ativação, decidir público versus avaliadores restritos e teto separado para JEV. Exigir autenticação verificada no backend; autorização por usuário; rate limit e limite global de concorrência; chave de idempotência/consentimento consumida uma só vez no servidor; e um ledger durável com reserva atômica antes do transporte, falhando fechado se o armazenamento não estiver disponível. Timeout não libera automaticamente uma reserva, porque a chamada pode ter sido cobrada. Uma contagem de chamadas não é teto monetário sem preço e custo máximo conservadores verificados; combinar reserva durável com limite rígido no provedor, se disponível. Nenhum banco, volume, credencial ou orçamento foi configurado nesta etapa.
 
+## Testes e limites
 
 Transporte mockado e textos sintéticos cobrem gates, payload, separação, distribuição inválida, timeout/HTTP, origem, limites e invariância do pipeline. Mock não demonstra acurácia. Nenhuma chamada de modelo, compra ou transmissão ao TypeSafe ocorreu.
 
