@@ -1,0 +1,12 @@
+*
+!solution/
+!solution/*.py
+!solution/index.html
+!solution/workflow.js
+!solution/data/
+!solution/data/*.csv
+!solution/assets/
+!solution/assets/*
+!deployment/
+!deployment/Dockerfile
+!deployment/demo_server.py

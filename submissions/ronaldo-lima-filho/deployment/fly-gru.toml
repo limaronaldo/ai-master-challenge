@@ -1,0 +1,47 @@
+app = "leadscorer"
+primary_region = "gru"
+
+[build]
+  dockerfile = "deployment/Dockerfile"
+
+[env]
+  PORT = "8080"
+  LEADSCORER_BIND = "0.0.0.0"
+  LEADSCORER_PUBLIC_ORIGIN = "https://leadscorer.fly.dev"
+  LEADSCORER_ALLOWED_ORIGINS = "https://leadscorer.fly.dev"
+  LEADSCORER_JEV_PROVIDER = "openrouter"
+  # Bind only after a one-time ledger initialization; this is NOT a secret.
+  LEADSCORER_JEV_LEDGER_EPOCH = ""
+  LEADSCORER_JEV_ENABLED = "0"
+  LEADSCORER_JEV_ALLOW_NETWORK = "0"
+  LEADSCORER_JEV_ALLOW_SPENDING = "0"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 2
+    hard_limit = 4
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "15s"
+    method = "GET"
+    path = "/healthz"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "512mb"
+
+# Reviewed deployment must attach the already-created single volume.
+# Never initialize/reset the ledger in Docker build or app startup.
+[[mounts]]
+  source = "jev_ledger"
+  destination = "/data/jev"

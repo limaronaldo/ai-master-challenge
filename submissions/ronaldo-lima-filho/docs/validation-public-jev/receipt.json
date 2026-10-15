@@ -1,0 +1,153 @@
+{
+  "verified_at_utc": "2026-10-15T00:54:08.030722+00:00",
+  "base_head": "6c4766306e52d1659806da5eed541a78deda0610",
+  "remote_head_rechecked": "6c4766306e52d1659806da5eed541a78deda0610",
+  "branch": "codex/pr188-public-jev-guard",
+  "python": {
+    "passed": 89,
+    "failed": 0,
+    "runtime": "Linux amd64, cached python:3.11-slim image",
+    "command": "python3 -B -m unittest discover -v",
+    "source": "immutable frozen post-review source",
+    "network": "none",
+    "source_writable": false
+  },
+  "node": {
+    "passed": 66,
+    "failed": 0,
+    "version": "22.22.3"
+  },
+  "chrome": {
+    "passed": 69,
+    "page_errors": 0,
+    "external_requests": 0,
+    "provider_calls": 0,
+    "source": "same worktree source hashes as frozen post target",
+    "execution": "local Chrome through Playwright; engineering regression, not isolated review execution"
+  },
+  "test_transport": "offline injected mocks; no real provider calls",
+  "paid_inference_calls": 0,
+  "jev_real_enabled": false,
+  "money_ledger": {
+    "cap_usd": 3.5,
+    "reset": null,
+    "candidate_reserve_usd": 0.02,
+    "reserve_bound_proved": false,
+    "runtime_public_service_blocked": true,
+    "global_concurrency": 1,
+    "full_volume_rollback_protection_proved": false
+  },
+  "data_unchanged_against_deploy": {
+    "products.csv": "7c1c8cbbdb6d4c286902e1985eeb529a36366d6a43f43cd4a93c4b1da2a6eb84",
+    "accounts.csv": "e5242324768a563fc632cddfed49a29acbbf2892b8a3c6453cc9650de9ae0358",
+    "metadata.csv": "22b34e498d07e3d7f322afdbf81d70a5dc0a389792944e50ca2af86a3597f0af",
+    "sales_pipeline.csv": "825ce8f6c32d4009548b468df3173d55a46fd73f2531f532c5459371dc52adf2",
+    "sales_teams.csv": "aeff1272ebe196f5a27e3fc0578aa27abf48ed9ae461aa344fb95990e5ad8bd1"
+  },
+  "source_sha256": {
+    "solution/app.py": "ba301c13940bb77b58a191dff76a446090c64a56a95b6d8d73bb71a9b4a6cf32",
+    "solution/jev.py": "6780c031deeb6adfc89a62b3cdf092ed234ceae380be3f8b6e1b93852f3080fd",
+    "solution/jev_guard.py": "8884cf12d665b419193d7334fa23966bdcd9d6ff525ad80384d18c5bcb6c50c3",
+    "solution/jev_budget.py": "c883f21233f31c3050cc70e302f306798fb68d610cea1ac012167fb14be25290",
+    "solution/index.html": "ad6416ee75526880c8218e37fe6a815811cfa7dc7b46d89517de564675639285",
+    "solution/workflow.js": "f4e226ecae94f16bca16dcd6c918d2bdc6ee8430426380ea72d73cf473985375",
+    "solution/test_jev_public.py": "f13511b26b9d9fd7a9b869a029da1a4e2ef1bfbd505e224f981c5f4b40ca71f7",
+    "solution/test_hosted.py": "7b49e74ee929bf3f148a744f233e4a801195170143a8b6a8229fa6ca1a83f297",
+    "solution/test_ui.cjs": "01b374efba7d044cb0140d80a2164f0eabfafa6bd3d63f1de61a85655cb1f9b6",
+    "solution/test_workflow.cjs": "e8804cf605437972f7a16e2e4044c00f84fd23a188c694e45173f998c09dbe18",
+    "deployment/demo_server.py": "dbba5b1fa63a306dead809d6e71b5cebd6d8f760a3660931a5f2755360db5d6d",
+    "deployment/Dockerfile": "c1cfedc45029877b353b997b45a3feefbe1234f27d293755ca0868766c6e9a7c",
+    "deployment/fly-gru.toml": "3dace0681b44e67264736c6a6b807bc513b5b4b23f2ddba69b9e91c7b4c6fa28",
+    ".dockerignore": "86c1440d3f74d1be50d6da5c73bff17fd612f5992f0b8f3cc2114769c9b50409"
+  },
+  "fly_volume_created": {
+    "id": "vol_r7ym9572oe108q9r",
+    "size_gb": 1,
+    "region": "gru",
+    "attached": false,
+    "ledger_initialized": false,
+    "estimated_monthly_usd": 0.15
+  },
+  "deployed": false,
+  "pr_comment_or_threads_changed": false,
+  "credential_values_read": false,
+  "other_apps_changed": false,
+  "limitations": [
+    "No Fly restart/deploy persistence run: volume is still detached",
+    "No live OpenRouter inference or key metadata query",
+    "No proof of per-call monetary bound or in-flight cumulative-key enforcement",
+    "A full-volume rollback can restore both DB and anchor; production remains blocked",
+    "Production python:3.13-slim Dockerfile was not rebuilt; Python regression ran in cached python:3.11-slim",
+    "Fly client-IP ingress path remains unverified; TCP-peer rate bucket is conservative"
+  ],
+  "verification_phase": "after independent-review fixes, before commit/publication",
+  "review_rules_helper": {
+    "passed": 13,
+    "failed": 0,
+    "execution": "Docker without network, isolated helper scripts",
+    "certifies_sandbox_or_policy": false
+  },
+  "execution_boundary": {
+    "engine": "Docker on OrbStack",
+    "network": "none",
+    "rootfs": "read-only",
+    "source_mount": "read-only frozen submission",
+    "uid_gid": "65534:65534",
+    "environment": "env -i: PATH, HOME=/tmp, PYTHONDONTWRITEBYTECODE=1, LANG=C.UTF-8",
+    "capabilities": "all dropped",
+    "no_new_privileges": true,
+    "memory_bytes": 536870912,
+    "cpu_quota": 1,
+    "pids_limit": 64,
+    "scratch": "64 MiB /tmp tmpfs, noexec,nosuid",
+    "home_or_git_mount": false,
+    "host_socket_mount": false,
+    "probe_observations": [
+      "target writes denied",
+      "outbound TCP denied",
+      "memory/pids/CPU limits visible inside container"
+    ],
+    "complete_escape_proof": false
+  },
+  "frozen_target": {
+    "target_id": "dedda35c8d5f42172755ff4c08a7474d46d82597085c6dfaa6c15b70c4a1f276",
+    "snapshot_id": "4118090413bc9b3a35f159b8f3b4d41bead60eb0bc1410a3ab64597a8f9463eb",
+    "manifest_files": 111,
+    "hashes_verified_before_after": true
+  },
+  "log_sha256": {
+    "python-isolated-tests.log": "cb43693ce1d959bb4c53dea13d68f35362c368b201ffcce76b02a2e84a5638b0",
+    "node-tests.log": "02195ba8dce0d85792e0a3a245b90e91b79e2d41cbabaf925f8cb3029542d6dc",
+    "chrome-final-tests.log": "53d6a8ae5257c3d1964e6fa1a80bb3facf8bb375fe667fcac8667b242c31d833",
+    "review-rules-tests.log": "03bc46f4ae7f0d7f496b24abbfcf5ecd4cc4395024ac9f9da5e87db214de473c",
+    "browser-final/browser-results.json": "0a0bc50e6314e0f2256fa67148d02aa8d0277e5e85364f9c2e29d9bfb6e39275"
+  },
+  "publication_at_verification": {
+    "committed": false,
+    "pushed": false,
+    "authorization": "commit/push to existing submission branch after independent review; no force push"
+  },
+  "independent_review": {
+    "reviewer": "jev-independent-local",
+    "execution_capability": "static_only",
+    "initial_changed_paths_reviewed": 15,
+    "fix_delta_paths_reviewed": 10,
+    "new_candidates": 0,
+    "candidate_dispositions": {
+      "jev-local-001": "partially resolved; full-volume rollback remains activation blocker",
+      "jev-local-002": "resolved",
+      "jev-local-003": "resolved",
+      "jev-local-004": "resolved",
+      "jev-local-005": "resolved"
+    },
+    "selected_intensity": "xhigh",
+    "authorized_intensity": "med",
+    "achieved_intensity": "none",
+    "profile_status": "partial",
+    "formal_approval": false,
+    "local_verdict": "COMMENT",
+    "commit_push_scope": "disabled prepared implementation only",
+    "deployment_or_activation_approved": false,
+    "two_final_report_receipt_updates": "integrator inspected metadata; reviewer did not reread"
+  }
+}

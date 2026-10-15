@@ -1304,7 +1304,7 @@ python3 -B app.py</code></pre>
                 placeholder="Exemplo sintético: Foi combinado revisar a proposta na próxima reunião."
               ></textarea>
               <p class="meta">
-                Máximo 4.000 caracteres. O texto e a classificação não são salvos pelo aplicativo.
+                Máximo 4.000 caracteres. O texto não é salvo. No modo serviço, a classificação e os dados de uso podem ficar no servidor para impedir cobranças repetidas.
               </p>
               <div id="jevconsents" hidden>
                 <label
@@ -1314,7 +1314,7 @@ python3 -B app.py</code></pre>
                   </select></label
                 ><label class="consent"
                   ><input id="jevconsent" type="checkbox" />Confirmo que este texto é público ou
-                  sintético e autorizo enviar somente este texto para api.typesafe.ai.</label
+                  sintético e autorizo enviar somente este texto via OpenRouter (openrouter.ai) ao modelo JEV da TypeSafe.</label
                 ><label class="consent"
                   ><input id="jevcost" type="checkbox" />Autorizo o custo desta única requisição com
                   as credenciais configuradas no servidor.</label
@@ -2724,7 +2724,9 @@ $("jevform").onsubmit = async (event) => {
   try {
     const response = await fetch("/api/jev/classify", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        ...(mode === "service" ? { "Idempotency-Key": crypto.randomUUID() } : {}),
+      },
       body: JSON.stringify({
         mode,
         text,

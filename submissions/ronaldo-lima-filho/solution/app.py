@@ -5,6 +5,8 @@ import hashlib
 import math
 import io
 import os
+import threading
+import time
 from collections import Counter
 from datetime import date
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -12,6 +14,7 @@ from pathlib import Path
 from statistics import median
 from urllib.parse import urlparse, parse_qs, urlsplit
 import jev
+import jev_guard
 import revops
 
 ROOT = Path(__file__).resolve().parent
@@ -264,7 +267,67 @@ def configured_origins(port, environ=None):
     return allowed, True
 
 
+INBOUND_TIMEOUT = 5
+
+
+class DeadlineReader:
+    """Bound headers and body by elapsed time, even with continuous trickles."""
+    def __init__(self, stream, connection, deadline):
+        self.stream = stream
+        self.connection = connection
+        self.deadline = deadline
+        self.buffer = bytearray()
+
+    def fill(self):
+        remaining = self.deadline - time.monotonic()
+        if remaining <= 0:
+            raise TimeoutError("Inbound request deadline exceeded")
+        self.connection.settimeout(remaining)
+        chunk = self.stream.read1(4096)
+        self.buffer.extend(chunk)
+        return bool(chunk)
+
+    def read(self, size):
+        value = bytearray()
+        while len(value) < size:
+            if time.monotonic() >= self.deadline:
+                raise TimeoutError("Inbound request deadline exceeded")
+            if not self.buffer and not self.fill():
+                break
+            count = min(size - len(value), len(self.buffer))
+            value.extend(self.buffer[:count])
+            del self.buffer[:count]
+        return bytes(value)
+
+    def readline(self, limit=65537):
+        while True:
+            if time.monotonic() >= self.deadline:
+                raise TimeoutError("Inbound request deadline exceeded")
+            newline = self.buffer.find(b"\n", 0, limit)
+            if newline >= 0 or len(self.buffer) >= limit:
+                length = newline + 1 if newline >= 0 else limit
+                value = bytes(self.buffer[:length])
+                del self.buffer[:length]
+                return value
+            if not self.fill():
+                value = bytes(self.buffer)
+                self.buffer.clear()
+                return value
+
+    def close(self):
+        self.stream.close()
+
+
 class Handler(BaseHTTPRequestHandler):
+    def setup(self):
+        super().setup()
+        self.connection.settimeout(INBOUND_TIMEOUT)
+        self.rfile = DeadlineReader(self.rfile, self.connection,
+                                    time.monotonic() + INBOUND_TIMEOUT)
+
+    def jev_controller(self):
+        return getattr(self.server, "jev_controller", None) or jev_guard.PublicJev()
+
     def json_response(self, value, code=200):
         content = json.dumps(value, ensure_ascii=False, allow_nan=False).encode()
         self.send_response(code)
@@ -279,36 +342,57 @@ class Handler(BaseHTTPRequestHandler):
         if self.path != "/api/jev/classify":
             self.send_error(404)
             return
-        origin = self.headers.get("Origin")
+        origins = self.headers.get_all("Origin", [])
+        origin = origins[0] if len(origins) == 1 else None
         try:
             allowed, require_origin = configured_origins(self.server.server_port)
         except ValueError:
             self.json_response({"error": "Origem inválida na configuração"}, 503)
             return
-        if (require_origin and not origin) or (origin is not None and origin not in allowed):
+        if len(origins) > 1 or (require_origin and not origin) or (origin is not None and origin not in allowed):
             self.json_response({"error": "Origem não autorizada"}, 403)
             return
         try:
-            if self.headers.get("Content-Type", "").split(";")[0] != "application/json" or self.headers.get("Transfer-Encoding"):
+            lengths = self.headers.get_all("Content-Length", [])
+            types = self.headers.get_all("Content-Type", [])
+            keys = self.headers.get_all("Idempotency-Key", [])
+            if (len(lengths) != 1 or len(types) != 1 or len(keys) > 1
+                    or types[0].split(";")[0].strip() != "application/json"
+                    or self.headers.get_all("Transfer-Encoding", [])):
                 raise ValueError("Use JSON com Content-Length")
-            length = int(self.headers.get("Content-Length", "0"))
+            if not lengths[0].isascii() or not lengths[0].isdigit():
+                raise ValueError("Content-Length inválido")
+            length = int(lengths[0])
             if not 0 < length <= 20000:
                 raise ValueError("Tamanho inválido")
             self.connection.settimeout(5)
             raw = self.rfile.read(length)
             if len(raw) != length:
                 raise ValueError("Corpo incompleto")
-            body = json.loads(raw)
-            result = jev.classify(body)
-        except (ValueError, UnicodeError, TimeoutError):
+            def unique_object(pairs):
+                value = {}
+                for key, item in pairs:
+                    if key in value:
+                        raise ValueError("Campo JSON duplicado")
+                    value[key] = item
+                return value
+            def reject_constant(value):
+                raise ValueError("Número JSON inválido")
+            body = json.loads(raw, object_pairs_hook=unique_object, parse_constant=reject_constant)
+            client = jev_guard.client_identity(self.client_address[0], self.headers)
+            result, code = self.jev_controller().classify(body, client, keys[0] if keys else None)
+        except jev_guard.AdmissionError as error:
+            self.json_response({"error": error.message}, error.code)
+            return
+        except (ValueError, UnicodeError, OSError, RecursionError):
             self.json_response({"error": "Entrada inválida: confira modo, texto e limites documentados"}, 400)
             return
-        self.json_response(result)
+        self.json_response(result, code)
 
     def do_GET(self):
         path = urlparse(self.path).path
         if path == "/api/jev/status":
-            self.json_response(jev.status())
+            self.json_response(self.jev_controller().status())
             return
         if path == "/api/pipeline":
             try:
@@ -344,9 +428,43 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(content)
 
 
+class BoundedHTTPServer(ThreadingHTTPServer):
+    daemon_threads = True
+    request_queue_size = 8
+
+    def __init__(self, address, handler):
+        self.slots = threading.BoundedSemaphore(8)
+        super().__init__(address, handler)
+
+    def process_request(self, request, client_address):
+        if not self.slots.acquire(blocking=False):
+            try:
+                request.settimeout(.5)
+                request.sendall(b"HTTP/1.0 503 Service Unavailable\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
+            except OSError:
+                pass
+            self.shutdown_request(request)
+            return
+        try:
+            super().process_request(request, client_address)
+        except BaseException:
+            self.slots.release()
+            raise
+
+    def process_request_thread(self, request, client_address):
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self.slots.release()
+
+    def handle_error(self, request, client_address):
+        # Never log a raw exception from a provider or an untrusted request.
+        pass
+
+
 def create_server(port=8765):
     """Idle browser preconnections must not block other resources or the API."""
-    return ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    return BoundedHTTPServer(("127.0.0.1", port), Handler)
 
 
 if __name__ == "__main__":

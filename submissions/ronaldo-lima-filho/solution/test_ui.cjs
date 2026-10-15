@@ -120,6 +120,7 @@ function fullUi(fetcher, protocol = "http:") {
     document: { getElementById: field, createElement: () => ({}) },
     location: { protocol },
     fetch: fetcher,
+    crypto: require("node:crypto").webcrypto,
     Intl,
     console,
   };
@@ -808,9 +809,11 @@ test("group ordering is reproducible by count, catalog and name, preserving orph
 
 async function serviceUi(classify) {
   const calls = [];
+  const headers = [];
   const ui = fullUi((url, options) => {
     if (url === '/api/jev/classify') {
       calls.push(JSON.parse(options.body));
+      headers.push(options.headers);
       return classify(calls.length);
     }
     if (url === '/api/jev/status') return Promise.resolve({ ok: true, json: async () => ({ service_ready: true }) });
@@ -827,9 +830,19 @@ async function serviceUi(classify) {
     ui.field('jevcost').checked = true;
   };
   const submit = () => ui.field('jevform').onsubmit({ preventDefault() {} });
-  return { ...ui, calls, consent, submit };
+  return { ...ui, calls, headers, consent, submit };
 }
 const serviceSuccess = () => ({ ok: true, json: async () => ({ status: 'ok', message: 'Synthetic result', source: 'test_stub', model: 'test', classification: { label: 'Next step', category: 'explicit_next_step', confidence: 0.5 } }) });
+test('JEV explicit submissions send distinct UUID idempotency headers and no key in the text payload', async () => {
+  const { calls, headers, consent, submit } = await serviceUi(async () => serviceSuccess());
+  consent(); await submit();
+  consent(); await submit();
+  assert.equal(headers.length, 2);
+  for (const header of headers) assert.match(header['Idempotency-Key'], /^[a-f0-9-]{36}$/);
+  assert.notEqual(headers[0]['Idempotency-Key'], headers[1]['Idempotency-Key']);
+  assert.equal(calls[0].text, 'Synthetic test note.');
+  assert.equal(calls[0]['Idempotency-Key'], undefined);
+});
 for (const [outcome, response] of [
   ['success', async () => serviceSuccess()],
   ['network/timeout', async () => { throw Error('Synthetic timeout'); }],

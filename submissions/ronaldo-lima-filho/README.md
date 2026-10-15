@@ -7,6 +7,8 @@
 > **[Abrir o LeadScorer](https://leadscorer.fly.dev/)**  
 > https://leadscorer.fly.dev/ · Acesso direto no navegador, sem instalação. JEV permanece desligado.
 
+**JEV público em preparação:** integração OpenRouter e proteção de gasto verificadas offline; serviço real permanece bloqueado até comprovar o teto de cobrança. Secret do backend: `OPENROUTER_API_KEY`. [Controles, orçamento e pendências](docs/jev-public-review.md).
+
 ## Sobre mim
 
 - **Nome:** Ronaldo Lima Filho.
@@ -135,7 +137,7 @@ Em **Ver detalhes → Analisar nota desta oportunidade**, a proposta é distingu
 
 A classificação seria combinada com a etapa e a fila por **regras locais** para apresentar uma orientação de revisão: conferir o próximo passo, esclarecer o bloqueio ou obter mais contexto. O JEV recebe somente o texto fornecido; conta, vendedor, ID e histórico não são enviados automaticamente. O resultado fica separado do índice, dos pesos e da ordenação. Sua confiança, quando retornada, diz respeito à classificação do texto e não à chance de venda. O aplicativo não executa ações no CRM.
 
-**O que já está entregue:** formulário por oportunidade, contrato com três categorias, validação de resposta, tratamento de indisponibilidade e testes com transporte simulado. A opção **Demonstração local** permite conhecer o fluxo sem rede: permite selecionar um de três exemplos com resposta fixa e identificada como mock, independentemente do texto digitado. Ela não demonstra interpretação ou qualidade do modelo. Texto e resultado não são persistidos pelo aplicativo; fechar a revisão ou trocar de oportunidade os descarta.
+**O que já está entregue:** formulário por oportunidade, contrato com três categorias, validação de resposta, tratamento de indisponibilidade e testes com transporte simulado. A opção **Demonstração local** permite conhecer o fluxo sem rede: permite selecionar um de três exemplos com resposta fixa e identificada como mock, independentemente do texto digitado. Ela não demonstra interpretação ou qualidade do modelo. O texto não é persistido. No modo serviço preparado, classificação, uso e hashes de controle ficam no ledger do servidor para evitar cobranças repetidas; o mock permanece sem persistência no servidor. Fechar a revisão ou trocar de oportunidade limpa o formulário e o resultado visível.
 
 **Como esse caminho poderia evoluir:**
 
