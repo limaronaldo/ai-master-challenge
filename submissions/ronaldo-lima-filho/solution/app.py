@@ -4,12 +4,13 @@ import json
 import hashlib
 import math
 import io
+import os
 from collections import Counter
 from datetime import date
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from statistics import median
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs, urlsplit
 import jev
 import revops
 
@@ -237,6 +238,32 @@ def simulate(overrides, as_of=AS_OF):
     return {"base": base, "simulation": changed}
 
 
+def configured_origins(port, environ=None):
+    env = os.environ if environ is None else environ
+    configured = env.get("LEADSCORER_ALLOWED_ORIGINS")
+    defaults = {f"http://127.0.0.1:{port}", f"http://localhost:{port}"}
+    if configured is None or not configured.strip():
+        return defaults, False
+
+    allowed = set()
+    for raw in configured.split(","):
+        origin = raw.strip()
+        if not origin or "*" in origin:
+            raise ValueError("A lista exige origens exatas")
+        try:
+            parsed = urlsplit(origin)
+            parsed.port  # Validate any explicit port.
+        except ValueError as error:
+            raise ValueError("Origem inválida na allowlist") from error
+        expected = f"{parsed.scheme}://{parsed.netloc}"
+        if (parsed.scheme not in {"http", "https"} or not parsed.netloc
+                or parsed.username is not None or parsed.password is not None
+                or parsed.path or parsed.query or parsed.fragment or origin != expected):
+            raise ValueError("A lista aceita somente origens HTTP(S) exatas")
+        allowed.add(origin)
+    return allowed, True
+
+
 class Handler(BaseHTTPRequestHandler):
     def json_response(self, value, code=200):
         content = json.dumps(value, ensure_ascii=False, allow_nan=False).encode()
@@ -253,8 +280,12 @@ class Handler(BaseHTTPRequestHandler):
             self.send_error(404)
             return
         origin = self.headers.get("Origin")
-        port = self.server.server_port
-        if origin and origin not in {f"http://127.0.0.1:{port}", f"http://localhost:{port}"}:
+        try:
+            allowed, require_origin = configured_origins(self.server.server_port)
+        except ValueError:
+            self.json_response({"error": "Origem inválida na configuração"}, 503)
+            return
+        if (require_origin and not origin) or (origin is not None and origin not in allowed):
             self.json_response({"error": "Origem não autorizada"}, 403)
             return
         try:

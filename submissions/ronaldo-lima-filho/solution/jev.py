@@ -84,7 +84,7 @@ def classify(body, environ=None, transport=None):
     if not isinstance(body, dict) or set(body) - {"mode", "text", "data_classification", "allow_transmission", "confirm_cost", "mock_category"}:
         raise ValueError("Entrada deve conter somente modo, texto e confirmações documentadas")
     mode = body.get("mode", "disabled")
-    if mode not in {"disabled", "mock", "service"}:
+    if not isinstance(mode, str) or mode not in {"disabled", "mock", "service"}:
         raise ValueError("Modo inválido")
     category = body.get("mock_category", "insufficient_context")
     if "mock_category" in body and (mode != "mock" or not isinstance(category, str) or category not in MOCK_FIXTURES):
@@ -107,7 +107,9 @@ def classify(body, environ=None, transport=None):
     if not status(env)["service_ready"]:
         result.update(status="unavailable", message="Serviço indisponível ou não autorizado no servidor. Use as regras locais; nenhum texto foi enviado.")
         return result
-    if body.get("allow_transmission") is not True or body.get("confirm_cost") is not True or body.get("data_classification") not in {"synthetic", "public"}:
+    classification = body.get("data_classification")
+    if (body.get("allow_transmission") is not True or body.get("confirm_cost") is not True
+            or not isinstance(classification, str) or classification not in {"synthetic", "public"}):
         result.update(status="blocked", message="Envio exige confirmação específica de texto público/sintético e custo. Dados privados não estão autorizados.")
         return result
     try:

@@ -39,7 +39,9 @@ Cada envio exige selecionar natureza `synthetic` ou `public` e confirmar transmi
 {"mode":"mock","mock_category":"explicit_next_step","text":"Exemplo sintético: reunião combinada.","data_classification":"synthetic","allow_transmission":false,"confirm_cost":false}
 ```
 
-Campos desconhecidos são rejeitados. `mock_category` é opcional somente em modo mock; outras categorias, tipos ou uso em modo service/disabled são rejeitados antes de qualquer transporte. Mock/service exigem texto não vazio de até 4.000 caracteres. Corpo HTTP até 20.000 bytes, JSON com Content-Length. Origem externa é recusada. Não é autenticação para produção.
+Campos desconhecidos e tipos inválidos são rejeitados antes do transporte. `mock_category` é opcional somente em modo mock; outras categorias ou uso em modo service/disabled são rejeitados. Mock/service exigem texto não vazio de até 4.000 caracteres. Corpo HTTP até 20.000 bytes, JSON com Content-Length.
+
+Sem configuração, a API local aceita apenas `http://127.0.0.1:<porta>` e `http://localhost:<porta>`. Para uma origem hospedada, `LEADSCORER_ALLOWED_ORIGINS` aceita uma lista separada por vírgulas de origens HTTP(S) exatas, sem curinga, caminho, query ou barra final; por exemplo, `https://leadscorer.fly.dev`. Quando a lista não está vazia, o POST exige o cabeçalho `Origin` correspondente. Essa verificação protege o fluxo do navegador, mas **não autentica usuários nem limita custos**; clientes podem forjar cabeçalhos HTTP.
 
 Saída: `status`, `source`, `model`, `baseline_unchanged`, `classification`, mensagem. Serviço validado: categoria, rótulo, distribuição e confiança; sem resultado, classificação null. Texto não é devolvido, salvo ou registrado no log do app. Modelo precisa corresponder ao ID fixado, categorias precisam ser conhecidas e distribuição precisa ser finita e somar aproximadamente 1. Confiança do fornecedor refere-se à pergunta de texto, não à oportunidade ou venda.
 
@@ -55,6 +57,13 @@ Saída: `status`, `source`, `model`, `baseline_unchanged`, `classification`, men
 HTTPS fixo, sem redirects ou proxy de ambiente. Timeout de cinco segundos; resposta até 64 KiB; nenhum retry automático, lote ou envio após carregar, filtrar ou simular. A UI funciona com serviço indisponível.
 
 ## Testes e limites
+
+## Limites antes de qualquer ativação real
+
+O endpoint atual não autentica identidade, não aplica cotas por usuário nem limite global de chamadas, não limita concorrência e não mantém orçamento persistente. Os campos de confirmação enviados pelo navegador podem ser forjados. A confirmação de uso único na interface não impede replay direto da API. Portanto, origem permitida e flags de ambiente não tornam seguro habilitar o serviço em um app público.
+
+Antes de qualquer ativação, decidir público versus avaliadores restritos e teto separado para JEV. Exigir autenticação verificada no backend; autorização por usuário; rate limit e limite global de concorrência; chave de idempotência/consentimento consumida uma só vez no servidor; e um ledger durável com reserva atômica antes do transporte, falhando fechado se o armazenamento não estiver disponível. Timeout não libera automaticamente uma reserva, porque a chamada pode ter sido cobrada. Uma contagem de chamadas não é teto monetário sem preço e custo máximo conservadores verificados; combinar reserva durável com limite rígido no provedor, se disponível. Nenhum banco, volume, credencial ou orçamento foi configurado nesta etapa.
+
 
 Transporte mockado e textos sintéticos cobrem gates, payload, separação, distribuição inválida, timeout/HTTP, origem, limites e invariância do pipeline. Mock não demonstra acurácia. Nenhuma chamada de modelo, compra ou transmissão ao TypeSafe ocorreu.
 

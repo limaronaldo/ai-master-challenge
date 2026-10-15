@@ -84,9 +84,14 @@ class HTTPContracts(unittest.TestCase):
         finally:
             idle.close()
 
+    def setUp(self):
+        self._origin_env = patch.dict(os.environ, {"LEADSCORER_ALLOWED_ORIGINS": ""}, clear=False)
+        self._origin_env.start()
+        self.addCleanup(self._origin_env.stop)
+
     def post(self, body, origin=None):
         headers={"Content-Type":"application/json"}
-        if origin:headers["Origin"]=origin
+        if origin is not None:headers["Origin"]=origin
         return urlopen(Request(self.url+"/api/jev/classify",data=json.dumps(body).encode(),headers=headers))
 
     def test_jev_modes_preserve_live_pipeline(self):
@@ -102,9 +107,34 @@ class HTTPContracts(unittest.TestCase):
 
     def test_jev_rejects_cross_origin_and_bad_inputs(self):
         for body,origin,code in [({},"https://untrusted.example",403),({"mode":"mock","text":""},None,400),
-                                  ({"mode":"mock","text":"x"*4001},None,400)]:
+                                  ({"mode":"mock","text":"x"*4001},None,400),({"mode":[]},None,400)]:
             with self.assertRaises(HTTPError) as error:self.post(body,origin)
             self.assertEqual(error.exception.code,code);error.exception.close()
+
+    def test_configured_origin_allowlist_is_exact_and_requires_origin(self):
+        body = {"mode": "mock", "text": "Synthetic text",
+                "mock_category": "explicit_objection"}
+        with patch.dict(os.environ, {
+            "LEADSCORER_ALLOWED_ORIGINS": "https://leadscorer.fly.dev"
+        }, clear=False):
+            with self.post(body, "https://leadscorer.fly.dev") as response:
+                self.assertEqual(json.load(response)["status"], "mock")
+            for origin in [None, "https://evil.example",
+                           "https://leadscorer.fly.dev.attacker.example",
+                           "https://leadscorer.fly.dev/"]:
+                with self.subTest(origin=origin), self.assertRaises(HTTPError) as error:
+                    self.post(body, origin)
+                self.assertEqual(error.exception.code, 403)
+                error.exception.close()
+
+        for configured in ["*", "https://leadscorer.fly.dev/"]:
+            with patch.dict(os.environ, {
+                "LEADSCORER_ALLOWED_ORIGINS": configured
+            }, clear=False):
+                with self.subTest(configured=configured), self.assertRaises(HTTPError) as error:
+                    self.post(body, "https://leadscorer.fly.dev")
+                self.assertEqual(error.exception.code, 503)
+                error.exception.close()
 
     def test_mock_accepts_actual_loopback_origin_and_rejects_other_ports(self):
         body = {'mode': 'mock', 'text': 'Synthetic text', 'mock_category': 'explicit_objection'}

@@ -75,11 +75,18 @@ class JevContracts(unittest.TestCase):
         self.assertEqual(result["source"], "typesafe_service"); self.assertEqual(self.body, original)
 
     def test_empty_oversize_wrong_types_and_unknown_fields(self):
-        for body in [[], {"mode": "other"}, {"mode": "mock", "text": ""},
+        for body in [[], {"mode": "other"}, {"mode": []}, {"mode": "mock", "text": ""},
                      {"mode": "mock", "text": "x"*4001}, {"mode": "mock", "text": 1},
                      {"mode": "mock", "text": "Synthetic", "account": "not allowed"}]:
             with self.subTest(body=str(body)[:40]), self.assertRaises(ValueError):
                 jev.classify(body, {}, Mock())
+
+    def test_unhashable_classification_is_blocked_without_transport(self):
+        transport = Mock()
+        body = dict(self.body, data_classification=[])
+        result = jev.classify(body, self.env, transport)
+        self.assertEqual(result["status"], "blocked")
+        transport.assert_not_called()
 
     def test_failures_are_explicit_without_leaking_raw_error(self):
         for error in [TimeoutError("secret text"), URLError("secret key"),
